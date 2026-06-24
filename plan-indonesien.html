@@ -32,6 +32,9 @@
   .nav button:hover{color:var(--ink);background:rgba(22,51,45,.05)}
   .nav button.on{color:#fff;background:var(--ocean)}
   .nav button:focus-visible{outline:2px solid var(--turmeric);outline-offset:2px}
+  .voice-toggle{margin-left:auto;flex:0 0 auto;font-size:16px;line-height:1;width:34px;height:34px;border-radius:9px;border:1px solid var(--line-strong);background:#fff;color:var(--ocean);cursor:pointer;transition:.15s}
+  .voice-toggle:hover{background:var(--ocean);color:#fff;border-color:var(--ocean)}
+  .voice-toggle:focus-visible{outline:2px solid var(--turmeric);outline-offset:2px}
 
   .panel{display:none;animation:fade .4s ease}
   .panel.on{display:block}
@@ -223,6 +226,7 @@
       <button data-tab="training">Entraînement</button>
       <button data-tab="carnet">Carnet</button>
     </nav>
+    <button id="voice-toggle" class="voice-toggle" title="Voix de lecture (femme / homme)" aria-label="Changer de voix">♀</button>
   </div>
 </div>
 
@@ -820,6 +824,18 @@ $$("#nav button").forEach(function(b){
   });
 });
 
+/* ---------- SÉLECTEUR DE VOIX ---------- */
+function updateVoiceToggle(){ var b=$("#voice-toggle"); if(b) b.textContent = (voicePref === "f" ? "♀" : "♂"); }
+(function(){
+  var b=$("#voice-toggle"); if(!b) return;
+  b.addEventListener("click", function(){
+    voicePref = (voicePref === "f" ? "m" : "f");
+    Store.set("voice", voicePref);
+    updateVoiceToggle();
+    say("terima kasih");
+  });
+})();
+
 /* ---------- COUNTDOWN ---------- */
 (function(){
   var target=new Date("2027-03-01T00:00:00");
@@ -1227,7 +1243,7 @@ function numID(n){
 })();
 
 /* ---------- INIT ---------- */
-Store.get("voice").then(function(v){ if(v === "m" || v === "f") voicePref = v; });
+Store.get("voice").then(function(v){ if(v === "m" || v === "f") voicePref = v; updateVoiceToggle(); });
 loadChecks();
 
 })();
