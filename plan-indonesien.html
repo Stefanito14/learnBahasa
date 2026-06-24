@@ -116,6 +116,11 @@
   .gcard h3{font-size:21px;margin-bottom:6px}
   .gcard h3 .sub{font-family:"Fraunces";font-style:italic;font-weight:400;color:var(--jade);font-size:.65em;margin-left:6px}
   .gcard p{font-size:14.5px;color:#3a4a43;margin:8px 0}
+  .dlg-line{margin:8px 0}
+  .dlg-line.dlg-active{background:rgba(221,154,26,.14);border-radius:8px;padding:4px 8px;margin-left:-8px;margin-right:-8px}
+  .dlg-hidden .dlg-id{visibility:hidden}
+  .dlg-ctrl{display:flex;gap:8px;margin:4px 0 10px}
+  .dlg-ctrl .btn{padding:7px 12px;font-size:12px}
   .ex{display:flex;flex-wrap:wrap;gap:8px 14px;margin:10px 0}
   .ex .pair{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:7px 11px;font-size:14px}
   .ex .pair b{color:var(--ocean)}
@@ -988,13 +993,57 @@ var FLAT=[]; VOCAB.forEach(function(t){t.items.forEach(function(it){FLAT.push(Ob
     var c=document.createElement("div"); c.className="gcard";
     var roleOrder=[];
     s.lines.forEach(function(l){ if(roleOrder.indexOf(l[0])<0) roleOrder.push(l[0]); });
+
     var html='<h3>'+s.t+'</h3>';
+    html+='<div class="dlg-ctrl"><button class="btn dlg-play">▶️ Écouter le dialogue</button><button class="btn ghost dlg-hide">👁️ Masquer le texte</button></div>';
     s.lines.forEach(function(l){
       var ri=roleOrder.indexOf(l[0]);
-      html+='<p style="margin:8px 0"><b style="font-family:Space Mono;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#6C786F">'+l[0]+'</b><br><span class="id-word" style="color:#16564C;font-weight:600">'+l[1]+'</span> <button class="say" data-say="'+l[1].replace(/"/g,"")+'" data-role="'+ri+'">🔊</button><br><em style="color:#6C786F;font-size:13.5px">'+l[2]+'</em></p>';
+      html+='<p class="dlg-line"><b style="font-family:Space Mono;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#6C786F">'+l[0]+'</b><br><span class="id-word dlg-id" style="color:#16564C;font-weight:600">'+l[1]+'</span> <button class="say" data-say="'+l[1].replace(/"/g,"")+'" data-role="'+ri+'">🔊</button><br><em style="color:#6C786F;font-size:13.5px">'+l[2]+'</em></p>';
     });
-    c.innerHTML=html; m.appendChild(c);
+    c.innerHTML=html;
+
+    c.querySelector(".dlg-hide").addEventListener("click", function(){
+      c.classList.toggle("dlg-hidden");
+      this.textContent = c.classList.contains("dlg-hidden") ? "👁️ Afficher le texte" : "👁️ Masquer le texte";
+    });
+    c.querySelector(".dlg-play").addEventListener("click", function(){
+      playDialogue(c, s.lines, roleOrder);
+    });
+
+    m.appendChild(c);
   });
+
+  function playDialogue(card, lines, roleOrder){
+    var rows = Array.prototype.slice.call(card.querySelectorAll(".dlg-line"));
+    var i = 0;
+    function clearHl(){ rows.forEach(function(r){ r.classList.remove("dlg-active"); }); }
+    function step(){
+      clearHl();
+      if(i >= lines.length) return;
+      rows[i].classList.add("dlg-active");
+      var l = lines[i];
+      var v = window.AudioCore.voiceForRole(roleOrder.indexOf(l[0]), voicePref);
+      var res = window.AudioCore.resolveAudio(l[1], v, AUDIO_INDEX_SET);
+      i++;
+      if(res.type === "file"){
+        var a = new Audio(res.src);
+        a.onended = step;
+        a.onerror = function(){ ttsThenStep(l[1]); };
+        var p = a.play(); if(p && p.catch) p.catch(function(){ ttsThenStep(l[1]); });
+      } else {
+        ttsThenStep(l[1]);
+      }
+    }
+    function ttsThenStep(t){
+      if(!("speechSynthesis" in window)){ setTimeout(step, 900); return; }
+      try{
+        speechSynthesis.cancel();
+        var u=new SpeechSynthesisUtterance(t); u.lang="id-ID"; if(idVoice)u.voice=idVoice; u.rate=.88;
+        u.onend = step; speechSynthesis.speak(u);
+      }catch(e){ setTimeout(step, 900); }
+    }
+    step();
+  }
 })();
 
 /* ---------- CALENDRIER 36 SEMAINES ---------- */
