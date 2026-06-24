@@ -1014,12 +1014,14 @@ var FLAT=[]; VOCAB.forEach(function(t){t.items.forEach(function(it){FLAT.push(Ob
   });
 
   function playDialogue(card, lines, roleOrder){
+    if(card._playing) return;
+    card._playing = true;
     var rows = Array.prototype.slice.call(card.querySelectorAll(".dlg-line"));
     var i = 0;
     function clearHl(){ rows.forEach(function(r){ r.classList.remove("dlg-active"); }); }
     function step(){
       clearHl();
-      if(i >= lines.length) return;
+      if(i >= lines.length){ card._playing = false; return; }
       rows[i].classList.add("dlg-active");
       var l = lines[i];
       var v = window.AudioCore.voiceForRole(roleOrder.indexOf(l[0]), voicePref);
@@ -1027,9 +1029,11 @@ var FLAT=[]; VOCAB.forEach(function(t){t.items.forEach(function(it){FLAT.push(Ob
       i++;
       if(res.type === "file"){
         var a = new Audio(res.src);
+        var fb = false;
+        var onceFb = function(){ if(fb) return; fb = true; ttsThenStep(l[1]); };
         a.onended = step;
-        a.onerror = function(){ ttsThenStep(l[1]); };
-        var p = a.play(); if(p && p.catch) p.catch(function(){ ttsThenStep(l[1]); });
+        a.onerror = onceFb;
+        var p = a.play(); if(p && p.catch) p.catch(onceFb);
       } else {
         ttsThenStep(l[1]);
       }
