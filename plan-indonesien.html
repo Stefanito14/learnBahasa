@@ -1023,7 +1023,7 @@ var srsReady = Store.get("srs").then(function(v){
     srsUpdate(card._cur.id, knewIt);
     deck.splice(idx%deck.length,1);
     if(!deck.length){
-      if(ahead){ card.classList.remove("flip"); $("#fc-fr").textContent="✅ Fini"; $("#fc-id").textContent=""; $("#flash-meta").textContent="Session terminée."; card._cur=null; }
+      if(ahead){ card.classList.remove("flip"); $("#fc-fr").textContent="✅ Fini"; $("#fc-id").textContent=""; $("#fc-hint").textContent=""; $("#flash-meta").textContent="Session terminée."; card._cur=null; }
       else { showEmpty(); }
       return;
     }
@@ -1032,7 +1032,7 @@ var srsReady = Store.get("srs").then(function(v){
 
   card.addEventListener("click",function(){ if(card._cur) card.classList.toggle("flip"); });
   $("#fc-say").addEventListener("click",function(){ if(card._cur) say(card._cur.id); });
-  $("#fc-next").addEventListener("click",function(){ if(deck.length){ idx++; render(); } });
+  $("#fc-next").addEventListener("click",function(){ if(deck.length){ idx=(idx+1)%deck.length; render(); } });
   $("#fc-known").addEventListener("click",function(){ answer(true); });
   $("#fc-review").addEventListener("click",function(){ answer(false); });
   var ab=$("#fc-ahead"); if(ab) ab.addEventListener("click",function(){ buildAhead(); });
