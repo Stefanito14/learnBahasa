@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bahasa Indonesia · Ma plateforme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;450;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4EFE3;--card:#FBF8F1;--card2:#fff;--ink:#16332D;--ocean:#16564C;--jade:#2E8B79;
+    --turmeric:#DD9A1A;--merah:#C03E29;--muted:#6C786F;--line:rgba(22,51,45,.12);
+    --line-strong:rgba(22,51,45,.22);--shadow:0 1px 0 rgba(22,51,45,.04),0 18px 40px -24px rgba(22,51,45,.35);--r:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(circle at 12% 4%,rgba(46,139,121,.06),transparent 40%),radial-gradient(circle at 92% 0,rgba(221,154,26,.07),transparent 38%);}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 22px}
+  .mono{font-family:"Space Mono",monospace}
+  h1,h2,h3,h4{font-family:"Fraunces",serif;font-weight:600;line-height:1.05;letter-spacing:-.01em;margin:0}
+  a{color:var(--ocean)}
+  .eyebrow{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ocean);font-weight:700}
+
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(244,239,227,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .topbar-inner{display:flex;align-items:center;gap:18px;max-width:1000px;margin:0 auto;padding:11px 22px}
+  .brand{font-family:"Fraunces",serif;font-weight:700;font-size:18px;white-space:nowrap}
+  .brand .dot{color:var(--merah)}
+  .nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+  .nav button{font-family:"Space Mono",monospace;font-size:12.5px;font-weight:700;white-space:nowrap;background:none;border:none;color:var(--muted);padding:8px 11px;border-radius:9px;cursor:pointer;transition:.15s}
+  .nav button:hover{color:var(--ink);background:rgba(22,51,45,.05)}
+  .nav button.on{color:#fff;background:var(--ocean)}
+  .nav button:focus-visible{outline:2px solid var(--turmeric);outline-offset:2px}
+
+  .panel{display:none;animation:fade .4s ease}
+  .panel.on{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .hero{padding:62px 0 26px}
+  .hero .salam{font-family:"Fraunces",serif;font-style:italic;font-weight:500;color:var(--jade);font-size:clamp(22px,3.4vw,30px);margin:12px 0 2px}
+  .hero h1{font-size:clamp(38px,6.6vw,70px)}
+  .hero h1 .pop{color:var(--merah)}
+  .hero .lede{max-width:560px;margin:18px 0 0;font-size:18px;color:#33453d}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+  .tile{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow);flex:1 1 210px;display:flex;gap:16px;align-items:center}
+  .tile .k{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .countdown .big{font-family:"Fraunces",serif;font-size:40px;font-weight:600;line-height:1;color:var(--merah)}
+  .countdown .sub{font-size:13px;color:var(--muted);margin-top:4px}
+  .ring-wrap{display:flex;align-items:center;gap:16px}
+  .ring{width:78px;height:78px;flex:0 0 auto;transform:rotate(-90deg)}
+  .ring .track{fill:none;stroke:rgba(22,51,45,.10);stroke-width:9}
+  .ring .fill{fill:none;stroke:var(--jade);stroke-width:9;stroke-linecap:round;transition:stroke-dashoffset .7s cubic-bezier(.3,.8,.3,1)}
+  .ring-num{font-family:"Fraunces",serif;font-size:30px;font-weight:600;line-height:1}
+  .ring-lbl{font-size:12.5px;color:var(--muted);max-width:128px}
+
+  .block{padding:40px 0;border-top:1px solid var(--line)}
+  .block:first-child{border-top:none}
+  .block-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px;flex-wrap:wrap}
+  .block-head .num{font-family:"Space Mono",monospace;color:var(--turmeric);font-weight:700;font-size:14px}
+  .block h2{font-size:clamp(26px,4vw,36px)}
+  .block .intro{color:var(--muted);max-width:640px;margin:10px 0 24px;font-size:16.5px}
+
+  .why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+  .why{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .why .id{font-family:"Space Mono",monospace;color:var(--jade);font-size:12px;font-weight:700}
+  .why h3{font-size:19px;margin:8px 0 6px}
+  .why p{margin:0;font-size:14.5px;color:#41514a}
+
+  .rhythm{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--card)}
+  .rh{padding:22px;border-right:1px solid var(--line)}
+  .rh:last-child{border-right:none}
+  .rh .when{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ocean);font-weight:700}
+  .rh .dur{float:right;font-family:"Space Mono",monospace;font-size:12px;color:var(--turmeric);font-weight:700}
+  .rh h3{font-size:18px;margin:12px 0 6px}
+  .rh p{margin:0;font-size:14px;color:#41514a}
+  .rh-foot{margin-top:14px;font-size:14px;color:var(--muted)}.rh-foot b{color:var(--ink)}
+
+  .phase{padding:28px 0 8px;border-top:1px dashed var(--line-strong)}
+  .phase:first-of-type{border-top:none}
+  .phase-top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .dot{width:13px;height:13px;border-radius:50%;background:var(--turmeric);box-shadow:0 0 0 5px rgba(221,154,26,.16);flex:0 0 auto;transform:translateY(-2px)}
+  .phase-no{font-family:"Space Mono",monospace;font-weight:700;color:var(--merah);font-size:14px}
+  .phase h3{font-size:clamp(22px,3.2vw,29px)}
+  .phase h3 .id{font-family:"Fraunces",serif;font-style:italic;font-weight:400;color:var(--jade);font-size:.7em;margin-left:6px}
+  .phase .months{font-family:"Space Mono",monospace;font-size:12px;color:var(--muted)}
+  .goal-chip{display:inline-block;background:rgba(46,139,121,.12);color:var(--ocean);border:1px solid rgba(46,139,121,.25);font-family:"Space Mono",monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px}
+  .phase-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:22px;margin-top:18px}
+  @media(max-width:760px){.phase-grid{grid-template-columns:1fr}}
+  .pcol h4{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;font-weight:700}
+  .pcol ul{margin:0 0 18px;padding-left:18px}.pcol li{margin-bottom:6px;font-size:14.5px;color:#3a4a43}
+  code{font-family:"Space Mono",monospace;background:rgba(22,51,45,.06);padding:1px 6px;border-radius:5px;font-size:.92em;color:var(--ocean)}
+
+  .checks{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px 18px;margin-bottom:14px}
+  .check-head{display:flex;justify-content:space-between;align-items:center;padding:12px 0 10px;border-bottom:1px solid var(--line)}
+  .check-head .t{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ocean);font-weight:700}
+  .check-head .c{font-family:"Space Mono",monospace;font-size:13px;color:var(--turmeric);font-weight:700}
+  .task{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer}
+  .task:last-child{border-bottom:none}
+  .task input{appearance:none;-webkit-appearance:none;width:21px;height:21px;border:2px solid var(--line-strong);border-radius:6px;flex:0 0 auto;margin-top:1px;cursor:pointer;transition:.18s;position:relative;background:#fff}
+  .task input:checked{background:var(--jade);border-color:var(--jade)}
+  .task input:checked::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+  .task input:focus-visible{outline:3px solid rgba(221,154,26,.5);outline-offset:2px}
+  .task span{font-size:14.5px;color:#33453d}
+  .task input:checked + span{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(46,139,121,.6)}
+  .cando .task input:checked{background:var(--turmeric);border-color:var(--turmeric)}
+
+  .say{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;border:1px solid var(--line-strong);background:#fff;color:var(--ocean);cursor:pointer;flex:0 0 auto;transition:.15s;font-size:13px;line-height:1;vertical-align:middle}
+  .say:hover{background:var(--ocean);color:#fff;border-color:var(--ocean)}
+  .say:active{transform:scale(.92)}
+
+  .gcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:16px}
+  .gcard h3{font-size:21px;margin-bottom:6px}
+  .gcard h3 .sub{font-family:"Fraunces";font-style:italic;font-weight:400;color:var(--jade);font-size:.65em;margin-left:6px}
+  .gcard p{font-size:14.5px;color:#3a4a43;margin:8px 0}
+  .ex{display:flex;flex-wrap:wrap;gap:8px 14px;margin:10px 0}
+  .ex .pair{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:7px 11px;font-size:14px}
+  .ex .pair b{color:var(--ocean)}
+  .ex .pair em{color:var(--muted);font-style:normal;font-size:13px}
+  .tip{background:rgba(221,154,26,.1);border:1px solid rgba(221,154,26,.3);border-radius:12px;padding:13px 16px;font-size:14px;color:#4a3d1a;margin:14px 0}
+  .warn{background:rgba(192,62,41,.08);border:1px solid rgba(192,62,41,.28);border-radius:12px;padding:13px 16px;font-size:14px;color:#6b271a;margin:14px 0}
+
+  table.tb{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:6px 0 12px}
+  table.tb th{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:13px 16px;border-bottom:1px solid var(--line-strong);font-weight:700}
+  table.tb td{padding:10px 16px;border-bottom:1px solid var(--line);font-size:14.5px;vertical-align:middle}
+  table.tb tr:last-child td{border-bottom:none}
+  table.tb .id-word{font-weight:600;color:var(--ocean)}
+  table.tb .hint{font-family:"Space Mono",monospace;font-size:12px;color:var(--muted)}
+  .grp td{background:rgba(46,139,121,.07);font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ocean);font-weight:700}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+  .chip{font-family:"Space Mono",monospace;font-size:12.5px;font-weight:700;border:1px solid var(--line-strong);background:#fff;color:var(--ink);padding:7px 13px;border-radius:999px;cursor:pointer;transition:.15s}
+  .chip:hover{border-color:var(--ocean)}
+  .chip.on{background:var(--ocean);color:#fff;border-color:var(--ocean)}
+  .btn{font-family:"Space Mono",monospace;font-size:13px;font-weight:700;border:none;background:var(--ocean);color:#fff;padding:11px 18px;border-radius:11px;cursor:pointer;transition:.15s}
+  .btn:hover{background:#0f4239}
+  .btn.alt{background:var(--turmeric)}.btn.alt:hover{background:#c4860f}
+  .btn.ghost{background:#fff;color:var(--ocean);border:1px solid var(--line-strong)}.btn.ghost:hover{background:rgba(22,86,76,.06)}
+
+  .cal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+  .week{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:16px;border-left:4px solid var(--turmeric)}
+  .week.p1{border-left-color:var(--turmeric)}.week.p2{border-left-color:var(--jade)}.week.p3{border-left-color:var(--merah)}
+  .week .wk{font-family:"Space Mono";font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .week h4{font-size:17px;margin:6px 0 8px;font-family:"Fraunces"}
+  .week .row{font-size:13px;color:#3a4a43;margin:3px 0}
+  .week .row b{font-family:"Space Mono";font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ocean)}
+  .week .mission{margin-top:9px;font-size:13px;background:rgba(46,139,121,.08);border-radius:8px;padding:8px 10px;color:#2a4640}
+
+  .flash-stage{display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:8px}
+  .flashcard{width:100%;max-width:430px;aspect-ratio:16/10;perspective:1200px;cursor:pointer}
+  .fc-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+  .flashcard.flip .fc-inner{transform:rotateY(180deg)}
+  .fc-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;border:1px solid var(--line);background:var(--card2);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
+  .fc-face .lbl{font-family:"Space Mono";font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);position:absolute;top:14px;left:16px}
+  .fc-front .word{font-family:"Fraunces";font-size:clamp(26px,5vw,38px);font-weight:600}
+  .fc-back{transform:rotateY(180deg);background:#15564C}
+  .fc-back .word{font-family:"Fraunces";font-size:clamp(26px,5vw,38px);font-weight:600;color:#fff}
+  .fc-back .hint{font-family:"Space Mono";font-size:13px;color:#bfe3da;margin-top:8px}
+  .flash-ctrl{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .flash-meta{font-family:"Space Mono";font-size:12.5px;color:var(--muted)}
+
+  .voc-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
+  .voc{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:9px 12px}
+  .voc .fr{font-size:13px;color:var(--muted);flex:1}
+  .voc .id{font-weight:600;color:var(--ocean);font-size:14.5px}
+
+  .quiz{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:16px}
+  .quiz .q{font-family:"Fraunces";font-size:22px;margin:4px 0 16px}
+  .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:520px){.opts{grid-template-columns:1fr}}
+  .opt{font-size:15px;text-align:left;background:#fff;border:1px solid var(--line-strong);border-radius:11px;padding:12px 14px;cursor:pointer;transition:.12s;font-family:inherit;color:var(--ink)}
+  .opt:hover{border-color:var(--ocean)}
+  .opt.good{background:rgba(46,139,121,.16);border-color:var(--jade);color:var(--ocean);font-weight:600}
+  .opt.bad{background:rgba(192,62,41,.12);border-color:var(--merah);color:var(--merah)}
+  .quiz-foot{display:flex;justify-content:space-between;align-items:center;margin-top:16px;font-family:"Space Mono";font-size:13px;color:var(--muted)}
+
+  .drill{background:#fff;border:1px solid var(--line);border-radius:13px;padding:16px 18px;margin-bottom:12px}
+  .drill .frame{font-family:"Fraunces";font-size:20px;margin-bottom:4px}
+  .drill .blank{color:var(--turmeric);border-bottom:2px dashed var(--turmeric);padding:0 6px;min-width:60px;display:inline-block;text-align:center}
+  .drill .tr{font-size:13.5px;color:var(--muted);margin-bottom:10px}
+  .drill .built{color:var(--ocean);font-weight:600}
+
+  .log-form{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+  .log-form label{display:flex;flex-direction:column;font-family:"Space Mono";font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);gap:5px}
+  .log-form input,.log-form select{font-family:inherit;font-size:14px;border:1px solid var(--line-strong);border-radius:9px;padding:9px 11px;background:#fff;color:var(--ink)}
+  .log-form input[type=text]{min-width:200px}
+  .stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:16px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:16px;text-align:center}
+  .stat .v{font-family:"Fraunces";font-size:32px;font-weight:600;color:var(--ocean);line-height:1}
+  .stat .l{font-family:"Space Mono";font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+  .stat.flame .v{color:var(--merah)}
+  .logitem{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:11px 14px;background:var(--card);border:1px solid var(--line);border-radius:11px;margin-bottom:7px;font-size:14px}
+  .logitem .d{font-family:"Space Mono";font-size:12px;color:var(--muted)}
+  .logitem .rm{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px}
+  .logitem .rm:hover{color:var(--merah)}
+  .prompt-box{background:#15564C;color:#fff;border-radius:16px;padding:26px;text-align:center;margin-bottom:16px}
+  .prompt-box .pt{font-family:"Fraunces";font-style:italic;font-size:22px;line-height:1.3}
+  .prompt-box .pk{font-family:"Space Mono";font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9fd3c8;margin-bottom:10px}
+
+  footer{padding:44px 0 70px;border-top:1px solid var(--line);text-align:center;margin-top:30px}
+  footer .ttd{font-family:"Fraunces";font-style:italic;font-size:22px;color:var(--jade);margin-bottom:8px}
+  footer p{color:var(--muted);font-size:14px;margin:6px 0}
+  .reset{margin-top:16px;background:none;border:1px solid var(--line-strong);color:var(--muted);font-family:"Space Mono";font-size:12px;padding:9px 16px;border-radius:999px;cursor:pointer;transition:.18s}
+  .reset:hover{border-color:var(--merah);color:var(--merah)}
+
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="brand">Bahasa<span class="dot">.</span></span>
+    <nav class="nav" id="nav">
+      <button data-tab="home" class="on">Accueil</button>
+      <button data-tab="parcours">Parcours</button>
+      <button data-tab="grammaire">Grammaire</button>
+      <button data-tab="vocab">Vocabulaire</button>
+      <button data-tab="phrases">Phrases &amp; Dialogues</button>
+      <button data-tab="prononciation">Prononciation</button>
+      <button data-tab="culture">Culture</button>
+      <button data-tab="immersion">Immersion</button>
+      <button data-tab="training">Entraînement</button>
+      <button data-tab="carnet">Carnet</button>
+    </nav>
+  </div>
+</div>
+
+<main class="wrap">
+
+<!-- ACCUEIL -->
+<section class="panel on" id="tab-home">
+  <header class="hero">
+    <div class="eyebrow">Bahasa Indonesia · Ma plateforme d'apprentissage</div>
+    <div class="salam">Selamat datang —</div>
+    <h1>9 mois pour parler <span class="pop">indonésien</span>.</h1>
+    <p class="lede">Tenir une vraie conversation et se débrouiller partout en voyage. Tranquille, gratuit, 2 à 4 h par semaine — jusqu'au départ en Asie du Sud-Est.</p>
+    <div class="hero-meta">
+      <div class="tile countdown"><div><div class="k">Départ · mars 2027</div><div class="big" id="cd-days">—</div><div class="sub" id="cd-sub">jours pour devenir opérationnel</div></div></div>
+      <div class="tile"><div class="ring-wrap">
+        <svg class="ring" viewBox="0 0 80 80"><circle class="track" cx="40" cy="40" r="34"></circle><circle class="fill" id="ring-fill" cx="40" cy="40" r="34" stroke-dasharray="213.6" stroke-dashoffset="213.6"></circle></svg>
+        <div><div class="ring-num"><span id="pct">0</span>%</div><div class="ring-lbl">de ton parcours validé · <span id="done-count">0</span>/<span id="total-count">0</span></div></div>
+      </div></div>
+    </div>
+  </header>
+
+  <section class="block">
+    <div class="block-head"><span class="num">A</span><h2>Pourquoi c'est jouable</h2></div>
+    <p class="intro">L'indonésien est l'une des langues les plus accessibles pour un francophone. L'effort va direct dans le vocabulaire et la pratique.</p>
+    <div class="why-grid">
+      <div class="why"><div class="id">// 01</div><h3>Zéro conjugaison</h3><p>Les verbes ne changent jamais. Le temps se marque avec un petit mot : <i>sudah</i>, <i>akan</i>, <i>sedang</i>.</p></div>
+      <div class="why"><div class="id">// 02</div><h3>Pas de genre ni d'accord</h3><p>Ni masculin/féminin, ni pluriels compliqués, ni articles.</p></div>
+      <div class="why"><div class="id">// 03</div><h3>Lecture dès le jour 1</h3><p>Alphabet latin, prononciation quasi phonétique. Ça se lit comme ça s'écrit.</p></div>
+      <div class="why"><div class="id">// 04</div><h3>Le temps suffit</h3><p>9 mois à 2-4 h/sem, c'est large pour viser un A2+/B1 voyage.</p></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><span class="num">B</span><h2>Ton rythme hebdo</h2></div>
+    <p class="intro">La régularité bat l'intensité. Un peu tous les jours, deux sessions de fond, un moment plaisir.</p>
+    <div class="rhythm">
+      <div class="rh"><span class="when">Tous les jours</span><span class="dur">10-15 min</span><h3>Micro-dose 📱</h3><p>1 leçon Duolingo + révision de tes flashcards. C'est ça qui ancre le vocabulaire.</p></div>
+      <div class="rh"><span class="when">2× / semaine</span><span class="dur">30-45 min</span><h3>Session de fond 💻</h3><p>1 point de grammaire + écoute active + production : tu écris ou tu dis 5 phrases à voix haute.</p></div>
+      <div class="rh"><span class="when">1× / semaine</span><span class="dur">20-30 min</span><h3>Immersion plaisir 🎧</h3><p>Une chanson, une vidéo, un podcast. Zéro pression, juste l'oreille.</p></div>
+    </div>
+    <p class="rh-foot">Total ≈ <b>2 à 4 h</b>. Semaine chargée ? Garde au minimum la micro-dose quotidienne.</p>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><span class="num">C</span><h2>Comment utiliser ce site</h2></div>
+    <p class="intro">Chaque onglet est un atelier. Voilà l'ordre logique quand tu démarres.</p>
+    <div class="why-grid">
+      <div class="why"><div class="id">→ Parcours</div><h3>Ta feuille de route</h3><p>Les 3 phases, le calendrier semaine par semaine, les jalons à cocher.</p></div>
+      <div class="why"><div class="id">→ Grammaire</div><h3>Les règles + drills</h3><p>Le système expliqué simplement, exercices et pièges pour francophones.</p></div>
+      <div class="why"><div class="id">→ Vocabulaire</div><h3>Flashcards + audio</h3><p>Réviser en cartes, écouter, télécharger le deck Anki.</p></div>
+      <div class="why"><div class="id">→ Carnet</div><h3>Ton moteur</h3><p>Logue chaque session, vois ton streak grandir, tire des prompts d'expression.</p></div>
+    </div>
+  </section>
+</section>
+
+<!-- PARCOURS -->
+<section class="panel" id="tab-parcours">
+  <section class="block">
+    <div class="block-head"><span class="num">01</span><h2>Le parcours en 3 phases</h2></div>
+    <p class="intro">Coche chaque jalon validé — ta progression se sauvegarde et remplit la jauge d'accueil. Les blocs « Je peux… » (en jaune) servent à t'auto-évaluer.</p>
+
+    <div class="phase">
+      <div class="phase-top"><span class="dot"></span><span class="phase-no">PHASE 1</span><h3>Fondations <span class="id">· Dasar</span></h3><span class="months">MOIS 1–3</span><span class="goal-chip">CIBLE · A1</span></div>
+      <div class="phase-grid">
+        <div class="pcol">
+          <h4>Grammaire à poser</h4>
+          <ul><li>Pronoms : <code>saya/aku</code>, <code>kamu/Anda</code>, <code>dia</code></li><li>Ordre SVO, adjectif <b>après</b> le nom</li><li>Négation : <code>tidak</code> vs <code>bukan</code></li><li>Questions : <code>apa, siapa, di mana, berapa</code></li><li>Temps : <code>sudah, sedang, akan</code></li></ul>
+          <h4>Vocabulaire</h4><ul><li>~300–500 mots fréquents</li><li>Nombres 0 → 1000</li></ul>
+        </div>
+        <div class="pcol">
+          <div class="checks" data-phase="p1">
+            <div class="check-head"><span class="t">Jalons · Phase 1</span><span class="c"><span class="cnt">0</span>/8</span></div>
+            <label class="task"><input type="checkbox" data-id="p1-1"><span>Installer Duolingo et tenir 7 jours d'affilée</span></label>
+            <label class="task"><input type="checkbox" data-id="p1-2"><span>Réviser les flashcards chaque jour pendant 2 semaines</span></label>
+            <label class="task"><input type="checkbox" data-id="p1-3"><span>Maîtriser salutations + politesse</span></label>
+            <label class="task"><input type="checkbox" data-id="p1-4"><span>Compter de 0 à 1000 sans hésiter</span></label>
+            <label class="task"><input type="checkbox" data-id="p1-5"><span>Construire 10 phrases simples au présent</span></label>
+            <label class="task"><input type="checkbox" data-id="p1-6"><span>Poser 5 questions de base</span></label>
+            <label class="task"><input type="checkbox" data-id="p1-7"><span>Regarder une série YouTube débutant en entier</span></label>
+            <label class="task"><input type="checkbox" data-id="p1-8"><span>Te présenter à l'oral pendant 1 min</span></label>
+          </div>
+          <div class="checks cando" data-phase="c1">
+            <div class="check-head"><span class="t">Je peux… · A1</span><span class="c"><span class="cnt">0</span>/5</span></div>
+            <label class="task"><input type="checkbox" data-id="c1-1"><span>Saluer et me présenter</span></label>
+            <label class="task"><input type="checkbox" data-id="c1-2"><span>Compter, dire un prix, une heure</span></label>
+            <label class="task"><input type="checkbox" data-id="c1-3"><span>Commander à manger simplement</span></label>
+            <label class="task"><input type="checkbox" data-id="c1-4"><span>Poser une question simple et la comprendre</span></label>
+            <label class="task"><input type="checkbox" data-id="c1-5"><span>Dire ce que je veux / ne veux pas</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-top"><span class="dot"></span><span class="phase-no">PHASE 2</span><h3>Construction <span class="id">· Membangun</span></h3><span class="months">MOIS 4–6</span><span class="goal-chip">CIBLE · A2</span></div>
+      <div class="phase-grid">
+        <div class="pcol">
+          <h4>Grammaire à poser</h4>
+          <ul><li>Affixes <code>ber-</code> et <code>me(N)-</code></li><li>Passif <code>di-</code>, suffixes <code>-kan / -i</code></li><li>Aspect : <code>belum, masih, pernah</code></li><li>Comparatifs : <code>lebih … daripada</code>, <code>paling</code></li><li>Classificateurs &amp; reduplication</li></ul>
+          <h4>Vocabulaire</h4><ul><li>~800–1000 mots (quotidien élargi)</li></ul>
+        </div>
+        <div class="pcol">
+          <div class="checks" data-phase="p2">
+            <div class="check-head"><span class="t">Jalons · Phase 2</span><span class="c"><span class="cnt">0</span>/7</span></div>
+            <label class="task"><input type="checkbox" data-id="p2-1"><span>Former des verbes en ber- et me(N)-</span></label>
+            <label class="task"><input type="checkbox" data-id="p2-2"><span>Conversation écrite de 10 messages sur HelloTalk/Tandem</span></label>
+            <label class="task"><input type="checkbox" data-id="p2-3"><span>1 podcast débutant/semaine (sens global)</span></label>
+            <label class="task"><input type="checkbox" data-id="p2-4"><span>Mini-journal de 5 phrases/semaine</span></label>
+            <label class="task"><input type="checkbox" data-id="p2-5"><span>Raconter ta journée d'hier à l'oral</span></label>
+            <label class="task"><input type="checkbox" data-id="p2-6"><span>Comprendre 70 % d'un dialogue lent</span></label>
+            <label class="task"><input type="checkbox" data-id="p2-7"><span>Première note vocale à un partenaire</span></label>
+          </div>
+          <div class="checks cando" data-phase="c2">
+            <div class="check-head"><span class="t">Je peux… · A2</span><span class="c"><span class="cnt">0</span>/5</span></div>
+            <label class="task"><input type="checkbox" data-id="c2-1"><span>Raconter une action passée et future</span></label>
+            <label class="task"><input type="checkbox" data-id="c2-2"><span>Décrire des gens, des lieux, des objets</span></label>
+            <label class="task"><input type="checkbox" data-id="c2-3"><span>Tenir un échange écrit simple avec un natif</span></label>
+            <label class="task"><input type="checkbox" data-id="c2-4"><span>Comprendre l'essentiel d'un audio lent</span></label>
+            <label class="task"><input type="checkbox" data-id="c2-5"><span>Comparer deux choses</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-top"><span class="dot"></span><span class="phase-no">PHASE 3</span><h3>Prêt à partir <span class="id">· Siap jalan</span></h3><span class="months">MOIS 7–9</span><span class="goal-chip">CIBLE · A2+ / B1</span></div>
+      <div class="phase-grid">
+        <div class="pcol">
+          <h4>Focus voyage</h4>
+          <ul><li>Transport : taxi, <code>Gojek/Grab</code>, bus, ferry</li><li>Marchandage : <code>boleh kurang?</code></li><li>Resto : <code>tidak pedas</code>, allergies</li><li>Hébergement, chemin, urgences/santé</li></ul>
+          <h4>Méthode</h4><ul><li>Immersion réelle, shadowing, échanges vocaux</li></ul>
+        </div>
+        <div class="pcol">
+          <div class="checks" data-phase="p3">
+            <div class="check-head"><span class="t">Jalons · Phase 3</span><span class="c"><span class="cnt">0</span>/8</span></div>
+            <label class="task"><input type="checkbox" data-id="p3-1"><span>Connaître par cœur les phrases de survie</span></label>
+            <label class="task"><input type="checkbox" data-id="p3-2"><span>Simuler 5 situations voyage à voix haute</span></label>
+            <label class="task"><input type="checkbox" data-id="p3-3"><span>Marchander un prix entièrement en indonésien</span></label>
+            <label class="task"><input type="checkbox" data-id="p3-4"><span>Regarder un film/série avec Language Reactor</span></label>
+            <label class="task"><input type="checkbox" data-id="p3-5"><span>3 vraies conversations vocales</span></label>
+            <label class="task"><input type="checkbox" data-id="p3-6"><span>Comprendre annonces &amp; panneaux courants</span></label>
+            <label class="task"><input type="checkbox" data-id="p3-7"><span>Test final : 5 min de conversation libre</span></label>
+            <label class="task"><input type="checkbox" data-id="p3-8"><span>Préparer ton antisèche perso de voyage</span></label>
+          </div>
+          <div class="checks cando" data-phase="c3">
+            <div class="check-head"><span class="t">Je peux… · B1</span><span class="c"><span class="cnt">0</span>/5</span></div>
+            <label class="task"><input type="checkbox" data-id="c3-1"><span>Me débrouiller seul dans un transport/hôtel</span></label>
+            <label class="task"><input type="checkbox" data-id="c3-2"><span>Négocier un prix au marché</span></label>
+            <label class="task"><input type="checkbox" data-id="c3-3"><span>Gérer une situation imprévue</span></label>
+            <label class="task"><input type="checkbox" data-id="c3-4"><span>Tenir une conversation de 5 min sur ma vie</span></label>
+            <label class="task"><input type="checkbox" data-id="c3-5"><span>Comprendre du contenu natif avec sous-titres</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><span class="num">02</span><h2>Calendrier · 36 semaines</h2></div>
+    <p class="intro">Le plan déroulé : un focus, un point de grammaire, un thème de vocabulaire et une mission concrète par semaine.</p>
+    <div class="chips" id="cal-filter">
+      <button class="chip on" data-ph="all">Tout</button>
+      <button class="chip" data-ph="1">Phase 1</button>
+      <button class="chip" data-ph="2">Phase 2</button>
+      <button class="chip" data-ph="3">Phase 3</button>
+    </div>
+    <div class="cal-grid" id="cal-mount"></div>
+  </section>
+</section>
+
+<section class="panel" id="tab-grammaire">
+  <section class="block">
+    <div class="block-head"><span class="num">01</span><h2>La grammaire, sans douleur</h2></div>
+    <p class="intro">Bonne nouvelle : 80 % du « difficile » dans d'autres langues n'existe pas ici. On va du plus utile (Phase 1) au plus fin (Phase 2). Clique 🔊 pour écouter.</p>
+
+    <div class="gcard">
+      <h3>1 · L'ossature de la phrase</h3>
+      <p>Ordre <b>Sujet — Verbe — Objet</b>, comme en français. L'adjectif et le possessif se placent <b>après</b> le nom.</p>
+      <div class="ex">
+        <span class="pair"><button class="say" data-say="Saya makan nasi">🔊</button><b>Saya makan nasi.</b><em>Je mange du riz.</em></span>
+        <span class="pair"><button class="say" data-say="rumah besar">🔊</button><b>rumah besar</b><em>une grande maison (litt. maison grande)</em></span>
+        <span class="pair"><button class="say" data-say="mobil saya">🔊</button><b>mobil saya</b><em>ma voiture (litt. voiture de-moi)</em></span>
+      </div>
+      <div class="tip">⚡ Pas de verbe « être » devant un adjectif ou un nom : <code>Saya guru</code> = « Je suis prof ». On n'ajoute rien.</div>
+    </div>
+
+    <div class="gcard">
+      <h3>2 · Le temps sans conjugaison</h3>
+      <p>Le verbe ne bouge jamais. On ajoute un petit marqueur d'aspect <b>devant</b> le verbe :</p>
+      <table class="tb">
+        <tr><th>Marqueur</th><th>Sens</th><th>Exemple</th></tr>
+        <tr><td class="id-word">sudah</td><td>déjà / accompli</td><td>Saya <b>sudah</b> makan <em>— j'ai déjà mangé</em></td></tr>
+        <tr><td class="id-word">sedang / lagi</td><td>en train de</td><td>Saya <b>sedang</b> makan <em>— je mange (là)</em></td></tr>
+        <tr><td class="id-word">akan</td><td>futur (vais)</td><td>Saya <b>akan</b> makan <em>— je vais manger</em></td></tr>
+        <tr><td class="id-word">belum</td><td>pas encore</td><td>Saya <b>belum</b> makan <em>— pas encore mangé</em></td></tr>
+        <tr><td class="id-word">masih</td><td>encore / toujours</td><td>Saya <b>masih</b> makan <em>— je mange encore</em></td></tr>
+        <tr><td class="id-word">pernah</td><td>déjà (une fois)</td><td>Saya <b>pernah</b> ke Bali <em>— je suis déjà allé à Bali</em></td></tr>
+      </table>
+    </div>
+
+    <div class="gcard">
+      <h3>3 · Dire non <span class="sub">tidak / bukan / belum / jangan</span></h3>
+      <table class="tb">
+        <tr><th>Mot</th><th>Pour nier…</th><th>Exemple</th></tr>
+        <tr><td class="id-word">tidak (gak)</td><td>un verbe ou un adjectif</td><td><b>tidak</b> mahal <em>— pas cher</em></td></tr>
+        <tr><td class="id-word">bukan</td><td>un nom</td><td><b>bukan</b> saya <em>— ce n'est pas moi</em></td></tr>
+        <tr><td class="id-word">belum</td><td>« pas encore »</td><td><b>belum</b> tahu <em>— je ne sais pas encore</em></td></tr>
+        <tr><td class="id-word">jangan</td><td>un ordre (« ne fais pas »)</td><td><b>jangan</b> pergi <em>— n'y va pas</em></td></tr>
+      </table>
+    </div>
+
+    <div class="gcard">
+      <h3>4 · Poser des questions</h3>
+      <div class="ex">
+        <span class="pair"><button class="say" data-say="apa">🔊</button><b>apa</b><em>quoi</em></span>
+        <span class="pair"><button class="say" data-say="siapa">🔊</button><b>siapa</b><em>qui</em></span>
+        <span class="pair"><button class="say" data-say="di mana">🔊</button><b>di mana</b><em>où</em></span>
+        <span class="pair"><button class="say" data-say="kapan">🔊</button><b>kapan</b><em>quand</em></span>
+        <span class="pair"><button class="say" data-say="berapa">🔊</button><b>berapa</b><em>combien</em></span>
+        <span class="pair"><button class="say" data-say="bagaimana">🔊</button><b>bagaimana</b><em>comment</em></span>
+        <span class="pair"><button class="say" data-say="kenapa">🔊</button><b>kenapa</b><em>pourquoi</em></span>
+      </div>
+      <p>Question fermée (oui/non) : juste l'intonation, ou <code>apakah</code> en début de phrase. <b>Ya</b> = oui, <b>tidak</b> = non.</p>
+    </div>
+
+    <div class="gcard">
+      <h3>5 · Les affixes <span class="sub">le seul vrai morceau</span></h3>
+      <p>C'est <b>la</b> particularité de l'indonésien. On colle des préfixes/suffixes à une racine pour changer le sens. Tu peux <b>survivre en voyage avec les racines nues</b> (<code>makan, tidur, pergi</code>) — les affixes servent surtout à bien comprendre et bien parler (Phase 2).</p>
+      <table class="tb">
+        <tr><th>Affixe</th><th>Rôle</th><th>Exemple</th></tr>
+        <tr><td class="id-word">ber-</td><td>verbe intransitif / « avoir, porter »</td><td>main → <b>bermain</b> (jouer), kerja → <b>bekerja</b> (travailler)</td></tr>
+        <tr><td class="id-word">me(N)-</td><td>verbe actif transitif (le N s'adapte au son)</td><td>baca → <b>membaca</b> (lire), tulis → <b>menulis</b> (écrire)</td></tr>
+        <tr><td class="id-word">di-</td><td>passif</td><td>baca → <b>dibaca</b> (être lu)</td></tr>
+        <tr><td class="id-word">ter-</td><td>involontaire / superlatif</td><td><b>tertidur</b> (s'endormir sans le vouloir), <b>terbaik</b> (le meilleur)</td></tr>
+        <tr><td class="id-word">pe(N)-…</td><td>l'agent (celui qui fait)</td><td>kerja → <b>pekerja</b> (travailleur)</td></tr>
+        <tr><td class="id-word">ke-…-an</td><td>nom abstrait / état</td><td>bahagia → <b>kebahagiaan</b> (le bonheur)</td></tr>
+        <tr><td class="id-word">-kan / -i</td><td>rendre transitif</td><td>bersih → <b>membersihkan</b> (nettoyer qqch)</td></tr>
+      </table>
+      <div class="tip">🎯 Stratégie : en Phase 1 tu <b>reconnais</b> les racines sous les affixes (membaca → baca → lire). En Phase 2 tu <b>produis</b> ber- et me(N)-. Le reste vient à l'usage.</div>
+    </div>
+
+    <div class="gcard">
+      <h3>6 · Pluriels, classificateurs, possession</h3>
+      <p><b>Pas de pluriel obligatoire.</b> On répète le mot pour insister (<code>anak-anak</code> = des enfants) ou on met juste un nombre.</p>
+      <p>Pour compter, un petit <b>classificateur</b> entre le nombre et le nom :</p>
+      <div class="ex">
+        <span class="pair"><b>orang</b><em>pour les personnes — dua orang (2 personnes)</em></span>
+        <span class="pair"><b>ekor</b><em>pour les animaux — tiga ekor kucing (3 chats)</em></span>
+        <span class="pair"><b>buah</b><em>pour les objets — satu buah apel (1 pomme)</em></span>
+      </div>
+      <p>Possession = nom + possesseur : <code>buku saya</code> (mon livre), <code>nama kamu</code> (ton nom). « Il y a » se dit <code>ada</code>.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><span class="num">02</span><h2>Pièges &amp; faux-amis pour francophones</h2></div>
+    <p class="intro">Les erreurs qu'on fait tous au début. Les désamorcer maintenant = des mois gagnés.</p>
+    <div class="gcard">
+      <table class="tb">
+        <tr><th>Le piège</th><th>À retenir</th></tr>
+        <tr><td><b>tidak</b> ou <b>bukan</b> ?</td><td>tidak = verbes/adjectifs, bukan = noms. Le français ne distingue pas → réflexe à créer.</td></tr>
+        <tr><td><b>kita</b> ou <b>kami</b> ?</td><td>Deux « nous » : <b>kita</b> = avec toi (inclusif), <b>kami</b> = sans toi (exclusif). Piège classique.</td></tr>
+        <tr><td>Le verbe « être »</td><td>On ne le met pas devant adjectif/nom. « Je suis fatigué » = <code>Saya capek</code>, point.</td></tr>
+        <tr><td><b>tua</b> vs <b>lama</b></td><td>tua = vieux (âge/personne), lama = ancien/long (durée, objet).</td></tr>
+        <tr><td><b>bisa</b> vs <b>boleh</b></td><td>bisa = capable de, boleh = avoir la permission. « Boleh kurang ? » = « c'est permis de baisser ? ».</td></tr>
+        <tr><td>Faux-amis</td><td><b>mobil</b> = voiture, <b>rok</b> = jupe, <b>toko</b> = magasin, <b>roti</b> = pain.</td></tr>
+        <tr><td>Le « e » trompeur</td><td>Deux sons : « é » (<i>enak</i>) et un « eu » discret (<i>empat, besar</i>). Voir l'onglet Prononciation.</td></tr>
+      </table>
+    </div>
+    <div class="tip">👉 Les exercices de production (pattern drills) sont dans l'onglet <b>Entraînement</b> — c'est là qu'on transforme « je sais la règle » en « je la sors sans réfléchir ».</div>
+  </section>
+</section>
+<section class="panel" id="tab-vocab">
+  <section class="block">
+    <div class="block-head"><span class="num">01</span><h2>Flashcards</h2></div>
+    <p class="intro">Clique la carte pour la retourner, écoute la prononciation, puis range-la dans « je connais » ou « à revoir ». Choisis un thème ou révise tout.</p>
+    <div class="chips" id="flash-filter"></div>
+    <div class="flash-stage">
+      <div class="flashcard" id="flashcard">
+        <div class="fc-inner">
+          <div class="fc-face fc-front"><span class="lbl">Français</span><div class="word" id="fc-fr">—</div></div>
+          <div class="fc-face fc-back"><span class="lbl">Indonésien</span><div class="word" id="fc-id">—</div><div class="hint" id="fc-hint"></div></div>
+        </div>
+      </div>
+      <div class="flash-meta" id="flash-meta">0 / 0</div>
+      <div class="flash-ctrl">
+        <button class="btn ghost" id="fc-say">🔊 Écouter</button>
+        <button class="btn" id="fc-known">✓ Je connais</button>
+        <button class="btn alt" id="fc-review">↻ À revoir</button>
+        <button class="btn ghost" id="fc-next">Suivante →</button>
+      </div>
+      <button class="reset" id="fc-resetknown">Réinitialiser les « je connais »</button>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><span class="num">02</span><h2>Listes par thème</h2></div>
+    <p class="intro">Le lexique de base, classé. Survole et clique 🔊 pour entendre chaque mot.</p>
+    <div id="vocab-mount"></div>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><span class="num">03</span><h2>Deck Anki prêt à importer</h2></div>
+    <p class="intro">Télécharge tout le vocabulaire au format texte. Dans Anki : <i>Fichier → Importer</i>, sépare par tabulation, recto = indonésien, verso = français.</p>
+    <button class="btn alt" id="anki-dl">⬇ Télécharger le deck (.txt)</button>
+  </section>
+</section>
+<section class="panel" id="tab-phrases">
+  <section class="block">
+    <div class="block-head"><span class="num">01</span><h2>Tes phrases de survie</h2></div>
+    <p class="intro">Le kit minimum pour le terrain. Clique 🔊 sur chaque phrase pour l'entendre. À distiller dès la Phase 1, à maîtriser en Phase 3.</p>
+    <div class="tip">💡 La prononciation est quasi comme à l'écrit. <b>c</b> = « tch », <b>j</b> = « dj », et le <b>e</b> est souvent un « eu » discret. On te comprendra largement.</div>
+    <table class="tb">
+      <thead><tr><th>Français</th><th>Indonésien</th><th>Écouter</th></tr></thead>
+      <tbody id="phrases-mount"></tbody>
+    </table>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><span class="num">02</span><h2>Dialogues &amp; jeux de rôle</h2></div>
+    <p class="intro">Des mini-scènes réelles. Lis à voix haute, joue les deux rôles, puis remplace les mots pour t'approprier la structure.</p>
+    <div id="dialogues-mount"></div>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><span class="num">03</span><h2>Bahasa gaul · l'indonésien de la vraie vie</h2></div>
+    <p class="intro">⚠️ Indispensable. Sur HelloTalk/Tandem et dans la rue, personne ne parle comme dans les manuels. Voilà la version « slang de Jakarta » des mots que tu apprends.</p>
+    <div class="warn">À l'écrit avec des jeunes, attends-toi à <b>gue, lo, nggak, banget, udah</b>… Sans ça, tu décroches en 3 messages. Garde le registre formel (Anda, tidak) pour les personnes âgées et les situations officielles.</div>
+    <table class="tb">
+      <thead><tr><th>Standard (manuel)</th><th>Gaul (rue / chat)</th><th>Sens</th></tr></thead>
+      <tbody>
+        <tr><td class="id-word">saya / aku</td><td class="id-word">gue / gua</td><td>je, moi</td></tr>
+        <tr><td class="id-word">kamu / Anda</td><td class="id-word">lo / lu</td><td>tu, toi</td></tr>
+        <tr><td class="id-word">tidak</td><td class="id-word">nggak / gak / ga</td><td>non, ne… pas</td></tr>
+        <tr><td class="id-word">tidak apa-apa</td><td class="id-word">gak papa</td><td>pas de souci</td></tr>
+        <tr><td class="id-word">sangat (très)</td><td class="id-word">banget</td><td>enak <b>banget</b> = trop bon</td></tr>
+        <tr><td class="id-word">sudah</td><td class="id-word">udah / dah</td><td>déjà, c'est fait</td></tr>
+        <tr><td class="id-word">bagaimana</td><td class="id-word">gimana</td><td>comment</td></tr>
+        <tr><td class="id-word">sedang / lagi</td><td class="id-word">lagi</td><td>en train de (lagi makan)</td></tr>
+        <tr><td class="id-word">terima kasih</td><td class="id-word">makasih</td><td>merci</td></tr>
+        <tr><td class="id-word">teman</td><td class="id-word">temen</td><td>ami</td></tr>
+        <tr><td class="id-word">—</td><td class="id-word">cowok / cewek</td><td>un mec / une meuf</td></tr>
+        <tr><td class="id-word">santai</td><td class="id-word">santuy</td><td>relax, tranquille</td></tr>
+      </tbody>
+    </table>
+    <div class="tip">Les petites particules de fin (<b>dong, sih, deh, kok, nih</b>) ajoutent du ton (insistance, surprise, douceur). Pas besoin de les produire tout de suite — repère-les à l'écoute, ça viendra.</div>
+  </section>
+</section>
+<section class="panel" id="tab-prononciation">
+  <section class="block">
+    <div class="block-head"><span class="num">01</span><h2>Tout se lit, ou presque</h2></div>
+    <p class="intro">L'indonésien s'écrit comme il se prononce. Une fois ces quelques règles en tête, tu peux lire n'importe quel mot à voix haute. Clique 🔊 pour entendre.</p>
+
+    <div class="gcard">
+      <h3>Les voyelles</h3>
+      <table class="tb">
+        <tr><th>Lettre</th><th>Son</th><th>Exemple</th><th>🔊</th></tr>
+        <tr><td class="id-word">a</td><td>« a » de patte</td><td>apa (quoi)</td><td><button class="say" data-say="apa">🔊</button></td></tr>
+        <tr><td class="id-word">i</td><td>« i » de lit</td><td>ini (ceci)</td><td><button class="say" data-say="ini">🔊</button></td></tr>
+        <tr><td class="id-word">u</td><td>« ou » de loup</td><td>untuk (pour)</td><td><button class="say" data-say="untuk">🔊</button></td></tr>
+        <tr><td class="id-word">o</td><td>« o » de porte</td><td>toko (magasin)</td><td><button class="say" data-say="toko">🔊</button></td></tr>
+        <tr><td class="id-word">e</td><td>2 sons : « é » <i>ou</i> « eu » discret</td><td>enak (é) / empat (eu)</td><td><button class="say" data-say="enak empat">🔊</button></td></tr>
+      </table>
+      <div class="warn">⚠️ Le <b>e</b> est le seul vrai piège : <b>é</b> dans <i>enak, sore, becak</i> ; <b>« eu » avalé</b> dans <i>empat, besar, kemana</i>. Pas marqué à l'écrit — ça rentre à l'oreille.</div>
+    </div>
+
+    <div class="gcard">
+      <h3>Les consonnes à connaître</h3>
+      <table class="tb">
+        <tr><th>Lettre(s)</th><th>Son</th><th>Exemple</th><th>🔊</th></tr>
+        <tr><td class="id-word">c</td><td>« tch » (tchao)</td><td>cinta → « tchinta »</td><td><button class="say" data-say="cinta">🔊</button></td></tr>
+        <tr><td class="id-word">j</td><td>« dj »</td><td>jalan → « djalan »</td><td><button class="say" data-say="jalan">🔊</button></td></tr>
+        <tr><td class="id-word">g</td><td>toujours dur (gare)</td><td>gula (sucre)</td><td><button class="say" data-say="gula">🔊</button></td></tr>
+        <tr><td class="id-word">ng</td><td>nasal (parking)</td><td>dengan (avec)</td><td><button class="say" data-say="dengan">🔊</button></td></tr>
+        <tr><td class="id-word">ny</td><td>« gn » (oignon)</td><td>nyaman (confortable)</td><td><button class="say" data-say="nyaman">🔊</button></td></tr>
+        <tr><td class="id-word">r</td><td>roulé (comme l'espagnol)</td><td>kabar (nouvelle)</td><td><button class="say" data-say="kabar">🔊</button></td></tr>
+        <tr><td class="id-word">sy</td><td>« ch »</td><td>syukur (gratitude)</td><td><button class="say" data-say="syukur">🔊</button></td></tr>
+      </table>
+      <div class="tip">🎵 Toi qui as l'oreille musicale, ça va te servir : l'accent tonique est léger et tombe presque toujours sur <b>l'avant-dernière syllabe</b>. Pas de stress fort comme en anglais.</div>
+    </div>
+
+    <div class="gcard">
+      <h3>Écoute &amp; répète (shadowing)</h3>
+      <p>La meilleure technique gratuite : tu écoutes une phrase, tu la répètes par-dessus en imitant le rythme. Essaie avec ces phrases courantes :</p>
+      <div class="ex">
+        <span class="pair"><button class="say" data-say="Apa kabar?">🔊</button><b>Apa kabar?</b><em>Comment ça va ?</em></span>
+        <span class="pair"><button class="say" data-say="Selamat datang">🔊</button><b>Selamat datang</b><em>Bienvenue</em></span>
+        <span class="pair"><button class="say" data-say="Terima kasih banyak">🔊</button><b>Terima kasih banyak</b><em>Merci beaucoup</em></span>
+        <span class="pair"><button class="say" data-say="Sampai jumpa lagi">🔊</button><b>Sampai jumpa lagi</b><em>À la prochaine</em></span>
+      </div>
+      <div class="warn">🔊 L'audio utilise la voix de ton appareil. S'il n'a pas de voix indonésienne installée, le son peut être approximatif ou absent — sur mobile (Android/iOS) et Chrome, c'est en général dispo.</div>
+    </div>
+  </section>
+</section>
+<section class="panel" id="tab-culture">
+  <section class="block">
+    <div class="block-head"><span class="num">01</span><h2>Savoir-vivre &amp; codes</h2></div>
+    <p class="intro">Un prof enseigne toujours la culture avec la langue. En Indonésie, la politesse et le sourire ouvrent toutes les portes — souvent plus que la grammaire parfaite.</p>
+    <div class="why-grid">
+      <div class="why"><div class="id">🙏 Respect</div><h3>Pak &amp; Bu</h3><p>Appelle les gens <b>Pak</b> (monsieur) ou <b>Bu</b> (madame) + prénom. C'est la base de toute interaction polie.</p></div>
+      <div class="why"><div class="id">✋ La main droite</div><h3>Donner &amp; manger</h3><p>Toujours la <b>main droite</b> pour donner, recevoir, manger. La gauche est considérée impure.</p></div>
+      <div class="why"><div class="id">👟 À l'entrée</div><h3>Enlever ses chaussures</h3><p>Avant d'entrer dans une maison, certains commerces ou lieux de culte. Observe et imite.</p></div>
+      <div class="why"><div class="id">😊 Le sourire</div><h3>Senyum</h3><p>On garde son calme et le sourire. Hausser le ton ou « faire perdre la face » en public est très mal vu.</p></div>
+      <div class="why"><div class="id">🕌 Religion</div><h3>Respect &amp; tenue</h3><p>Pays majoritairement musulman (Bali est hindoue). Épaules/genoux couverts dans temples et mosquées.</p></div>
+      <div class="why"><div class="id">⏰ Jam karet</div><h3>« L'heure élastique »</h3><p>La ponctualité est souple. Détends-toi sur les horaires, c'est culturel.</p></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><span class="num">02</span><h2>L'art du marchandage</h2></div>
+    <p class="intro">Au marché (pasar) et pour les souvenirs, négocier est <b>attendu</b> et fait partie du jeu — pas dans les magasins à prix fixe (supermarchés, malls).</p>
+    <div class="gcard">
+      <ol style="margin:0;padding-left:20px;color:#3a4a43;font-size:14.5px;line-height:1.9">
+        <li>Demande le prix avec le sourire : <code>Berapa harganya?</code> <button class="say" data-say="Berapa harganya?">🔊</button></li>
+        <li>Réagis : <code>Terlalu mahal!</code> (trop cher !) <button class="say" data-say="Terlalu mahal">🔊</button></li>
+        <li>Propose moins, contre-propose : <code>Boleh kurang?</code> (on peut baisser ?) <button class="say" data-say="Boleh kurang?">🔊</button></li>
+        <li>Vise environ la moitié du premier prix annoncé, puis remonte doucement.</li>
+        <li>Reste joueur et souriant — si ça bloque, le « je m'en vais » poli fait souvent baisser le prix.</li>
+        <li>Conclu : <code>Oke, saya beli</code> (ok, j'achète) <button class="say" data-say="Oke, saya beli">🔊</button></li>
+      </ol>
+    </div>
+    <div class="tip">💸 Marchande avec le sourire, jamais avec agressivité. Le but est un prix juste pour les deux, pas d'« avoir » le vendeur.</div>
+  </section>
+</section>
+<section class="panel" id="tab-immersion">
+  <section class="block">
+    <div class="block-head"><span class="num">01</span><h2>Musique &amp; sons 🎧</h2></div>
+    <p class="intro">Ta meilleure immersion passive : mets-en en fond quand tu cuisines ou que tu mixes. Une chanson/semaine, lis les paroles (Genius), choppe 5 mots.</p>
+    <div class="why-grid">
+      <div class="why"><div class="id">Pop / indie</div><h3>Pour l'oreille</h3><p>Tulus, Raisa, Pamungkas, NIKI, Hindia, .Feast. Mélodique, articulé, parfait pour repérer les mots.</p></div>
+      <div class="why"><div class="id">Groove / électro</div><h3>Côté club</h3><p><b>Diskoria</b> (disco-funk indonésien rétro, très groovy), <b>Dipha Barus</b>. Pour le vocab de fête et l'ambiance.</p></div>
+      <div class="why"><div class="id">Culture club</div><h3>DWP</h3><p>Le <b>Djakarta Warehouse Project</b>, gros festival électro d'Asie. Bon prétexte pour le lexique « sortir / soirée ».</p></div>
+    </div>
+    <div class="tip">🎚️ Méthode DJ : prends un morceau que tu kifes, isole le refrain, traduis-le ligne par ligne. Tu retiens mieux ce qui a un beat.</div>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><span class="num">02</span><h2>Cuisine 🍜</h2></div>
+    <p class="intro">Apprendre par le ventre. Le vocabulaire culinaire est ultra-rentable : tu commandes mieux, tu lis les menus, et tu peux cuisiner indonésien chez toi.</p>
+    <div class="voc-list" id="food-mount"></div>
+    <div class="gcard" style="margin-top:16px">
+      <h3>Recette express · Nasi Goreng <span class="sub">le riz frit national</span></h3>
+      <p><b>Bahan</b> (ingrédients) : nasi (riz cuit froid), bawang putih (ail), bawang merah (échalote), telur (œuf), kecap manis (sauce soja sucrée), sambal (piment), garam (sel).</p>
+      <p><b>Cara</b> (étapes) : <code>goreng</code> (faire revenir) l'ail + l'échalote → ajoute le riz et le kecap manis → pousse sur le côté, casse un <code>telur</code> → <code>aduk</code> (mélange) le tout → un peu de sambal selon le courage. Sers avec un œuf au plat dessus.</p>
+      <div class="tip">Verbes de cuisine à connaître : <b>goreng</b> (frire), <b>rebus</b> (bouillir), <b>bakar</b> (griller), <b>potong</b> (couper), <b>aduk</b> (mélanger). <button class="say" data-say="goreng, rebus, bakar, potong, aduk">🔊</button></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><span class="num">03</span><h2>La boîte à outils gratuite</h2></div>
+    <p class="intro">Tout ce qu'il te faut sans dépenser un euro. Le tuteur payant reste une option pour plus tard.</p>
+    <div class="why-grid">
+      <div class="why"><div class="id">Quotidien</div><h3>Apps</h3><p><a href="https://www.duolingo.com" target="_blank" rel="noopener">Duolingo</a> (cours indonésien), <a href="https://apps.ankiweb.net" target="_blank" rel="noopener">Anki</a> (révision espacée), Memrise.</p></div>
+      <div class="why"><div class="id">Écoute</div><h3>Cours audio</h3><p>IndonesianPod101 (YouTube + podcast), <a href="https://www.50languages.com" target="_blank" rel="noopener">50languages.com</a> (100 leçons gratuites).</p></div>
+      <div class="why"><div class="id">Immersion</div><h3>Vidéo</h3><p>Language Reactor (extension Chrome) + Netflix/YouTube avec sous-titres double.</p></div>
+      <div class="why"><div class="id">Parler · gratuit</div><h3>Échange</h3><p><a href="https://www.hellotalk.com" target="_blank" rel="noopener">HelloTalk</a>, <a href="https://www.tandem.net" target="_blank" rel="noopener">Tandem</a>, communautés Discord &amp; r/indonesian.</p></div>
+      <div class="why"><div class="id">Dico</div><h3>Référence</h3><p>KBBI (officiel), Sederet.com, Glosbe, Wiktionary pour les affixes.</p></div>
+    </div>
+  </section>
+</section>
+<section class="panel" id="tab-training">
+  <section class="block">
+    <div class="block-head"><span class="num">01</span><h2>Quiz · les nombres</h2></div>
+    <p class="intro">Le nerf de la guerre pour les prix et le marchandage. Lis le chiffre, choisis sa traduction. Le générateur ne se répète jamais.</p>
+    <div class="quiz" id="quiz-num">
+      <div class="q" id="qn-q">—</div>
+      <div class="opts" id="qn-opts"></div>
+      <div class="quiz-foot"><span id="qn-score">Score : 0 / 0</span><button class="btn ghost" id="qn-next">Nouveau →</button></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><span class="num">02</span><h2>Quiz · vocabulaire</h2></div>
+    <p class="intro">Français → indonésien. Tiré de tout ton lexique. Clique 🔊 après coup pour ancrer le son.</p>
+    <div class="quiz" id="quiz-voc">
+      <div class="q" id="qv-q">—</div>
+      <div class="opts" id="qv-opts"></div>
+      <div class="quiz-foot"><span id="qv-score">Score : 0 / 0</span><button class="btn ghost" id="qv-next">Nouveau →</button></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><span class="num">03</span><h2>Pattern drills · production</h2></div>
+    <p class="intro">L'exercice des vrais cours de langue : une structure, tu remplaces un mot. À force, la phrase sort toute seule. Clique un mot pour remplir le trou.</p>
+    <div id="drill-mount"></div>
+  </section>
+</section>
+<section class="panel" id="tab-carnet">
+  <section class="block">
+    <div class="block-head"><span class="num">01</span><h2>Ton carnet de bord</h2></div>
+    <p class="intro">Le vrai moteur de la réussite, ce n'est pas la motivation : c'est la régularité. Logue chaque session, regarde ton streak grandir.</p>
+    <div class="stat-row">
+      <div class="stat"><div class="v" id="st-sessions">0</div><div class="l">Sessions</div></div>
+      <div class="stat"><div class="v" id="st-minutes">0</div><div class="l">Minutes au total</div></div>
+      <div class="stat flame"><div class="v" id="st-streak">0</div><div class="l">🔥 Jours d'affilée</div></div>
+      <div class="stat"><div class="v" id="st-week">0</div><div class="l">Minutes cette semaine</div></div>
+    </div>
+    <div class="log-form">
+      <label>Date<input type="date" id="lg-date"></label>
+      <label>Durée (min)<input type="number" id="lg-min" min="1" max="600" value="20" style="width:90px"></label>
+      <label>Activité
+        <select id="lg-act"><option>Duolingo</option><option>Flashcards</option><option>Grammaire</option><option>Écoute / immersion</option><option>Conversation</option><option>Lecture</option><option>Quiz / drills</option><option>Autre</option></select>
+      </label>
+      <label style="flex:1">Note (facultatif)<input type="text" id="lg-note" placeholder="ex : appris les nombres jusqu'à 1000"></label>
+      <button class="btn" id="lg-add">+ Ajouter</button>
+    </div>
+    <div id="log-mount"></div>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><span class="num">02</span><h2>Prompts d'expression</h2></div>
+    <p class="intro">Produire, c'est progresser. Tire un sujet au sort, puis écris-le OU dis-le à voix haute (30 sec). Idéal à coller dans HelloTalk pour correction.</p>
+    <div class="prompt-box">
+      <div class="pk">Ton sujet du jour</div>
+      <div class="pt" id="prompt-text">Clique pour tirer un sujet →</div>
+    </div>
+    <button class="btn alt" id="prompt-draw">🎲 Tirer un sujet</button>
+  </section>
+</section>
+
+</main>
+
+<footer class="wrap">
+  <div class="ttd">Sampai jumpa di Indonesia ! 🌴</div>
+  <p>« À bientôt en Indonésie » — l'objectif tient en une phrase.</p>
+  <p>Ta progression, ton carnet et tes flashcards sont sauvegardés automatiquement sur cet appareil.</p>
+  <button class="reset" id="reset-btn">↺ Réinitialiser toutes mes données</button>
+</footer>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- STORE (window.storage + fallback localStorage) ---------- */
+var PFX="bahasa:";
+var hasWS = (typeof window!=="undefined" && window.storage && typeof window.storage.get==="function");
+var Store={
+  async get(k){
+    if(hasWS){ try{ var r=await window.storage.get(PFX+k); return r?r.value:null; }catch(e){ return null; } }
+    try{ var v=localStorage.getItem(PFX+k); return v==null?null:v; }catch(e){ return null; }
+  },
+  async set(k,v){
+    if(hasWS){ try{ await window.storage.set(PFX+k,String(v)); return; }catch(e){} }
+    try{ localStorage.setItem(PFX+k,String(v)); }catch(e){}
+  },
+  async del(k){
+    if(hasWS){ try{ await window.storage.delete(PFX+k); return; }catch(e){} }
+    try{ localStorage.removeItem(PFX+k); }catch(e){}
+  }
+};
+var $=function(s,c){return (c||document).querySelector(s);};
+var $$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s));};
+
+/* ---------- AUDIO (Web Speech API id-ID) ---------- */
+var idVoice=null;
+function loadVoice(){ try{ var vs=speechSynthesis.getVoices(); idVoice=vs.find(function(v){return /id(-|_)?ID/i.test(v.lang)||/indones/i.test(v.name);})||null; }catch(e){} }
+if("speechSynthesis" in window){ loadVoice(); try{ speechSynthesis.onvoiceschanged=loadVoice; }catch(e){} }
+function say(t){ if(!("speechSynthesis" in window)||!t)return; try{ speechSynthesis.cancel(); var u=new SpeechSynthesisUtterance(t); u.lang="id-ID"; if(idVoice)u.voice=idVoice; u.rate=.88; speechSynthesis.speak(u); }catch(e){} }
+document.addEventListener("click",function(e){ var el=e.target.closest("[data-say]"); if(el){ e.preventDefault(); say(el.getAttribute("data-say")); } });
+
+/* ---------- NAV ---------- */
+$$("#nav button").forEach(function(b){
+  b.addEventListener("click",function(){
+    var t=b.getAttribute("data-tab");
+    $$("#nav button").forEach(function(x){x.classList.toggle("on",x===b);});
+    $$(".panel").forEach(function(p){p.classList.toggle("on",p.id==="tab-"+t);});
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+});
+
+/* ---------- COUNTDOWN ---------- */
+(function(){
+  var target=new Date("2027-03-01T00:00:00");
+  var diff=Math.max(0,Math.ceil((target-new Date())/86400000));
+  var d=$("#cd-days"); if(d) d.textContent="J-"+diff;
+  var s=$("#cd-sub"); if(s) s.textContent="≈ "+Math.round(diff/7)+" semaines pour devenir opérationnel";
+})();
+
+/* ---------- PROGRESSION (toutes les .task) ---------- */
+var CIRC=213.6;
+async function loadChecks(){
+  var tasks=$$(".task input[type=checkbox]");
+  for(var i=0;i<tasks.length;i++){
+    var id=tasks[i].getAttribute("data-id");
+    var v=await Store.get("chk:"+id);
+    tasks[i].checked=(v==="1");
+  }
+  refreshProgress();
+}
+function refreshProgress(){
+  var tasks=$$(".task input[type=checkbox]");
+  var done=tasks.filter(function(t){return t.checked;}).length;
+  var total=tasks.length;
+  var pct=total?Math.round(done/total*100):0;
+  var pe=$("#pct"); if(pe)pe.textContent=pct;
+  var dc=$("#done-count"); if(dc)dc.textContent=done;
+  var tc=$("#total-count"); if(tc)tc.textContent=total;
+  var rf=$("#ring-fill"); if(rf)rf.setAttribute("stroke-dashoffset",(CIRC*(1-pct/100)).toFixed(1));
+  $$(".checks").forEach(function(box){
+    var ins=$$(".task input",box);
+    var dn=ins.filter(function(t){return t.checked;}).length;
+    var cnt=$(".cnt",box); if(cnt)cnt.textContent=dn;
+  });
+}
+document.addEventListener("change",function(e){
+  var t=e.target;
+  if(t&&t.matches&&t.matches(".task input[type=checkbox]")){
+    Store.set("chk:"+t.getAttribute("data-id"), t.checked?"1":"0");
+    refreshProgress();
+  }
+});
+
+/* ================= DONNÉES VOCAB ================= */
+var VOCAB=[
+  {theme:"Salutations & politesse", items:[
+    {fr:"bonjour (matin)",id:"selamat pagi"},{fr:"bonjour (midi)",id:"selamat siang"},
+    {fr:"bonsoir / bonne nuit",id:"selamat malam"},{fr:"au revoir (à qui part)",id:"selamat jalan"},
+    {fr:"au revoir (à qui reste)",id:"selamat tinggal"},{fr:"à bientôt",id:"sampai jumpa"},
+    {fr:"merci",id:"terima kasih"},{fr:"de rien",id:"sama-sama"},{fr:"s'il te plaît (demande)",id:"tolong"},
+    {fr:"je t'en prie / vas-y",id:"silakan"},{fr:"pardon / désolé",id:"maaf"},{fr:"excusez-moi (passer)",id:"permisi"},
+    {fr:"oui",id:"ya"},{fr:"non / ne pas",id:"tidak"},{fr:"comment ça va ?",id:"apa kabar?"},
+    {fr:"ça va bien",id:"kabar baik"},{fr:"monsieur",id:"Pak"},{fr:"madame",id:"Bu"}
+  ]},
+  {theme:"Personnes & famille", items:[
+    {fr:"je / moi",id:"saya"},{fr:"je (familier)",id:"aku"},{fr:"tu / toi",id:"kamu"},
+    {fr:"vous (poli)",id:"Anda"},{fr:"il / elle",id:"dia"},{fr:"nous (avec toi)",id:"kita"},
+    {fr:"nous (sans toi)",id:"kami"},{fr:"ils / elles",id:"mereka"},{fr:"ami",id:"teman"},
+    {fr:"famille",id:"keluarga"},{fr:"mère",id:"ibu"},{fr:"père",id:"ayah"},{fr:"enfant",id:"anak"},
+    {fr:"homme",id:"laki-laki"},{fr:"femme",id:"perempuan"},{fr:"nom",id:"nama"}
+  ]},
+  {theme:"Nombres", items:[
+    {fr:"zéro",id:"nol"},{fr:"un",id:"satu"},{fr:"deux",id:"dua"},{fr:"trois",id:"tiga"},
+    {fr:"quatre",id:"empat"},{fr:"cinq",id:"lima"},{fr:"six",id:"enam"},{fr:"sept",id:"tujuh"},
+    {fr:"huit",id:"delapan"},{fr:"neuf",id:"sembilan"},{fr:"dix",id:"sepuluh"},{fr:"onze",id:"sebelas"},
+    {fr:"vingt",id:"dua puluh"},{fr:"cent",id:"seratus"},{fr:"mille",id:"seribu"},
+    {fr:"dix mille",id:"sepuluh ribu"},{fr:"cent mille",id:"seratus ribu"},{fr:"un million",id:"satu juta"}
+  ]},
+  {theme:"Temps", items:[
+    {fr:"aujourd'hui",id:"hari ini"},{fr:"demain",id:"besok"},{fr:"hier",id:"kemarin"},
+    {fr:"maintenant",id:"sekarang"},{fr:"plus tard",id:"nanti"},{fr:"jour",id:"hari"},
+    {fr:"semaine",id:"minggu"},{fr:"mois",id:"bulan"},{fr:"année",id:"tahun"},{fr:"heure",id:"jam"},
+    {fr:"matin",id:"pagi"},{fr:"après-midi",id:"sore"},{fr:"nuit",id:"malam"},{fr:"lundi",id:"Senin"},
+    {fr:"samedi",id:"Sabtu"},{fr:"dimanche",id:"Minggu"}
+  ]},
+  {theme:"Nourriture & boisson", items:[
+    {fr:"manger",id:"makan"},{fr:"boire",id:"minum"},{fr:"eau",id:"air"},{fr:"riz",id:"nasi"},
+    {fr:"poulet",id:"ayam"},{fr:"poisson",id:"ikan"},{fr:"légume",id:"sayur"},{fr:"fruit",id:"buah"},
+    {fr:"café",id:"kopi"},{fr:"thé",id:"teh"},{fr:"bière",id:"bir"},{fr:"délicieux",id:"enak"},
+    {fr:"épicé / piquant",id:"pedas"},{fr:"sucré",id:"manis"},{fr:"l'addition",id:"bon / nota"},
+    {fr:"petit resto local",id:"warung"},{fr:"petit-déjeuner",id:"sarapan"},{fr:"sans piment",id:"tidak pedas"}
+  ]},
+  {theme:"Transport & directions", items:[
+    {fr:"où ?",id:"di mana?"},{fr:"gauche",id:"kiri"},{fr:"droite",id:"kanan"},{fr:"tout droit",id:"lurus"},
+    {fr:"ici",id:"di sini"},{fr:"là-bas",id:"di sana"},{fr:"loin",id:"jauh"},{fr:"près",id:"dekat"},
+    {fr:"aéroport",id:"bandara"},{fr:"gare",id:"stasiun"},{fr:"bus",id:"bus"},{fr:"train",id:"kereta"},
+    {fr:"taxi",id:"taksi"},{fr:"moto",id:"motor"},{fr:"aller",id:"pergi"},{fr:"s'arrêter",id:"berhenti"},
+    {fr:"billet",id:"tiket"}
+  ]},
+  {theme:"Hébergement", items:[
+    {fr:"hôtel",id:"hotel"},{fr:"chambre",id:"kamar"},{fr:"clé",id:"kunci"},{fr:"lit",id:"tempat tidur"},
+    {fr:"salle de bain",id:"kamar mandi"},{fr:"climatisation",id:"AC"},{fr:"serviette",id:"handuk"},
+    {fr:"réserver",id:"pesan"},{fr:"propre",id:"bersih"},{fr:"sale",id:"kotor"}
+  ]},
+  {theme:"Argent & marché", items:[
+    {fr:"argent",id:"uang"},{fr:"prix",id:"harga"},{fr:"cher",id:"mahal"},{fr:"bon marché",id:"murah"},
+    {fr:"combien ?",id:"berapa?"},{fr:"acheter",id:"beli"},{fr:"payer",id:"bayar"},{fr:"marché",id:"pasar"},
+    {fr:"magasin",id:"toko"},{fr:"carte bancaire",id:"kartu"},{fr:"on peut baisser ?",id:"boleh kurang?"},
+    {fr:"trop cher",id:"terlalu mahal"}
+  ]},
+  {theme:"Verbes essentiels", items:[
+    {fr:"vouloir",id:"mau"},{fr:"pouvoir (capable)",id:"bisa"},{fr:"pouvoir (permission)",id:"boleh"},
+    {fr:"avoir",id:"punya"},{fr:"il y a",id:"ada"},{fr:"savoir",id:"tahu"},{fr:"comprendre",id:"mengerti"},
+    {fr:"aimer",id:"suka"},{fr:"aider",id:"bantu"},{fr:"chercher",id:"cari"},{fr:"donner",id:"kasih"},
+    {fr:"prendre",id:"ambil"},{fr:"attendre",id:"tunggu"},{fr:"voir / regarder",id:"lihat"},
+    {fr:"parler",id:"bicara"},{fr:"dormir",id:"tidur"},{fr:"venir",id:"datang"}
+  ]},
+  {theme:"Adjectifs utiles", items:[
+    {fr:"grand",id:"besar"},{fr:"petit",id:"kecil"},{fr:"bon (qualité)",id:"bagus"},{fr:"gentil",id:"baik"},
+    {fr:"mauvais / moche",id:"jelek"},{fr:"chaud",id:"panas"},{fr:"froid",id:"dingin"},{fr:"nouveau",id:"baru"},
+    {fr:"vieux (âge)",id:"tua"},{fr:"ancien (durée)",id:"lama"},{fr:"content",id:"senang"},
+    {fr:"fatigué",id:"capek"},{fr:"beau (homme)",id:"ganteng"},{fr:"joli (femme)",id:"cantik"}
+  ]},
+  {theme:"Urgence & santé", items:[
+    {fr:"à l'aide !",id:"tolong!"},{fr:"médecin",id:"dokter"},{fr:"hôpital",id:"rumah sakit"},
+    {fr:"pharmacie",id:"apotek"},{fr:"police",id:"polisi"},{fr:"malade",id:"sakit"},
+    {fr:"mal de tête",id:"sakit kepala"},{fr:"mal au ventre",id:"sakit perut"},{fr:"allergie",id:"alergi"},
+    {fr:"j'ai besoin de…",id:"saya butuh"},{fr:"je ne comprends pas",id:"saya tidak mengerti"}
+  ]},
+  {theme:"Petits mots & connecteurs", items:[
+    {fr:"et",id:"dan"},{fr:"ou",id:"atau"},{fr:"mais",id:"tapi"},{fr:"parce que",id:"karena"},
+    {fr:"donc",id:"jadi"},{fr:"si",id:"kalau"},{fr:"avec",id:"dengan"},{fr:"pour",id:"untuk"},
+    {fr:"aussi",id:"juga"},{fr:"très",id:"sangat"},{fr:"déjà",id:"sudah"},{fr:"pas encore",id:"belum"},
+    {fr:"encore",id:"masih"},{fr:"un peu",id:"sedikit"},{fr:"beaucoup",id:"banyak"}
+  ]}
+];
+var FLAT=[]; VOCAB.forEach(function(t){t.items.forEach(function(it){FLAT.push(Object.assign({theme:t.theme},it));});});
+
+/* ---------- VOCAB LISTS ---------- */
+(function(){
+  var m=$("#vocab-mount"); if(!m)return;
+  VOCAB.forEach(function(t){
+    var h=document.createElement("div"); h.style.marginBottom="22px";
+    var lst="";
+    t.items.forEach(function(it){
+      lst+='<div class="voc"><span class="fr">'+it.fr+'</span><span class="id">'+it.id+'</span><button class="say" data-say="'+it.id.replace(/"/g,"")+'">🔊</button></div>';
+    });
+    h.innerHTML='<h3 style="font-family:Fraunces;font-size:19px;margin:0 0 10px">'+t.theme+'</h3><div class="voc-list">'+lst+'</div>';
+    m.appendChild(h);
+  });
+})();
+
+/* ---------- FOOD (immersion) ---------- */
+(function(){
+  var m=$("#food-mount"); if(!m)return;
+  var food=[["plat",""],["nasi goreng","riz frit"],["mie goreng","nouilles sautées"],["sate","brochettes"],
+    ["rendang","bœuf mijoté épicé"],["gado-gado","salade & sauce cacahuète"],["soto","soupe"],["bakso","boulettes"],
+    ["tempe","soja fermenté"],["sambal","sauce piment"],["kecap manis","soja sucré"],["nasi padang","riz & plats variés"]];
+  food.forEach(function(f){
+    if(!f[1]){return;}
+    var d=document.createElement("div"); d.className="voc";
+    d.innerHTML='<span class="fr">'+f[1]+'</span><span class="id">'+f[0]+'</span><button class="say" data-say="'+f[0]+'">🔊</button>';
+    m.appendChild(d);
+  });
+})();
+
+/* ---------- FLASHCARDS ---------- */
+(function(){
+  var card=$("#flashcard"); if(!card)return;
+  var themes=["Tout"].concat(VOCAB.map(function(t){return t.theme;}));
+  var filter=$("#flash-filter");
+  themes.forEach(function(th,i){
+    var b=document.createElement("button"); b.className="chip"+(i===0?" on":""); b.textContent=th; b.setAttribute("data-th",th);
+    filter.appendChild(b);
+  });
+  var deck=FLAT.slice(), idx=0, known={};
+  Store.get("known").then(function(v){ if(v){try{known=JSON.parse(v);}catch(e){known={};}} buildDeck("Tout"); });
+
+  function buildDeck(th){
+    deck=(th==="Tout"?FLAT:FLAT.filter(function(x){return x.theme===th;})).filter(function(x){return !known[x.id];});
+    if(deck.length===0){ deck=(th==="Tout"?FLAT:FLAT.filter(function(x){return x.theme===th;})).slice(); }
+    shuffle(deck); idx=0; render();
+  }
+  function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}}
+  function render(){
+    if(!deck.length)return;
+    var it=deck[idx%deck.length];
+    card.classList.remove("flip");
+    $("#fc-fr").textContent=it.fr;
+    $("#fc-id").textContent=it.id;
+    $("#fc-hint").textContent="";
+    $("#flash-meta").textContent=(idx%deck.length+1)+" / "+deck.length+" · cartes à apprendre";
+    card._cur=it;
+  }
+  card.addEventListener("click",function(){ card.classList.toggle("flip"); });
+  $("#fc-say").addEventListener("click",function(){ if(card._cur)say(card._cur.id); });
+  $("#fc-next").addEventListener("click",function(){ idx++; render(); });
+  $("#fc-known").addEventListener("click",function(){ if(card._cur){known[card._cur.id]=1; Store.set("known",JSON.stringify(known)); deck.splice(idx%deck.length,1); if(!deck.length){$("#flash-meta").textContent="🎉 Thème terminé ! Réinitialise pour recommencer.";card.classList.remove("flip");$("#fc-fr").textContent="Bravo";$("#fc-id").textContent="Selamat!";return;} idx=idx%deck.length; render(); } });
+  $("#fc-review").addEventListener("click",function(){ idx++; render(); });
+  $("#fc-resetknown").addEventListener("click",function(){ known={}; Store.set("known",JSON.stringify(known)); var on=$("#flash-filter .chip.on"); buildDeck(on?on.getAttribute("data-th"):"Tout"); });
+  filter.addEventListener("click",function(e){ var b=e.target.closest(".chip"); if(!b)return; $$(".chip",filter).forEach(function(x){x.classList.toggle("on",x===b);}); buildDeck(b.getAttribute("data-th")); });
+})();
+
+/* ---------- ANKI EXPORT ---------- */
+(function(){
+  var btn=$("#anki-dl"); if(!btn)return;
+  btn.addEventListener("click",function(){
+    var lines=FLAT.map(function(x){return x.id+"\t"+x.fr+"\t"+x.theme;});
+    var blob=new Blob([lines.join("\n")],{type:"text/plain;charset=utf-8"});
+    var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="deck-indonesien-anki.txt";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  });
+})();
+
+/* ---------- PHRASES DE SURVIE ---------- */
+(function(){
+  var m=$("#phrases-mount"); if(!m)return;
+  var groups=[
+    {g:"L'essentiel",rows:[["Bonjour (journée)","Selamat siang"],["Merci (beaucoup)","Terima kasih (banyak)"],["Oui / Non","Ya / Tidak"],["Pardon, excusez-moi","Maaf / Permisi"],["Je ne comprends pas","Saya tidak mengerti"],["Parlez-vous anglais ?","Bisa bahasa Inggris?"],["Comment dit-on… ?","Bagaimana bilang…?"]]},
+    {g:"Se débrouiller",rows:[["Où sont les toilettes ?","Di mana toilet?"],["Combien ça coûte ?","Berapa harganya?"],["C'est trop cher","Terlalu mahal"],["On peut baisser ?","Boleh kurang?"],["Je voudrais ceci","Saya mau ini"],["L'addition svp","Minta bon"],["Sans piment","Tidak pedas"]]},
+    {g:"Urgence",rows:[["À l'aide !","Tolong!"],["J'ai besoin d'un médecin","Saya butuh dokter"],["Appelez la police","Panggil polisi"],["Je suis malade","Saya sakit"],["Où est l'hôpital ?","Di mana rumah sakit?"]]},
+    {g:"Sympathiser",rows:[["Comment ça va ?","Apa kabar?"],["Ça va bien","Kabar baik"],["Je m'appelle…","Nama saya…"],["Enchanté","Senang bertemu"],["D'où venez-vous ?","Dari mana?"],["Je viens de France","Saya dari Prancis"]]}
+  ];
+  groups.forEach(function(gr){
+    var tr=document.createElement("tr"); tr.className="grp"; tr.innerHTML='<td colspan="3">'+gr.g+'</td>'; m.appendChild(tr);
+    gr.rows.forEach(function(r){
+      var row=document.createElement("tr");
+      row.innerHTML='<td>'+r[0]+'</td><td class="id-word">'+r[1]+'</td><td><button class="say" data-say="'+r[1].replace(/"/g,"")+'">🔊</button></td>';
+      m.appendChild(row);
+    });
+  });
+})();
+
+/* ---------- DIALOGUES ---------- */
+(function(){
+  var m=$("#dialogues-mount"); if(!m)return;
+  var scenes=[
+    {t:"🛺 Prendre un taxi / Grab",lines:[["Vous","Pak, ke Malioboro berapa?","Monsieur, combien pour Malioboro ?"],["Chauffeur","Lima puluh ribu.","50 000 roupies."],["Vous","Mahal! Empat puluh ribu, boleh?","Cher ! 40 000, possible ?"],["Chauffeur","Oke, naik.","Ok, montez."]]},
+    {t:"🍜 Commander au warung",lines:[["Vous","Mbak, ada nasi goreng?","Mademoiselle, il y a du nasi goreng ?"],["Serveuse","Ada. Pedas atau tidak?","Oui. Épicé ou pas ?"],["Vous","Tidak pedas, ya. Sama es teh.","Pas épicé. Avec un thé glacé."],["Serveuse","Baik, tunggu sebentar.","Bien, un instant."]]},
+    {t:"🏨 À l'hôtel",lines:[["Vous","Ada kamar kosong malam ini?","Une chambre libre ce soir ?"],["Réception","Ada. Berapa malam?","Oui. Combien de nuits ?"],["Vous","Dua malam. Ada AC dan wifi?","Deux nuits. Il y a clim et wifi ?"],["Réception","Ada semua.","Tout y est."]]},
+    {t:"🛍️ Marchander au marché",lines:[["Vous","Ini berapa, Bu?","C'est combien, madame ?"],["Vendeuse","Seratus ribu.","100 000."],["Vous","Wah, mahal. Boleh kurang? Tujuh puluh?","Oh, cher. On baisse ? 70 ?"],["Vendeuse","Delapan puluh, deh.","Allez, 80."],["Vous","Oke, saya beli.","Ok, j'achète."]]}
+  ];
+  scenes.forEach(function(s){
+    var c=document.createElement("div"); c.className="gcard";
+    var html='<h3>'+s.t+'</h3>';
+    s.lines.forEach(function(l){
+      html+='<p style="margin:8px 0"><b style="font-family:Space Mono;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#6C786F">'+l[0]+'</b><br><span class="id-word" style="color:#16564C;font-weight:600">'+l[1]+'</span> <button class="say" data-say="'+l[1].replace(/"/g,"")+'">🔊</button><br><em style="color:#6C786F;font-size:13.5px">'+l[2]+'</em></p>';
+    });
+    c.innerHTML=html; m.appendChild(c);
+  });
+})();
+
+/* ---------- CALENDRIER 36 SEMAINES ---------- */
+(function(){
+  var m=$("#cal-mount"); if(!m)return;
+  var P1=[
+    ["Démarrage","Alphabet & prononciation","Salutations & politesse","Installer Duolingo + écrire 5 salutations"],
+    ["Se présenter","Pronoms personnels","Personnes & famille","Te présenter à voix haute (nom, origine)"],
+    ["Compter I","Nombres 0–100","Nombres","Dire 10 prix à voix haute"],
+    ["Compter II","Nombres 100–1M & argent","Argent & marché","Lire des étiquettes de prix indonésiennes"],
+    ["Le quotidien","Phrase SVO simple","Nourriture & boisson","Écrire 5 phrases 'je mange/bois…'"],
+    ["Questions","apa / siapa / di mana","Petits mots","Poser 5 questions à un partenaire de langue"],
+    ["Au resto","Commander, vouloir (mau)","Nourriture (suite)","Simuler une commande au warung"],
+    ["Dire non","tidak vs bukan","Adjectifs utiles","Décrire 5 objets (grand/petit/cher…)"],
+    ["Le temps","sudah / sedang / akan","Temps","Raconter ta journée au présent"],
+    ["Se repérer","Directions de base","Transport & directions","Demander son chemin en jeu de rôle"],
+    ["Consolidation","Révision grammaire P1","Révision vocab","Conversation écrite de 8 messages"],
+    ["Bilan A1","Auto-test","Tout P1","Te filmer 1 min en indonésien"]
+  ];
+  var P2=[
+    ["Verbes ber-","Préfixe ber-","Verbes essentiels","Former 10 verbes en ber-"],
+    ["Verbes me(N)- I","Préfixe me(N)- & nasalisation","Verbes (actions)","Transformer 10 racines en me(N)-"],
+    ["Verbes me(N)- II","me(N)- approfondi","Verbes (suite)","Écrire un paragraphe au présent"],
+    ["Le passif","Préfixe di-","Vie quotidienne","Réécrire 5 phrases à la voix passive"],
+    ["Aspect fin","belum / masih / pernah","Temps (suite)","Parler d'une expérience passée (pernah)"],
+    ["Comparer","lebih… daripada, paling","Adjectifs (suite)","Comparer 5 paires d'objets"],
+    ["Classificateurs","orang / ekor / buah","Objets & quantités","Compter 10 choses avec le bon mot"],
+    ["Reduplication","Pluriel & nuances","Vie sociale","Repérer 5 mots redoublés dans une chanson"],
+    ["Relier ses idées","dan / tapi / karena / jadi","Connecteurs","Écrire un paragraphe relié (5 phrases)"],
+    ["Au passé","kemarin / tadi + récit","Verbes du quotidien","Raconter ta journée d'hier (oral)"],
+    ["Intro gaul","gue/lo/nggak/banget","Bahasa gaul","Réécrire 5 phrases en version slang"],
+    ["Bilan A2","Auto-test","Tout P2","Note vocale de 1 min à un partenaire"]
+  ];
+  var P3=[
+    ["Transport réel","Gojek/Grab, négocier course","Transport","Simuler une réservation de course"],
+    ["Marchandage","boleh kurang, contre-offre","Argent & marché","Marchander un prix en entier (oral)"],
+    ["Resto avancé","Préférences, allergies","Nourriture","Commander en gérant le piment & allergies"],
+    ["Hébergement","Réserver, problèmes de chambre","Hébergement","Jeu de rôle check-in complet"],
+    ["Santé / urgence","Décrire un symptôme","Urgence & santé","Simuler une visite chez le médecin"],
+    ["Demander son chemin","Directions complexes","Directions (suite)","Te faire guider d'un point A à B"],
+    ["Small talk","Conversation informelle + gaul","Vie sociale","10 min de chat vocal avec un natif"],
+    ["Culture en situation","Politesse, Pak/Bu, marchander","Culture","Appliquer 5 codes culturels en jeu de rôle"],
+    ["Immersion film","Sous-titres + Language Reactor","Lexique de l'écoute","Un épisode avec sous-titres doubles"],
+    ["Shadowing intensif","Imitation rythme & accent","Phrases clés","Shadower 10 phrases parfaitement"],
+    ["Simulations voyage","Enchaîner les scénarios","Tout le voyage","5 situations voyage d'affilée (oral)"],
+    ["Bilan B1","Conversation libre 5 min","Antisèche perso","Finaliser ta fiche de survie de voyage"]
+  ];
+  function block(arr,ph){
+    arr.forEach(function(w,i){
+      var d=document.createElement("div"); d.className="week p"+ph; d.setAttribute("data-ph",String(ph));
+      var num=(ph-1)*12+i+1;
+      d.innerHTML='<div class="wk">Semaine '+num+' · Phase '+ph+'</div><h4>'+w[0]+'</h4>'+
+        '<div class="row"><b>Gram.</b> '+w[1]+'</div>'+
+        '<div class="row"><b>Vocab.</b> '+w[2]+'</div>'+
+        '<div class="mission">🎯 '+w[3]+'</div>';
+      m.appendChild(d);
+    });
+  }
+  block(P1,1); block(P2,2); block(P3,3);
+  $("#cal-filter").addEventListener("click",function(e){
+    var b=e.target.closest(".chip"); if(!b)return;
+    $$("#cal-filter .chip").forEach(function(x){x.classList.toggle("on",x===b);});
+    var ph=b.getAttribute("data-ph");
+    $$(".week",m).forEach(function(w){ w.style.display=(ph==="all"||w.getAttribute("data-ph")===ph)?"":"none"; });
+  });
+})();
+
+/* ---------- NOMBRES → INDONÉSIEN ---------- */
+function numID(n){
+  if(n===0)return "nol";
+  var sat=["","satu","dua","tiga","empat","lima","enam","tujuh","delapan","sembilan"];
+  function below1000(x){
+    var s="",ratus=Math.floor(x/100),sisa=x%100;
+    if(ratus>0){ s+=(ratus===1?"seratus":sat[ratus]+" ratus"); if(sisa)s+=" "; }
+    if(sisa>0){
+      if(sisa<10)s+=sat[sisa];
+      else if(sisa===10)s+="sepuluh";
+      else if(sisa===11)s+="sebelas";
+      else if(sisa<20)s+=sat[sisa-10]+" belas";
+      else{ var p=Math.floor(sisa/10),u=sisa%10; s+=sat[p]+" puluh"+(u?" "+sat[u]:""); }
+    }
+    return s;
+  }
+  var s="",ribu=Math.floor(n/1000),sisa=n%1000;
+  if(ribu>0){ s+=(ribu===1?"seribu":below1000(ribu)+" ribu"); if(sisa)s+=" "; }
+  if(sisa>0)s+=below1000(sisa);
+  return s.trim();
+}
+
+/* ---------- QUIZ NOMBRES ---------- */
+(function(){
+  var box=$("#quiz-num"); if(!box)return;
+  var score=0,total=0,answered=false;
+  function rnd(max){return Math.floor(Math.random()*max);}
+  function gen(){
+    answered=false;
+    var pools=[function(){return rnd(20);},function(){return 10+rnd(90);},function(){return 100+rnd(900);},function(){return 1000+rnd(9000);}];
+    var n=pools[rnd(pools.length)](); if(n===0)n=7;
+    var correct=numID(n);
+    var opts=[correct];
+    while(opts.length<4){ var m2=Math.max(1,n+(rnd(7)-3)+rnd(40)-20); if(m2<0)m2=rnd(100); var w=numID(m2); if(opts.indexOf(w)<0&&w)opts.push(w); }
+    shuffle(opts);
+    $("#qn-q").innerHTML='Comment dit-on <span style="color:#C03E29">'+n.toLocaleString("fr-FR")+'</span> ?';
+    var o=$("#qn-opts"); o.innerHTML="";
+    opts.forEach(function(op){
+      var b=document.createElement("button"); b.className="opt"; b.textContent=op;
+      b.addEventListener("click",function(){
+        if(answered)return; answered=true; total++;
+        if(op===correct){ b.classList.add("good"); score++; say(correct); }
+        else{ b.classList.add("bad"); $$("#qn-opts .opt").forEach(function(x){if(x.textContent===correct)x.classList.add("good");}); }
+        $("#qn-score").textContent="Score : "+score+" / "+total;
+      });
+      o.appendChild(b);
+    });
+  }
+  function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}}
+  $("#qn-next").addEventListener("click",gen); gen();
+})();
+
+/* ---------- QUIZ VOCAB ---------- */
+(function(){
+  var box=$("#quiz-voc"); if(!box)return;
+  var score=0,total=0,answered=false;
+  function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}}
+  function gen(){
+    answered=false;
+    var pool=FLAT.slice(); shuffle(pool);
+    var it=pool[0], correct=it.id;
+    var opts=[it]; var k=1;
+    while(opts.length<4&&k<pool.length){ if(pool[k].id!==correct&&!opts.some(function(x){return x.id===pool[k].id;}))opts.push(pool[k]); k++; }
+    shuffle(opts);
+    $("#qv-q").innerHTML='« <span style="color:#C03E29">'+it.fr+'</span> » se dit…';
+    var o=$("#qv-opts"); o.innerHTML="";
+    opts.forEach(function(op){
+      var b=document.createElement("button"); b.className="opt"; b.textContent=op.id;
+      b.addEventListener("click",function(){
+        if(answered)return; answered=true; total++;
+        if(op.id===correct){ b.classList.add("good"); score++; }
+        else{ b.classList.add("bad"); $$("#qv-opts .opt").forEach(function(x){if(x.textContent===correct)x.classList.add("good");}); }
+        say(correct);
+        $("#qv-score").textContent="Score : "+score+" / "+total;
+      });
+      o.appendChild(b);
+    });
+  }
+  $("#qv-next").addEventListener("click",gen); gen();
+})();
+
+/* ---------- PATTERN DRILLS ---------- */
+(function(){
+  var m=$("#drill-mount"); if(!m)return;
+  var drills=[
+    {frame:"Saya mau ___.",tr:"Je veux ___.",chips:[["kopi","un café"],["nasi goreng","du riz frit"],["air putih","de l'eau"],["teh manis","un thé sucré"]]},
+    {frame:"Di mana ___?",tr:"Où est ___ ?",chips:[["toilet","les toilettes"],["hotel","l'hôtel"],["stasiun","la gare"],["pasar","le marché"]]},
+    {frame:"Ini ___.",tr:"C'est ___.",chips:[["enak","délicieux"],["mahal","cher"],["bagus","bien"],["murah","bon marché"]]},
+    {frame:"Saya tidak ___.",tr:"Je ne ___ pas.",chips:[["mengerti","comprends"],["suka","aime"],["tahu","sais"],["mau","veux"]]},
+    {frame:"Saya sudah ___.",tr:"J'ai déjà ___.",chips:[["makan","mangé"],["bayar","payé"],["pesan","réservé"],["sampai","suis arrivé"]]}
+  ];
+  drills.forEach(function(d){
+    var el=document.createElement("div"); el.className="drill";
+    el.innerHTML='<div class="frame">'+d.frame.replace("___",'<span class="blank">…</span>')+'</div><div class="tr">'+d.tr+'</div>';
+    var ch=document.createElement("div"); ch.className="chips";
+    d.chips.forEach(function(c){
+      var b=document.createElement("button"); b.className="chip"; b.textContent=c[0];
+      b.addEventListener("click",function(){
+        var built=d.frame.replace("___",c[0]);
+        $(".frame",el).innerHTML=d.frame.replace("___",'<span class="built">'+c[0]+'</span>');
+        $(".tr",el).innerHTML=d.tr.replace("___","<b>"+c[1]+"</b>");
+        say(built);
+        $$(".chip",ch).forEach(function(x){x.classList.toggle("on",x===b);});
+      });
+      ch.appendChild(b);
+    });
+    el.appendChild(ch); m.appendChild(el);
+  });
+})();
+
+/* ---------- CARNET / LOG ---------- */
+(function(){
+  var addBtn=$("#lg-add"); if(!addBtn)return;
+  var dateInput=$("#lg-date");
+  if(dateInput) dateInput.value=new Date().toISOString().slice(0,10);
+  var log=[];
+  Store.get("log").then(function(v){ if(v){try{log=JSON.parse(v);}catch(e){log=[];}} render(); });
+
+  function save(){ Store.set("log",JSON.stringify(log)); }
+  function streak(){
+    if(!log.length)return 0;
+    var days={}; log.forEach(function(e){days[e.date]=1;});
+    var s=0, d=new Date();
+    // tolère : si rien aujourd'hui mais hier oui, on part d'hier
+    var key=d.toISOString().slice(0,10);
+    if(!days[key]){ d.setDate(d.getDate()-1); key=d.toISOString().slice(0,10); if(!days[key])return 0; }
+    while(days[d.toISOString().slice(0,10)]){ s++; d.setDate(d.getDate()-1); }
+    return s;
+  }
+  function weekMin(){
+    var now=new Date(); var monday=new Date(now); var day=(now.getDay()+6)%7; monday.setDate(now.getDate()-day); monday.setHours(0,0,0,0);
+    return log.reduce(function(a,e){ return new Date(e.date)>=monday?a+(+e.min||0):a; },0);
+  }
+  function render(){
+    $("#st-sessions").textContent=log.length;
+    $("#st-minutes").textContent=log.reduce(function(a,e){return a+(+e.min||0);},0);
+    $("#st-streak").textContent=streak();
+    $("#st-week").textContent=weekMin();
+    var m=$("#log-mount"); m.innerHTML="";
+    if(!log.length){ m.innerHTML='<p style="color:#6C786F;font-size:14px">Aucune session pour l\'instant. Ajoute ta première ligne ☝️</p>'; return; }
+    log.slice().sort(function(a,b){return b.date<a.date?-1:1;}).forEach(function(e){
+      var div=document.createElement("div"); div.className="logitem";
+      div.innerHTML='<div><span class="d">'+e.date+'</span> · <b>'+e.act+'</b> · '+e.min+' min'+(e.note?' — <span style="color:#6C786F">'+e.note+'</span>':'')+'</div>';
+      var rm=document.createElement("button"); rm.className="rm"; rm.textContent="×"; rm.title="Supprimer";
+      rm.addEventListener("click",function(){ var i=log.indexOf(e); if(i>=0){log.splice(i,1); save(); render();} });
+      div.appendChild(rm); m.appendChild(div);
+    });
+  }
+  addBtn.addEventListener("click",function(){
+    var date=dateInput.value||new Date().toISOString().slice(0,10);
+    var min=parseInt($("#lg-min").value,10)||0;
+    if(min<=0){return;}
+    log.push({date:date,min:min,act:$("#lg-act").value,note:($("#lg-note").value||"").trim()});
+    $("#lg-note").value="";
+    save(); render();
+  });
+})();
+
+/* ---------- PROMPTS D'EXPRESSION ---------- */
+(function(){
+  var btn=$("#prompt-draw"); if(!btn)return;
+  var prompts=[
+    "Présente-toi : nom, d'où tu viens, ton métier (3 phrases).",
+    "Décris ton plat préféré et pourquoi tu l'aimes.",
+    "Raconte ta journée d'hier au passé (sudah / kemarin).",
+    "Explique comment aller de chez toi au marché.",
+    "Commande un repas complet sans piment, avec une boisson.",
+    "Décris ta famille en 4 phrases.",
+    "Marchande le prix d'un souvenir (joue les deux rôles).",
+    "Parle de la musique que tu aimes et pourquoi.",
+    "Décris le temps qu'il fait aujourd'hui.",
+    "Explique pourquoi tu apprends l'indonésien.",
+    "Demande ton chemin vers la gare à un passant.",
+    "Raconte ce que tu vas faire demain (akan).",
+    "Décris ta chambre d'hôtel idéale.",
+    "Parle de ton dernier voyage en 4 phrases.",
+    "Présente ton travail et ce que tu fais au quotidien."
+  ];
+  var last=-1;
+  btn.addEventListener("click",function(){
+    var i; do{ i=Math.floor(Math.random()*prompts.length); }while(i===last&&prompts.length>1); last=i;
+    $("#prompt-text").textContent=prompts[i];
+  });
+})();
+
+/* ---------- RESET ---------- */
+(function(){
+  var btn=$("#reset-btn"); if(!btn)return;
+  btn.addEventListener("click",async function(){
+    if(!confirm("Réinitialiser toute ta progression, ton carnet et tes flashcards ? Action irréversible."))return;
+    var ids=$$(".task input[type=checkbox]").map(function(t){return "chk:"+t.getAttribute("data-id");});
+    ids.push("known","log");
+    for(var i=0;i<ids.length;i++){ await Store.del(ids[i]); }
+    $$(".task input[type=checkbox]").forEach(function(t){t.checked=false;});
+    refreshProgress();
+    location.reload();
+  });
+})();
+
+/* ---------- INIT ---------- */
+loadChecks();
+
+})();
+</script>
+</body>
+</html>
