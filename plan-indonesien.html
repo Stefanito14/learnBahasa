@@ -246,6 +246,7 @@
     <p class="lede">Tenir une vraie conversation et se débrouiller partout en voyage. Tranquille, gratuit, 2 à 4 h par semaine — jusqu'au départ en Asie du Sud-Est.</p>
     <div class="hero-meta">
       <div class="tile countdown"><div><div class="k">Départ · mars 2027</div><div class="big" id="cd-days">—</div><div class="sub" id="cd-sub">jours pour devenir opérationnel</div></div></div>
+      <div class="tile countdown" id="srs-tile" style="cursor:pointer" title="Aller au vocabulaire"><div><div class="k">Révision du jour</div><div class="big" id="srs-due">0</div><div class="sub">cartes à réviser aujourd'hui</div></div></div>
       <div class="tile"><div class="ring-wrap">
         <svg class="ring" viewBox="0 0 80 80"><circle class="track" cx="40" cy="40" r="34"></circle><circle class="fill" id="ring-fill" cx="40" cy="40" r="34" stroke-dasharray="213.6" stroke-dashoffset="213.6"></circle></svg>
         <div><div class="ring-num"><span id="pct">0</span>%</div><div class="ring-lbl">de ton parcours validé · <span id="done-count">0</span>/<span id="total-count">0</span></div></div>
@@ -738,6 +739,7 @@
       <div class="stat"><div class="v" id="st-minutes">0</div><div class="l">Minutes au total</div></div>
       <div class="stat flame"><div class="v" id="st-streak">0</div><div class="l">🔥 Jours d'affilée</div></div>
       <div class="stat"><div class="v" id="st-week">0</div><div class="l">Minutes cette semaine</div></div>
+      <div class="stat"><div class="v" id="srs-mastered">0</div><div class="l">Mots maîtrisés</div></div>
     </div>
     <div class="log-form">
       <label>Date<input type="date" id="lg-date"></label>
@@ -849,6 +851,12 @@ $$("#nav button").forEach(function(b){
     window.scrollTo({top:0,behavior:"smooth"});
   });
 });
+
+/* ---------- TUILE RÉVISION ---------- */
+(function(){
+  var t=$("#srs-tile"); if(!t) return;
+  t.addEventListener("click", function(){ var b=$('#nav button[data-tab="vocab"]'); if(b) b.click(); });
+})();
 
 /* ---------- SÉLECTEUR DE VOIX ---------- */
 function updateVoiceToggle(){ var b=$("#voice-toggle"); if(b) b.textContent = (voicePref === "f" ? "♀" : "♂"); }
