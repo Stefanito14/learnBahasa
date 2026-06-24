@@ -774,6 +774,7 @@
 <script src="audio-core.js"></script>
 <script src="data.js"></script>
 <script src="audio-index.js"></script>
+<script src="srs-core.js"></script>
 <script>
 (function(){
 "use strict";
@@ -906,6 +907,36 @@ document.addEventListener("change",function(e){
 /* ================= DONNÉES VOCAB ================= */
 var VOCAB = window.BAHASA_DATA.vocab;
 var FLAT=[]; VOCAB.forEach(function(t){t.items.forEach(function(it){FLAT.push(Object.assign({theme:t.theme},it));});});
+
+/* ---------- SRS (répétition espacée) ---------- */
+var srs = {};
+function todayISO(){ return new Date().toISOString().slice(0,10); }
+function refreshSrsUI(){
+  var ids = FLAT.map(function(x){ return x.id; });
+  var due = window.SrsCore.dueIds(srs, ids, todayISO()).length;
+  var dt = $("#srs-due"); if(dt) dt.textContent = due;
+  var mc = $("#srs-mastered"); if(mc) mc.textContent = window.SrsCore.masteredCount(srs);
+}
+function srsUpdate(id, knewIt){
+  if(!id) return;
+  srs[id] = window.SrsCore.nextState(srs[id], !!knewIt, todayISO());
+  Store.set("srs", JSON.stringify(srs));
+  refreshSrsUI();
+}
+var srsReady = Store.get("srs").then(function(v){
+  if(v){ try{ srs = JSON.parse(v) || {}; }catch(e){ srs = {}; } }
+  return Store.get("known").then(function(kv){
+    if(!v && kv){
+      var known; try{ known = JSON.parse(kv) || {}; }catch(e){ known = {}; }
+      var today = todayISO(), changed = false;
+      Object.keys(known).forEach(function(id){
+        if(known[id]){ srs[id] = { box: 6, due: window.SrsCore.addDays(today, 120) }; changed = true; }
+      });
+      if(changed) Store.set("srs", JSON.stringify(srs));
+    }
+    refreshSrsUI();
+  });
+});
 
 /* ---------- VOCAB LISTS ---------- */
 (function(){
@@ -1343,7 +1374,7 @@ function numID(n){
   btn.addEventListener("click",async function(){
     if(!confirm("Réinitialiser toute ta progression, ton carnet et tes flashcards ? Action irréversible."))return;
     var ids=$$(".task input[type=checkbox]").map(function(t){return "chk:"+t.getAttribute("data-id");});
-    ids.push("known","log");
+    ids.push("known","log","srs");
     for(var i=0;i<ids.length;i++){ await Store.del(ids[i]); }
     $$(".task input[type=checkbox]").forEach(function(t){t.checked=false;});
     refreshProgress();
