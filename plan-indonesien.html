@@ -519,11 +519,11 @@
       <div class="flash-meta" id="flash-meta">0 / 0</div>
       <div class="flash-ctrl">
         <button class="btn ghost" id="fc-say">🔊 Écouter</button>
-        <button class="btn" id="fc-known">✓ Je connais</button>
-        <button class="btn alt" id="fc-review">↻ À revoir</button>
-        <button class="btn ghost" id="fc-next">Suivante →</button>
+        <button class="btn" id="fc-known">✓ Je savais</button>
+        <button class="btn alt" id="fc-review">↻ Pas encore</button>
+        <button class="btn ghost" id="fc-next">Passer</button>
       </div>
-      <button class="reset" id="fc-resetknown">Réinitialiser les « je connais »</button>
+      <button class="btn ghost" id="fc-ahead" style="display:none">Réviser en avance →</button>
     </div>
   </section>
 
@@ -967,38 +967,78 @@ var srsReady = Store.get("srs").then(function(v){
 /* ---------- FLASHCARDS ---------- */
 (function(){
   var card=$("#flashcard"); if(!card)return;
-  var themes=["Tout"].concat(VOCAB.map(function(t){return t.theme;}));
   var filter=$("#flash-filter");
+  var themes=["Tout"].concat(VOCAB.map(function(t){return t.theme;}));
   themes.forEach(function(th,i){
     var b=document.createElement("button"); b.className="chip"+(i===0?" on":""); b.textContent=th; b.setAttribute("data-th",th);
     filter.appendChild(b);
   });
-  var deck=FLAT.slice(), idx=0, known={};
-  Store.get("known").then(function(v){ if(v){try{known=JSON.parse(v);}catch(e){known={};}} buildDeck("Tout"); });
+
+  var deck=[], idx=0, ahead=false, curTheme="Tout";
+  function idsForTheme(th){ return (th==="Tout"?FLAT:FLAT.filter(function(x){return x.theme===th;})).map(function(x){return x.id;}); }
+  function itemById(id){ for(var i=0;i<FLAT.length;i++){ if(FLAT[i].id===id) return FLAT[i]; } return null; }
 
   function buildDeck(th){
-    deck=(th==="Tout"?FLAT:FLAT.filter(function(x){return x.theme===th;})).filter(function(x){return !known[x.id];});
-    if(deck.length===0){ deck=(th==="Tout"?FLAT:FLAT.filter(function(x){return x.theme===th;})).slice(); }
-    shuffle(deck); idx=0; render();
+    curTheme=th; ahead=false; hideAhead();
+    var due=window.SrsCore.dueIds(srs, idsForTheme(th), todayISO());
+    deck=[]; for(var i=0;i<due.length;i++){ var it=itemById(due[i]); if(it) deck.push(it); }
+    idx=0;
+    if(!deck.length) showEmpty(); else render();
   }
-  function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}}
+  function buildAhead(){
+    ahead=true; hideAhead();
+    var ids=idsForTheme(curTheme), list=[];
+    for(var i=0;i<ids.length;i++){
+      var st=srs[ids[i]];
+      if(!st || st.box<6){ list.push({ id:ids[i], due: st?st.due:"" }); }
+    }
+    list.sort(function(a,b){ return a.due<b.due?-1:(a.due>b.due?1:0); });
+    deck=[]; for(var j=0;j<list.length;j++){ var it=itemById(list[j].id); if(it) deck.push(it); }
+    idx=0;
+    if(!deck.length){ card.classList.remove("flip"); $("#fc-fr").textContent="🎉 Tout maîtrisé"; $("#fc-id").textContent=""; $("#fc-hint").textContent=""; $("#flash-meta").textContent="Rien de plus à réviser pour ce thème."; card._cur=null; return; }
+    render();
+  }
+  function showEmpty(){
+    card.classList.remove("flip");
+    $("#fc-fr").textContent="🎉 À jour !";
+    $("#fc-id").textContent=""; $("#fc-hint").textContent="";
+    $("#flash-meta").textContent="Rien à réviser aujourd'hui dans ce thème.";
+    var a=$("#fc-ahead"); if(a) a.style.display="";
+    card._cur=null;
+  }
+  function hideAhead(){ var a=$("#fc-ahead"); if(a) a.style.display="none"; }
   function render(){
-    if(!deck.length)return;
+    if(!deck.length) return;
     var it=deck[idx%deck.length];
     card.classList.remove("flip");
     $("#fc-fr").textContent=it.fr;
     $("#fc-id").textContent=it.id;
     $("#fc-hint").textContent="";
-    $("#flash-meta").textContent=(idx%deck.length+1)+" / "+deck.length+" · cartes à apprendre";
+    var box=(srs[it.id] && srs[it.id].box) || 1;
+    $("#flash-meta").textContent="À réviser"+(ahead?" (en avance)":" aujourd'hui")+" : "+deck.length+" · palier "+box;
     card._cur=it;
   }
-  card.addEventListener("click",function(){ card.classList.toggle("flip"); });
-  $("#fc-say").addEventListener("click",function(){ if(card._cur)say(card._cur.id); });
-  $("#fc-next").addEventListener("click",function(){ idx++; render(); });
-  $("#fc-known").addEventListener("click",function(){ if(card._cur){known[card._cur.id]=1; Store.set("known",JSON.stringify(known)); deck.splice(idx%deck.length,1); if(!deck.length){$("#flash-meta").textContent="🎉 Thème terminé ! Réinitialise pour recommencer.";card.classList.remove("flip");$("#fc-fr").textContent="Bravo";$("#fc-id").textContent="Selamat!";return;} idx=idx%deck.length; render(); } });
-  $("#fc-review").addEventListener("click",function(){ idx++; render(); });
-  $("#fc-resetknown").addEventListener("click",function(){ known={}; Store.set("known",JSON.stringify(known)); var on=$("#flash-filter .chip.on"); buildDeck(on?on.getAttribute("data-th"):"Tout"); });
+  function answer(knewIt){
+    if(!card._cur) return;
+    srsUpdate(card._cur.id, knewIt);
+    deck.splice(idx%deck.length,1);
+    if(!deck.length){
+      if(ahead){ card.classList.remove("flip"); $("#fc-fr").textContent="✅ Fini"; $("#fc-id").textContent=""; $("#flash-meta").textContent="Session terminée."; card._cur=null; }
+      else { showEmpty(); }
+      return;
+    }
+    idx=idx%deck.length; render();
+  }
+
+  card.addEventListener("click",function(){ if(card._cur) card.classList.toggle("flip"); });
+  $("#fc-say").addEventListener("click",function(){ if(card._cur) say(card._cur.id); });
+  $("#fc-next").addEventListener("click",function(){ if(deck.length){ idx++; render(); } });
+  $("#fc-known").addEventListener("click",function(){ answer(true); });
+  $("#fc-review").addEventListener("click",function(){ answer(false); });
+  var ab=$("#fc-ahead"); if(ab) ab.addEventListener("click",function(){ buildAhead(); });
   filter.addEventListener("click",function(e){ var b=e.target.closest(".chip"); if(!b)return; $$(".chip",filter).forEach(function(x){x.classList.toggle("on",x===b);}); buildDeck(b.getAttribute("data-th")); });
+
+  srsReady.then(function(){ buildDeck("Tout"); });
 })();
 
 /* ---------- ANKI EXPORT ---------- */
