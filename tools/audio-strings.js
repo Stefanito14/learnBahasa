@@ -22,7 +22,11 @@ function collectStrings(data, htmlSource) {
   if (htmlSource) {
     const re = /data-say="([^"]*)"/g;
     let m;
-    while ((m = re.exec(htmlSource))) add(m[1]);
+    while ((m = re.exec(htmlSource))) {
+      // Skip JS template fragments from the page source (real phrases never contain + < >)
+      if (/[+<>]/.test(m[1])) continue;
+      add(m[1]);
+    }
   }
   return out;
 }

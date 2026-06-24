@@ -29,3 +29,10 @@ test("ignore les chaînes vides", () => {
   const got = collectStrings({ vocab: [], food: [["", ""]], phrases: [], dialogues: [], drills: [] }, "");
   assert.ok(!got.includes(""));
 });
+
+test("ignore les fragments de template JS dans data-say", () => {
+  const html = '<button data-say="Apa kabar?">a</button><button data-say="\'+it.id.replace(/">b</button>';
+  const got = collectStrings({ vocab: [], food: [], phrases: [], dialogues: [], drills: [] }, html);
+  assert.ok(got.includes("Apa kabar?"), "garde une vraie phrase");
+  assert.ok(!got.some((s) => /[+<>]/.test(s)), "exclut les fragments avec + < >");
+});
