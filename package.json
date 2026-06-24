@@ -1,0 +1,9 @@
+{
+  "name": "learn-bahasa",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Plateforme d'apprentissage de l'indonésien",
+  "scripts": {
+    "test": "node --test"
+  }
+}
