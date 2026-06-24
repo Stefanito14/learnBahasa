@@ -718,6 +718,16 @@
     <p class="intro">L'exercice des vrais cours de langue : une structure, tu remplaces un mot. À force, la phrase sort toute seule. Clique un mot pour remplir le trou.</p>
     <div id="drill-mount"></div>
   </section>
+
+  <section class="block">
+    <div class="block-head"><span class="num">04</span><h2>Quiz d'écoute</h2></div>
+    <p class="intro">On te joue un mot ou une phrase : choisis le bon sens. Clique 🔊 pour réécouter. (Nécessite l'audio généré.)</p>
+    <div class="quiz" id="quiz-listen">
+      <div class="q"><button class="btn" id="ql-play">🔊 Écouter</button></div>
+      <div class="opts" id="ql-opts"></div>
+      <div class="quiz-foot"><span id="ql-score">Score : 0 / 0</span><button class="btn ghost" id="ql-next">Nouveau →</button></div>
+    </div>
+  </section>
 </section>
 <section class="panel" id="tab-carnet">
   <section class="block">
@@ -1194,6 +1204,39 @@ function numID(n){
     });
   }
   $("#qv-next").addEventListener("click",gen); gen();
+})();
+
+/* ---------- QUIZ D'ÉCOUTE ---------- */
+(function(){
+  var box=$("#quiz-listen"); if(!box) return;
+  var pool = FLAT.filter(function(x){ return AUDIO_INDEX_SET.has(window.AudioCore.fnv1a(x.id)); });
+  if(!pool.length){ box.innerHTML='<p style="color:#6C786F;font-size:14px">Audio pas encore généré — lance la génération pour activer ce quiz.</p>'; return; }
+  var score=0,total=0,answered=false,current=null;
+  function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}}
+  function gen(){
+    answered=false;
+    var p=pool.slice(); shuffle(p);
+    current=p[0];
+    var opts=[current], k=1;
+    while(opts.length<4 && k<p.length){ if(!opts.some(function(x){return x.fr===p[k].fr;})) opts.push(p[k]); k++; }
+    shuffle(opts);
+    var o=$("#ql-opts"); o.innerHTML="";
+    opts.forEach(function(op){
+      var b=document.createElement("button"); b.className="opt"; b.textContent=op.fr;
+      b.addEventListener("click",function(){
+        if(answered)return; answered=true; total++;
+        if(op.fr===current.fr){ b.classList.add("good"); score++; }
+        else { b.classList.add("bad"); $$("#ql-opts .opt").forEach(function(x){ if(x.textContent===current.fr) x.classList.add("good"); }); }
+        $("#ql-score").textContent="Score : "+score+" / "+total;
+        say(current.id);
+      });
+      o.appendChild(b);
+    });
+    say(current.id);
+  }
+  $("#ql-play").addEventListener("click",function(){ if(current) say(current.id); });
+  $("#ql-next").addEventListener("click",gen);
+  gen();
 })();
 
 /* ---------- PATTERN DRILLS ---------- */
