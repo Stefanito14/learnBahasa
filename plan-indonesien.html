@@ -1270,6 +1270,7 @@ function numID(n){
         else{ b.classList.add("bad"); $$("#qv-opts .opt").forEach(function(x){if(x.textContent===correct)x.classList.add("good");}); }
         say(correct);
         $("#qv-score").textContent="Score : "+score+" / "+total;
+        srsUpdate(it.id, op.id===correct);
       });
       o.appendChild(b);
     });
@@ -1299,6 +1300,7 @@ function numID(n){
         if(op.fr===current.fr){ b.classList.add("good"); score++; }
         else { b.classList.add("bad"); $$("#ql-opts .opt").forEach(function(x){ if(x.textContent===current.fr) x.classList.add("good"); }); }
         $("#ql-score").textContent="Score : "+score+" / "+total;
+        srsUpdate(current.id, op.fr===current.fr);
         say(current.id);
       });
       o.appendChild(b);
