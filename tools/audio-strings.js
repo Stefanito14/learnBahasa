@@ -16,7 +16,7 @@ function collectStrings(data, htmlSource) {
   (data.phrases || []).forEach((g) => (g.rows || []).forEach((r) => add(r[1])));
   (data.dialogues || []).forEach((d) => (d.lines || []).forEach((l) => add(l[1])));
   (data.drills || []).forEach((dr) =>
-    (dr.chips || []).forEach((c) => add(dr.frame.replace("___", c[0])))
+    (dr.chips || []).forEach((c) => add((dr.frame || "").replace("___", c[0])))
   );
 
   if (htmlSource) {
