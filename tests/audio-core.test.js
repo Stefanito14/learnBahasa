@@ -29,6 +29,7 @@ test("resolveAudio: fichier si présent dans l'index, sinon tts", () => {
   const r = AC.resolveAudio("apa", "m", index);
   assert.strictEqual(r.type, "file");
   assert.strictEqual(r.src, "audio/" + AC.fnv1a("apa") + "-m.mp3");
+  assert.strictEqual(r.hash, AC.fnv1a("apa"));
   const r2 = AC.resolveAudio("inconnu", "f", index);
   assert.strictEqual(r2.type, "tts");
 });
@@ -36,6 +37,8 @@ test("resolveAudio: fichier si présent dans l'index, sinon tts", () => {
 test("resolveAudio: accepte aussi un tableau de hashs", () => {
   const r = AC.resolveAudio("apa", "f", [AC.fnv1a("apa")]);
   assert.strictEqual(r.type, "file");
+  assert.strictEqual(r.src, "audio/" + AC.fnv1a("apa") + "-f.mp3");
+  assert.strictEqual(r.hash, AC.fnv1a("apa"));
 });
 
 test("voiceForRole: rôle 0 = préférence, alterne ensuite", () => {
