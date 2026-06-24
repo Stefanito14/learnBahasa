@@ -16,7 +16,14 @@ const RATE = "-8%";
 // args: --limit N, --dry-run
 const argv = process.argv.slice(2);
 const limitIdx = argv.indexOf("--limit");
-const LIMIT = limitIdx >= 0 ? parseInt(argv[limitIdx + 1], 10) : Infinity;
+let LIMIT = Infinity;
+if (limitIdx >= 0) {
+  LIMIT = parseInt(argv[limitIdx + 1], 10);
+  if (!Number.isFinite(LIMIT) || LIMIT <= 0) {
+    console.error("--limit requiert un entier positif");
+    process.exit(1);
+  }
+}
 const DRY = argv.includes("--dry-run");
 
 function synthesize(text, voiceName, outPath) {
@@ -38,7 +45,7 @@ function main() {
 
   console.log(strings.length + " chaînes à traiter (×2 voix). dry-run=" + DRY);
 
-  let made = 0, skipped = 0;
+  let made = 0, skipped = 0, failed = 0;
   for (const text of strings) {
     const hash = AudioCore.fnv1a(text);
     for (const v of Object.keys(VOICES)) {
@@ -50,13 +57,15 @@ function main() {
         made++;
       } catch (e) {
         console.error("ÉCHEC synth: [" + text + "] (" + v + ") — " + e.message);
+        failed++;
       }
     }
   }
 
   // Index = hashs dont LES DEUX voix existent sur disque (reflète le disque, pas juste ce run)
   if (!DRY) writeIndex();
-  console.log("Terminé. générés=" + made + " ignorés(déjà là)=" + skipped);
+  console.log("Terminé. générés=" + made + " ignorés(déjà là)=" + skipped + " échecs=" + failed);
+  if (failed > 0) process.exitCode = 1;
 }
 
 function writeIndex() {
