@@ -754,6 +754,7 @@
 
 <script src="audio-core.js"></script>
 <script src="data.js"></script>
+<script src="audio-index.js"></script>
 <script>
 (function(){
 "use strict";
@@ -782,7 +783,31 @@ var $$=function(s,c){return Array.prototype.slice.call((c||document).querySelect
 var idVoice=null;
 function loadVoice(){ try{ var vs=speechSynthesis.getVoices(); idVoice=vs.find(function(v){return /id(-|_)?ID/i.test(v.lang)||/indones/i.test(v.name);})||null; }catch(e){} }
 if("speechSynthesis" in window){ loadVoice(); try{ speechSynthesis.onvoiceschanged=loadVoice; }catch(e){} }
-function say(t){ if(!("speechSynthesis" in window)||!t)return; try{ speechSynthesis.cancel(); var u=new SpeechSynthesisUtterance(t); u.lang="id-ID"; if(idVoice)u.voice=idVoice; u.rate=.88; speechSynthesis.speak(u); }catch(e){} }
+var AUDIO_INDEX_SET = new Set(window.AUDIO_INDEX || []);
+var voicePref = "f";
+var _audioEl = null;
+function ttsSpeak(t){
+  if(!("speechSynthesis" in window)||!t) return;
+  try{ speechSynthesis.cancel(); var u=new SpeechSynthesisUtterance(t); u.lang="id-ID"; if(idVoice)u.voice=idVoice; u.rate=.88; speechSynthesis.speak(u); }catch(e){}
+}
+function say(t, opts){
+  if(!t) return;
+  var v = (opts && opts.voice) || voicePref;
+  var res = window.AudioCore.resolveAudio(t, v, AUDIO_INDEX_SET);
+  if(res.type === "file"){
+    try{
+      try{ speechSynthesis.cancel(); }catch(e){}
+      if(!_audioEl) _audioEl = new Audio();
+      _audioEl.pause();
+      _audioEl.src = res.src;
+      _audioEl.currentTime = 0;
+      var p = _audioEl.play();
+      if(p && p.catch){ p.catch(function(){ ttsSpeak(t); }); }
+      return;
+    }catch(e){ /* repli */ }
+  }
+  ttsSpeak(t);
+}
 document.addEventListener("click",function(e){ var el=e.target.closest("[data-say]"); if(el){ e.preventDefault(); say(el.getAttribute("data-say")); } });
 
 /* ---------- NAV ---------- */
@@ -1202,6 +1227,7 @@ function numID(n){
 })();
 
 /* ---------- INIT ---------- */
+Store.get("voice").then(function(v){ if(v === "m" || v === "f") voicePref = v; });
 loadChecks();
 
 })();
