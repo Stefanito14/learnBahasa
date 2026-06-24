@@ -812,7 +812,17 @@ function say(t, opts){
   }
   ttsSpeak(t);
 }
-document.addEventListener("click",function(e){ var el=e.target.closest("[data-say]"); if(el){ e.preventDefault(); say(el.getAttribute("data-say")); } });
+document.addEventListener("click",function(e){
+  var el=e.target.closest("[data-say]"); if(!el) return;
+  e.preventDefault();
+  var v;
+  if(el.hasAttribute("data-role")){
+    v = window.AudioCore.voiceForRole(parseInt(el.getAttribute("data-role"),10)||0, voicePref);
+  } else if(el.getAttribute("data-voice")){
+    v = el.getAttribute("data-voice");
+  }
+  say(el.getAttribute("data-say"), { voice: v });
+});
 
 /* ---------- NAV ---------- */
 $$("#nav button").forEach(function(b){
@@ -976,9 +986,12 @@ var FLAT=[]; VOCAB.forEach(function(t){t.items.forEach(function(it){FLAT.push(Ob
   var scenes = window.BAHASA_DATA.dialogues;
   scenes.forEach(function(s){
     var c=document.createElement("div"); c.className="gcard";
+    var roleOrder=[];
+    s.lines.forEach(function(l){ if(roleOrder.indexOf(l[0])<0) roleOrder.push(l[0]); });
     var html='<h3>'+s.t+'</h3>';
     s.lines.forEach(function(l){
-      html+='<p style="margin:8px 0"><b style="font-family:Space Mono;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#6C786F">'+l[0]+'</b><br><span class="id-word" style="color:#16564C;font-weight:600">'+l[1]+'</span> <button class="say" data-say="'+l[1].replace(/"/g,"")+'">🔊</button><br><em style="color:#6C786F;font-size:13.5px">'+l[2]+'</em></p>';
+      var ri=roleOrder.indexOf(l[0]);
+      html+='<p style="margin:8px 0"><b style="font-family:Space Mono;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#6C786F">'+l[0]+'</b><br><span class="id-word" style="color:#16564C;font-weight:600">'+l[1]+'</span> <button class="say" data-say="'+l[1].replace(/"/g,"")+'" data-role="'+ri+'">🔊</button><br><em style="color:#6C786F;font-size:13.5px">'+l[2]+'</em></p>';
     });
     c.innerHTML=html; m.appendChild(c);
   });
