@@ -26,3 +26,11 @@ test("drills: frame contient ___ et a des chips", () => {
   assert.ok(DATA.drills.length >= 5);
   assert.ok(DATA.drills.every((d) => d.frame.includes("___") && d.chips.length > 0));
 });
+
+test("lessons: structure du fil guidé", () => {
+  assert.ok(Array.isArray(DATA.lessons) && DATA.lessons.length >= 7, "au moins 7 leçons");
+  assert.ok(DATA.lessons.every((l) => l.id && l.phase && l.title && l.goal && Array.isArray(l.steps) && l.steps.length > 0));
+  assert.ok(DATA.lessons.every((l) => l.steps.every((s) => s.text && s.target && s.target.tab)));
+  const ids = DATA.lessons.map((l) => l.id);
+  assert.strictEqual(new Set(ids).size, ids.length, "ids uniques");
+});
