@@ -1,0 +1,16 @@
+{
+  "name": "Bahasa Indonesia",
+  "short_name": "Bahasa",
+  "description": "Ma plateforme pour apprendre l'indonésien",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F4EFE3",
+  "theme_color": "#16564C",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

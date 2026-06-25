@@ -8,7 +8,7 @@ const { collectStrings } = require("./audio-strings.js");
 
 const ROOT = path.resolve(__dirname, "..");
 const AUDIO_DIR = path.join(ROOT, "audio");
-const HTML = fs.readFileSync(path.join(ROOT, "plan-indonesien.html"), "utf8");
+const HTML = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
 
 const VOICES = { f: "id-ID-GadisNeural", m: "id-ID-ArdiNeural" };
 const RATE = "-8%";
