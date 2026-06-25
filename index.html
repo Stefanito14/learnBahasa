@@ -38,6 +38,12 @@
   .nav button:hover{color:var(--ink);background:rgba(22,51,45,.05)}
   .nav button.on{color:#fff;background:var(--ocean)}
   .nav button:focus-visible{outline:2px solid var(--turmeric);outline-offset:2px}
+  .nav-group{position:relative;display:flex}
+  .nav button.nav-parent::after{content:"▾";font-size:.8em;margin-left:5px;opacity:.7}
+  .nav button.parent-active{color:var(--ocean)}
+  .submenu{position:absolute;top:calc(100% + 4px);left:0;min-width:190px;flex-direction:column;gap:2px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:6px;display:none;z-index:60}
+  .nav-group:hover .submenu,.nav-group:focus-within .submenu,.nav-group.open .submenu{display:flex}
+  .submenu button{width:100%;text-align:left}
   .voice-toggle{margin-left:auto;flex:0 0 auto;font-size:16px;line-height:1;width:34px;height:34px;border-radius:9px;border:1px solid var(--line-strong);background:#fff;color:var(--ocean);cursor:pointer;transition:.15s}
   .voice-toggle:hover{background:var(--ocean);color:#fff;border-color:var(--ocean)}
   .voice-toggle:focus-visible{outline:2px solid var(--turmeric);outline-offset:2px}
@@ -49,6 +55,11 @@
     .nav{position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:2px;background:var(--paper);border-bottom:1px solid var(--line);box-shadow:var(--shadow);padding:8px 22px 14px;display:none;max-height:calc(100vh - 56px);overflow-y:auto}
     .nav.open{display:flex}
     .nav button{font-size:15px;width:100%;text-align:left;padding:13px 12px;border-radius:10px}
+    .nav-group{position:static;flex-direction:column}
+    .nav button.nav-parent{pointer-events:none;color:var(--muted);font-family:"Space Mono",monospace;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:14px 12px 4px}
+    .nav button.nav-parent::after{content:""}
+    .submenu{position:static;display:flex;flex-direction:column;gap:2px;min-width:0;background:none;border:none;box-shadow:none;padding:0}
+    .submenu button{padding-left:22px}
   }
 
   .panel{display:none;animation:fade .4s ease}
@@ -235,14 +246,23 @@
   <div class="topbar-inner">
     <button class="brand" id="brand" title="Accueil" aria-label="Aller à l'accueil">Bahasa<span class="dot">.</span></button>
     <nav class="nav" id="nav">
-      <button data-tab="home" class="on">Accueil</button>
       <button data-tab="parcours">Parcours</button>
-      <button data-tab="grammaire">Grammaire</button>
-      <button data-tab="vocab">Vocabulaire</button>
-      <button data-tab="phrases">Phrases &amp; Dialogues</button>
-      <button data-tab="prononciation">Prononciation</button>
-      <button data-tab="culture">Culture</button>
-      <button data-tab="immersion">Immersion</button>
+      <div class="nav-group">
+        <button class="nav-parent" type="button" aria-haspopup="true" aria-expanded="false">Apprendre</button>
+        <div class="submenu">
+          <button data-tab="grammaire">Grammaire</button>
+          <button data-tab="vocab">Vocabulaire</button>
+          <button data-tab="phrases">Phrases &amp; Dialogues</button>
+          <button data-tab="prononciation">Prononciation</button>
+        </div>
+      </div>
+      <div class="nav-group">
+        <button class="nav-parent" type="button" aria-haspopup="true" aria-expanded="false">Découvrir</button>
+        <div class="submenu">
+          <button data-tab="culture">Culture</button>
+          <button data-tab="immersion">Immersion</button>
+        </div>
+      </div>
       <button data-tab="training">Entraînement</button>
       <button data-tab="carnet">Carnet</button>
     </nav>
@@ -859,27 +879,39 @@ document.addEventListener("click",function(e){
 });
 
 /* ---------- NAV ---------- */
-function closeMenu(){ var n=$("#nav"),tg=$("#nav-toggle"); if(n)n.classList.remove("open"); if(tg)tg.setAttribute("aria-expanded","false"); }
-$$("#nav button").forEach(function(b){
-  b.addEventListener("click",function(){
-    var t=b.getAttribute("data-tab");
-    $$("#nav button").forEach(function(x){x.classList.toggle("on",x===b);});
-    $$(".panel").forEach(function(p){p.classList.toggle("on",p.id==="tab-"+t);});
-    closeMenu();
-    window.scrollTo({top:0,behavior:"smooth"});
+function closeMenu(){
+  var n=$("#nav"), tg=$("#nav-toggle");
+  if(n) n.classList.remove("open");
+  if(tg) tg.setAttribute("aria-expanded","false");
+  $$(".nav-group").forEach(function(g){ g.classList.remove("open"); var p=$(".nav-parent",g); if(p) p.setAttribute("aria-expanded","false"); });
+}
+function activateTab(t){
+  $$("#nav button[data-tab]").forEach(function(x){ x.classList.toggle("on", x.getAttribute("data-tab")===t); });
+  $$(".panel").forEach(function(p){ p.classList.toggle("on", p.id==="tab-"+t); });
+  $$(".nav-parent").forEach(function(p){
+    var active=$$("button[data-tab]",p.parentNode).some(function(b){ return b.getAttribute("data-tab")===t; });
+    p.classList.toggle("parent-active", active);
   });
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+$$("#nav button[data-tab]").forEach(function(b){
+  b.addEventListener("click",function(){ activateTab(b.getAttribute("data-tab")); closeMenu(); });
 });
 (function(){
+  $$(".nav-parent").forEach(function(p){
+    p.addEventListener("click",function(e){
+      e.stopPropagation();
+      var g=p.parentNode, willOpen=!g.classList.contains("open");
+      $$(".nav-group").forEach(function(o){ if(o!==g){ o.classList.remove("open"); var op=$(".nav-parent",o); if(op) op.setAttribute("aria-expanded","false"); } });
+      g.classList.toggle("open", willOpen);
+      p.setAttribute("aria-expanded", willOpen?"true":"false");
+    });
+  });
   var tg=$("#nav-toggle"), n=$("#nav");
-  if(tg&&n){ tg.addEventListener("click",function(e){
-    e.stopPropagation();
-    var open=n.classList.toggle("open");
-    tg.setAttribute("aria-expanded", open?"true":"false");
-  }); }
+  if(tg&&n){ tg.addEventListener("click",function(e){ e.stopPropagation(); var open=n.classList.toggle("open"); tg.setAttribute("aria-expanded", open?"true":"false"); }); }
   var brand=$("#brand");
-  if(brand){ brand.addEventListener("click",function(){ var h=$('#nav button[data-tab="home"]'); if(h) h.click(); }); }
+  if(brand){ brand.addEventListener("click",function(){ activateTab("home"); closeMenu(); }); }
   document.addEventListener("click",function(e){
-    if(!n||!n.classList.contains("open")) return;
     if(e.target.closest("#nav")||e.target.closest("#nav-toggle")) return;
     closeMenu();
   });

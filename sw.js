@@ -1,6 +1,6 @@
 /* Service worker — Bahasa Indonesia PWA */
 "use strict";
-var CACHE = "bahasa-v2";
+var CACHE = "bahasa-v3";
 var SHELL = [
   "./",
   "./index.html",
