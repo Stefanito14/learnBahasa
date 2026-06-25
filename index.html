@@ -114,6 +114,21 @@
   .phase h3 .id{font-family:"Fraunces",serif;font-style:italic;font-weight:400;color:var(--jade);font-size:.7em;margin-left:6px}
   .phase .months{font-family:"Space Mono",monospace;font-size:12px;color:var(--muted)}
   .goal-chip{display:inline-block;background:rgba(46,139,121,.12);color:var(--ocean);border:1px solid rgba(46,139,121,.25);font-family:"Space Mono",monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px}
+  .next-lesson{display:flex;align-items:center;gap:12px;background:#15564C;color:#fff;border-radius:14px;padding:15px 18px;margin-bottom:18px;cursor:pointer}
+  .next-lesson .nl-label{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9fd3c8}
+  .next-lesson .next-lesson-title{font-family:"Fraunces",serif;font-size:19px;font-weight:600}
+  .lesson{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:12px}
+  .lesson.next{border-color:var(--jade);box-shadow:0 0 0 2px rgba(46,139,121,.2)}
+  .lesson.done{opacity:.7}
+  .lesson-head{display:flex;gap:12px;align-items:flex-start}
+  .lesson-badge{flex:0 0 auto;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;background:rgba(46,139,121,.12);color:var(--ocean)}
+  .lesson.done .lesson-badge{background:var(--jade);color:#fff}
+  .lesson h4{font-size:18px;margin:0}
+  .lesson-goal{font-size:14px;color:var(--muted);margin:4px 0 0}
+  .lesson-steps{margin:14px 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+  .lesson-steps li{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:14.5px;color:#3a4a43}
+  .lesson-steps .btn{flex:0 0 auto;padding:6px 12px;font-size:12px;white-space:nowrap}
+  .lesson-done{font-size:13px}
   .phase-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:22px;margin-top:18px}
   @media(max-width:760px){.phase-grid{grid-template-columns:1fr}}
   .pcol h4{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;font-weight:700}
@@ -327,6 +342,13 @@
 <!-- PARCOURS -->
 <section class="panel" id="tab-parcours">
   <section class="block">
+    <div class="block-head"><span class="num">★</span><h2>Ton fil guidé</h2></div>
+    <p class="intro">Suis les leçons dans l'ordre. Chaque étape te dit où aller et quoi faire — clique « → Aller » pour t'y rendre, puis « Marquer comme fait ».</p>
+    <div class="next-lesson" id="next-lesson"><span><span class="nl-label">Prochaine leçon</span><br><span class="next-lesson-title">…</span></span></div>
+    <div id="lessons-mount"></div>
+    <p class="intro" style="margin-top:10px">📅 Les leçons des <b>Phases 2 et 3</b> arrivent bientôt — en attendant, la vue d'ensemble et l'auto-évaluation « Je peux… » sont plus bas.</p>
+  </section>
+  <section class="block">
     <div class="block-head"><span class="num">01</span><h2>Le parcours en 3 phases</h2></div>
     <p class="intro">Coche chaque jalon validé — ta progression se sauvegarde et remplit la jauge d'accueil. Les blocs « Je peux… » (en jaune) servent à t'auto-évaluer.</p>
 
@@ -339,17 +361,6 @@
           <h4>Vocabulaire</h4><ul><li>~300–500 mots fréquents</li><li>Nombres 0 → 1000</li></ul>
         </div>
         <div class="pcol">
-          <div class="checks" data-phase="p1">
-            <div class="check-head"><span class="t">Jalons · Phase 1</span><span class="c"><span class="cnt">0</span>/8</span></div>
-            <label class="task"><input type="checkbox" data-id="p1-1"><span>Installer Duolingo et tenir 7 jours d'affilée</span></label>
-            <label class="task"><input type="checkbox" data-id="p1-2"><span>Réviser les flashcards chaque jour pendant 2 semaines</span></label>
-            <label class="task"><input type="checkbox" data-id="p1-3"><span>Maîtriser salutations + politesse</span></label>
-            <label class="task"><input type="checkbox" data-id="p1-4"><span>Compter de 0 à 1000 sans hésiter</span></label>
-            <label class="task"><input type="checkbox" data-id="p1-5"><span>Construire 10 phrases simples au présent</span></label>
-            <label class="task"><input type="checkbox" data-id="p1-6"><span>Poser 5 questions de base</span></label>
-            <label class="task"><input type="checkbox" data-id="p1-7"><span>Regarder une série YouTube débutant en entier</span></label>
-            <label class="task"><input type="checkbox" data-id="p1-8"><span>Te présenter à l'oral pendant 1 min</span></label>
-          </div>
           <div class="checks cando" data-phase="c1">
             <div class="check-head"><span class="t">Je peux… · A1</span><span class="c"><span class="cnt">0</span>/5</span></div>
             <label class="task"><input type="checkbox" data-id="c1-1"><span>Saluer et me présenter</span></label>
@@ -371,16 +382,6 @@
           <h4>Vocabulaire</h4><ul><li>~800–1000 mots (quotidien élargi)</li></ul>
         </div>
         <div class="pcol">
-          <div class="checks" data-phase="p2">
-            <div class="check-head"><span class="t">Jalons · Phase 2</span><span class="c"><span class="cnt">0</span>/7</span></div>
-            <label class="task"><input type="checkbox" data-id="p2-1"><span>Former des verbes en ber- et me(N)-</span></label>
-            <label class="task"><input type="checkbox" data-id="p2-2"><span>Conversation écrite de 10 messages sur HelloTalk/Tandem</span></label>
-            <label class="task"><input type="checkbox" data-id="p2-3"><span>1 podcast débutant/semaine (sens global)</span></label>
-            <label class="task"><input type="checkbox" data-id="p2-4"><span>Mini-journal de 5 phrases/semaine</span></label>
-            <label class="task"><input type="checkbox" data-id="p2-5"><span>Raconter ta journée d'hier à l'oral</span></label>
-            <label class="task"><input type="checkbox" data-id="p2-6"><span>Comprendre 70 % d'un dialogue lent</span></label>
-            <label class="task"><input type="checkbox" data-id="p2-7"><span>Première note vocale à un partenaire</span></label>
-          </div>
           <div class="checks cando" data-phase="c2">
             <div class="check-head"><span class="t">Je peux… · A2</span><span class="c"><span class="cnt">0</span>/5</span></div>
             <label class="task"><input type="checkbox" data-id="c2-1"><span>Raconter une action passée et future</span></label>
@@ -402,17 +403,6 @@
           <h4>Méthode</h4><ul><li>Immersion réelle, shadowing, échanges vocaux</li></ul>
         </div>
         <div class="pcol">
-          <div class="checks" data-phase="p3">
-            <div class="check-head"><span class="t">Jalons · Phase 3</span><span class="c"><span class="cnt">0</span>/8</span></div>
-            <label class="task"><input type="checkbox" data-id="p3-1"><span>Connaître par cœur les phrases de survie</span></label>
-            <label class="task"><input type="checkbox" data-id="p3-2"><span>Simuler 5 situations voyage à voix haute</span></label>
-            <label class="task"><input type="checkbox" data-id="p3-3"><span>Marchander un prix entièrement en indonésien</span></label>
-            <label class="task"><input type="checkbox" data-id="p3-4"><span>Regarder un film/série avec Language Reactor</span></label>
-            <label class="task"><input type="checkbox" data-id="p3-5"><span>3 vraies conversations vocales</span></label>
-            <label class="task"><input type="checkbox" data-id="p3-6"><span>Comprendre annonces &amp; panneaux courants</span></label>
-            <label class="task"><input type="checkbox" data-id="p3-7"><span>Test final : 5 min de conversation libre</span></label>
-            <label class="task"><input type="checkbox" data-id="p3-8"><span>Préparer ton antisèche perso de voyage</span></label>
-          </div>
           <div class="checks cando" data-phase="c3">
             <div class="check-head"><span class="t">Je peux… · B1</span><span class="c"><span class="cnt">0</span>/5</span></div>
             <label class="task"><input type="checkbox" data-id="c3-1"><span>Me débrouiller seul dans un transport/hôtel</span></label>
@@ -428,6 +418,7 @@
 
   <section class="block">
     <div class="block-head"><span class="num">02</span><h2>Calendrier · 36 semaines</h2></div>
+    <details><summary class="intro" style="cursor:pointer">📅 Voir le calendrier semaine par semaine (vue d'ensemble)</summary>
     <p class="intro">Le plan déroulé : un focus, un point de grammaire, un thème de vocabulaire et une mission concrète par semaine.</p>
     <div class="chips" id="cal-filter">
       <button class="chip on" data-ph="all">Tout</button>
@@ -436,6 +427,7 @@
       <button class="chip" data-ph="3">Phase 3</button>
     </div>
     <div class="cal-grid" id="cal-mount"></div>
+    </details>
   </section>
 </section>
 
@@ -1236,6 +1228,42 @@ var lessonsReady = Store.get("lessons").then(function(v){
     }
     step();
   }
+})();
+
+/* ---------- RENDU DU FIL GUIDÉ ---------- */
+function renderLessons(){
+  var m=$("#lessons-mount"); if(!m) return;
+  var nextId=window.ParcoursCore.nextLessonId(LESSON_IDS, lessonsState);
+  m.innerHTML="";
+  LESSONS.forEach(function(l){
+    var done=window.ParcoursCore.isLessonDone(lessonsState, l.id);
+    var isNext=(l.id===nextId);
+    var card=document.createElement("div");
+    card.className="lesson"+(done?" done":"")+(isNext?" next":"");
+    var badge=done?"✓":(isNext?"▶":"○");
+    var steps="";
+    l.steps.forEach(function(s){
+      var t=s.target||{};
+      steps+='<li><span>'+s.text+'</span> <button class="btn ghost lesson-go" data-tab="'+t.tab+'"'+
+        (t.theme?' data-theme="'+t.theme.replace(/"/g,"")+'"':'')+
+        (t.anchor?' data-anchor="'+t.anchor+'"':'')+'>→ Aller</button></li>';
+    });
+    card.innerHTML='<div class="lesson-head"><span class="lesson-badge">'+badge+'</span>'+
+      '<div><h4>'+l.title+'</h4><p class="lesson-goal">'+l.goal+'</p></div></div>'+
+      '<ul class="lesson-steps">'+steps+'</ul>'+
+      '<button class="btn lesson-done">'+(done?"✓ Fait — annuler":"✓ Marquer comme fait")+'</button>';
+    card.querySelector(".lesson-done").addEventListener("click",function(){ lessonDone(l.id, !done); });
+    $$(".lesson-go",card).forEach(function(b){
+      b.addEventListener("click",function(){
+        goTo({ tab:b.getAttribute("data-tab"), theme:b.getAttribute("data-theme")||undefined, anchor:b.getAttribute("data-anchor")||undefined });
+      });
+    });
+    m.appendChild(card);
+  });
+}
+(function(){
+  var banner=$("#next-lesson");
+  if(banner) banner.addEventListener("click",function(){ var el=$(".lesson.next"); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); });
 })();
 
 /* ---------- CALENDRIER 36 SEMAINES ---------- */
