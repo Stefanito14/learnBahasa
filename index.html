@@ -303,6 +303,7 @@
         <div><div class="ring-num"><span id="pct">0</span>%</div><div class="ring-lbl">de ton parcours validé · <span id="done-count">0</span>/<span id="total-count">0</span></div></div>
       </div></div>
     </div>
+    <div class="next-lesson" id="next-lesson-home" style="margin-top:22px"><span><span class="nl-label">Ta prochaine leçon</span><br><span class="next-lesson-title">…</span></span></div>
   </header>
 
   <section class="block">
@@ -914,6 +915,12 @@ $$("#nav button[data-tab]").forEach(function(b){
 (function(){
   var t=$("#srs-tile"); if(!t) return;
   t.addEventListener("click", function(){ var b=$('#nav button[data-tab="vocab"]'); if(b) b.click(); });
+})();
+
+/* ---------- BANNER PROCHAINE LEÇON (accueil) ---------- */
+(function(){
+  var b=$("#next-lesson-home"); if(!b) return;
+  b.addEventListener("click",function(){ var t=$('#nav button[data-tab="parcours"]'); if(t) t.click(); });
 })();
 
 /* ---------- SÉLECTEUR DE VOIX ---------- */
