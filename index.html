@@ -650,7 +650,7 @@
       <div class="tip">🎵 Toi qui as l'oreille musicale, ça va te servir : l'accent tonique est léger et tombe presque toujours sur <b>l'avant-dernière syllabe</b>. Pas de stress fort comme en anglais.</div>
     </div>
 
-    <div class="gcard">
+    <div class="gcard" id="shadowing">
       <h3>Écoute &amp; répète (shadowing)</h3>
       <p>La meilleure technique gratuite : tu écoutes une phrase, tu la répètes par-dessus en imitant le rythme. Essaie avec ces phrases courantes :</p>
       <div class="ex">
@@ -813,6 +813,7 @@
 <script src="data.js"></script>
 <script src="audio-index.js"></script>
 <script src="srs-core.js"></script>
+<script src="parcours-core.js"></script>
 <script>
 (function(){
 "use strict";
@@ -1009,6 +1010,39 @@ var srsReady = Store.get("srs").then(function(v){
     }
     refreshSrsUI();
   });
+});
+
+/* ---------- PARCOURS (fil guidé) ---------- */
+var LESSONS = (window.BAHASA_DATA && window.BAHASA_DATA.lessons) || [];
+var LESSON_IDS = LESSONS.map(function(l){ return l.id; });
+var lessonsState = {};
+function refreshNextLesson(){
+  var id = window.ParcoursCore.nextLessonId(LESSON_IDS, lessonsState);
+  var title = "Phase 1 terminée 🎉 — la suite arrive";
+  for(var i=0;i<LESSONS.length;i++){ if(LESSONS[i].id===id){ title = LESSONS[i].title; break; } }
+  $$(".next-lesson-title").forEach(function(el){ el.textContent = title; });
+}
+function lessonDone(id, done){
+  if(done) lessonsState[id] = "done"; else delete lessonsState[id];
+  Store.set("lessons", JSON.stringify(lessonsState));
+  if(typeof renderLessons === "function") renderLessons();
+  refreshNextLesson();
+}
+function goTo(target){
+  if(!target || !target.tab) return;
+  activateTab(target.tab);
+  if(typeof closeMenu === "function") closeMenu();
+  if(target.theme){
+    $$('#flash-filter .chip').forEach(function(c){ if(c.getAttribute("data-th")===target.theme) c.click(); });
+  }
+  if(target.anchor){
+    setTimeout(function(){ var el=document.getElementById(target.anchor); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); }, 70);
+  }
+}
+var lessonsReady = Store.get("lessons").then(function(v){
+  if(v){ try{ lessonsState = JSON.parse(v) || {}; }catch(e){ lessonsState = {}; } }
+  if(typeof renderLessons === "function") renderLessons();
+  refreshNextLesson();
 });
 
 /* ---------- VOCAB LISTS ---------- */
@@ -1489,7 +1523,7 @@ function numID(n){
   btn.addEventListener("click",async function(){
     if(!confirm("Réinitialiser toute ta progression, ton carnet et tes flashcards ? Action irréversible."))return;
     var ids=$$(".task input[type=checkbox]").map(function(t){return "chk:"+t.getAttribute("data-id");});
-    ids.push("known","log","srs");
+    ids.push("known","log","srs","lessons");
     for(var i=0;i<ids.length;i++){ await Store.del(ids[i]); }
     $$(".task input[type=checkbox]").forEach(function(t){t.checked=false;});
     refreshProgress();
