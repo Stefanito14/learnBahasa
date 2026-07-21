@@ -293,9 +293,32 @@
   .ch-mini-dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--line-strong)}
   .ch-mini-dot.on{border-color:var(--ocean);background:var(--ocean)}
   .ch-mini-xp{font-size:12px;font-weight:700;color:var(--ocean)}
+  /* --- Signature botanique + motion --- */
+  @keyframes bloom{0%{transform:scale(.4) rotate(-12deg);opacity:0}60%{transform:scale(1.12) rotate(4deg);opacity:1}100%{transform:scale(1) rotate(0);opacity:1}}
+  .bloom-in{animation:bloom .6s cubic-bezier(.2,.8,.3,1.2) both}
+  .ic-botanic{width:1em;height:1em;display:inline-block;vertical-align:-.12em;color:var(--hibiscus)}
+  .btn:hover{transform:translateY(-1px)}
+  .btn:active{transform:translateY(0)}
+  .tile{transition:transform .15s ease,border-color .15s ease}
+  .tile:hover{transform:translateY(-2px);border-color:var(--line-strong)}
+  @media (prefers-reduced-motion: reduce){
+    *{scroll-behavior:auto!important}
+    .panel{animation:none}
+    .bloom-in{animation:none}
+    .btn:hover,.tile:hover{transform:none}
+  }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="ic-bloom" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M12 2c1.7 0 3 1.6 2.7 3.3 1.5-.9 3.4-.2 4 1.4.6 1.6-.4 3.3-2 3.8 1.6.5 2.6 2.2 2 3.8-.6 1.6-2.5 2.3-4 1.4C15 20.4 13.7 22 12 22s-3-1.6-2.7-3.3c-1.5.9-3.4.2-4-1.4-.6-1.6.4-3.3 2-3.8-1.6-.5-2.6-2.2-2-3.8.6-1.6 2.5-2.3 4-1.4C9 3.6 10.3 2 12 2Z"/>
+    <circle cx="12" cy="12" r="2.6" fill="var(--sun)"/>
+  </symbol>
+  <symbol id="ic-sprout" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M12 21v-6c-3 0-5-2-5-5 3 0 5 2 5 4 0-3 2-5 5-5 0 3-2 5-5 5v7Z"/>
+  </symbol>
+</svg>
 
 <div class="topbar">
   <div class="topbar-inner">
