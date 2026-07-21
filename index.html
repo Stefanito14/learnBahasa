@@ -1173,9 +1173,39 @@ function renderChallenge(){
   renderChallengeBadges();
 }
 
-/* Étoffés en Task 4 ; définis ici en no-op pour éviter les erreurs. */
-function renderChallengeGrid(){}
-function renderChallengeBadges(){}
+function renderChallengeGrid(){
+  var grid = document.getElementById("ch-grid");
+  if(!grid || !CH) return;
+  var today = todayISO();
+  var prog = CH.progress(challenge);
+  var done = CH.daysCompleted(challenge);
+  var todayCount = CH.dayCount(CH.dayPillars(challenge, today));
+  var todayFull = todayCount === CH.PILLARS.length;
+  var partialIdx = (!todayFull && todayCount > 0) ? done : -1; // prochaine case = jour en cours
+  var cells = "";
+  for(var i=0;i<CH.TARGET_DAYS;i++){
+    var cls = "ch-cell";
+    if(i < Math.min(done, CH.TARGET_DAYS)) cls += " full";
+    else if(i === partialIdx && partialIdx < CH.TARGET_DAYS) cls += " partial";
+    if(CH.MILESTONES.indexOf(i+1) >= 0) cls += " milestone";
+    cells += '<div class="'+cls+'" title="Jour '+(i+1)+'"></div>';
+  }
+  grid.innerHTML = '<div class="ch-grid-head">'+prog.done+' / '+CH.TARGET_DAYS+' journées pleines · '+prog.pct+'%</div>'
+    + '<div class="ch-cells">'+cells+'</div>';
+}
+function renderChallengeBadges(){
+  var mount = document.getElementById("ch-badges");
+  if(!mount || !CH) return;
+  var unlocked = CH.badgesUnlocked(challenge);
+  mount.innerHTML = '<div class="ch-badges-head">Badges</div><div class="ch-badges-row">'
+    + BADGE_DEFS.map(function(b){
+        var on = unlocked.indexOf(b.key) >= 0;
+        return '<div class="ch-badge'+(on?' on':'')+'">'
+          + '<span class="ch-badge-emo">'+b.emoji+'</span>'
+          + '<span class="ch-badge-nm">'+b.name+'</span></div>';
+      }).join('')
+    + '</div>';
+}
 function refreshChallengeMini(){}
 
 var challengeReady = Store.get("challenge").then(function(v){
