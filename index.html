@@ -1045,6 +1045,7 @@ function srsUpdate(id, knewIt){
   srs[id] = window.SrsCore.nextState(srs[id], !!knewIt, todayISO());
   Store.set("srs", JSON.stringify(srs));
   refreshSrsUI();
+  if(typeof markPillar === "function") markPillar("read");
 }
 var srsReady = Store.get("srs").then(function(v){
   if(v){ try{ srs = JSON.parse(v) || {}; }catch(e){ srs = {}; } }
@@ -1074,6 +1075,7 @@ function refreshNextLesson(){
 function lessonDone(id, done){
   if(done) lessonsState[id] = "done"; else delete lessonsState[id];
   Store.set("lessons", JSON.stringify(lessonsState));
+  if(done && typeof markPillar === "function") markPillar("study");
   if(typeof renderLessons === "function") renderLessons();
   refreshNextLesson();
 }
@@ -1581,6 +1583,7 @@ function numID(n){
         else { b.classList.add("bad"); $$("#ql-opts .opt").forEach(function(x){ if(x.textContent===current.fr) x.classList.add("good"); }); }
         $("#ql-score").textContent="Score : "+score+" / "+total;
         srsUpdate(current.id, op.fr===current.fr);
+        if(typeof markPillar === "function") markPillar("listen");
         say(current.id);
       });
       o.appendChild(b);
