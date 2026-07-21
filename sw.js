@@ -1,6 +1,6 @@
 /* Service worker — Bahasa Indonesia PWA */
 "use strict";
-var CACHE = "bahasa-v4";
+var CACHE = "bahasa-v5";
 var SHELL = [
   "./",
   "./index.html",
@@ -8,6 +8,8 @@ var SHELL = [
   "./data.js",
   "./audio-index.js",
   "./srs-core.js",
+  "./parcours-core.js",
+  "./challenge-core.js",
   "./manifest.json",
   "./icon-192.png",
   "./icon-512.png"

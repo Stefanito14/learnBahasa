@@ -331,6 +331,7 @@
 
 <!-- ACCUEIL -->
 <section class="panel on" id="tab-home">
+  <button id="ch-mini" class="ch-mini" aria-label="Ouvrir le Challenge 75"></button>
   <header class="hero">
     <div class="eyebrow">Bahasa Indonesia · Ma plateforme d'apprentissage</div>
     <div class="salam">Selamat datang —</div>
@@ -1206,7 +1207,22 @@ function renderChallengeBadges(){
       }).join('')
     + '</div>';
 }
-function refreshChallengeMini(){}
+function refreshChallengeMini(){
+  var mount = document.getElementById("ch-mini");
+  if(!mount || !CH) return;
+  var today = todayISO();
+  var rings = CH.ringsForToday(challenge, today);
+  var dots = CH.PILLARS.map(function(p){
+    return '<span class="ch-mini-dot'+(rings[p]?' on':'')+'" title="'+CH_LABELS[p]+'"></span>';
+  }).join('');
+  mount.innerHTML = '<span class="ch-mini-streak">🔥 '+CH.streak(challenge, today)+'</span>'
+    + dots
+    + '<span class="ch-mini-xp">'+CH.xpForDay(CH.dayPillars(challenge, today))+'/70</span>';
+  if(!mount.dataset.bound){
+    mount.addEventListener("click", function(){ activateTab("challenge"); });
+    mount.dataset.bound = "1";
+  }
+}
 
 var challengeReady = Store.get("challenge").then(function(v){
   if(v){ try{ challenge = JSON.parse(v) || { startDate:null, days:{} }; }catch(e){ challenge = { startDate:null, days:{} }; } }
