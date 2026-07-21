@@ -119,53 +119,53 @@
     { id: "p1-l1", phase: 1, title: "Les sons de la langue",
       goal: "Lire l'indonésien à voix haute sans bloquer.",
       steps: [
-        { text: "Lis les voyelles et consonnes, et clique 🔊 pour écouter chaque exemple.", target: { tab: "prononciation" } },
-        { text: "Répète 4 phrases en imitant le rythme (shadowing).", target: { tab: "prononciation", anchor: "shadowing" } }
+        { text: "Lis les voyelles et consonnes, et clique 🔊 pour écouter chaque exemple.", target: { tab: "prononciation" }, pillar: "study" },
+        { text: "Répète 4 phrases en imitant le rythme (shadowing).", target: { tab: "prononciation", anchor: "shadowing" }, pillar: "speak" }
       ] },
     { id: "p1-l2", phase: 1, title: "Bonjour & merci",
       goal: "Saluer poliment et remercier dans toutes les situations.",
       steps: [
-        { text: "Apprends les cartes du thème « Salutations & politesse ».", target: { tab: "vocab", theme: "Salutations & politesse" } },
-        { text: "Lis les phrases de « L'essentiel » à voix haute.", target: { tab: "phrases" } },
-        { text: "Teste-toi : 5 questions du quiz de vocabulaire.", target: { tab: "training", anchor: "quiz-voc" } }
+        { text: "Apprends les cartes du thème « Salutations & politesse ».", target: { tab: "vocab", theme: "Salutations & politesse" }, pillar: "read" },
+        { text: "Lis les phrases de « L'essentiel » à voix haute.", target: { tab: "phrases" }, pillar: "speak" },
+        { text: "Teste-toi : 5 questions du quiz de vocabulaire.", target: { tab: "training", anchor: "quiz-voc" }, pillar: "study" }
       ] },
     { id: "p1-l3", phase: 1, title: "Te présenter",
       goal: "Dire ton nom, d'où tu viens et ce que tu fais.",
       steps: [
-        { text: "Apprends le thème « Personnes & famille ».", target: { tab: "vocab", theme: "Personnes & famille" } },
-        { text: "Lis « L'ossature de la phrase » (ordre des mots, pas de verbe être).", target: { tab: "grammaire" } },
-        { text: "Repère les phrases « Sympathiser » (Je m'appelle…, D'où venez-vous ?).", target: { tab: "phrases" } },
-        { text: "Tire le sujet « Présente-toi » et dis-le à voix haute.", target: { tab: "carnet" } }
+        { text: "Apprends le thème « Personnes & famille ».", target: { tab: "vocab", theme: "Personnes & famille" }, pillar: "read" },
+        { text: "Lis « L'ossature de la phrase » (ordre des mots, pas de verbe être).", target: { tab: "grammaire" }, pillar: "study" },
+        { text: "Repère les phrases « Sympathiser » (Je m'appelle…, D'où venez-vous ?).", target: { tab: "phrases" }, pillar: "read" },
+        { text: "Tire le sujet « Présente-toi » et dis-le à voix haute.", target: { tab: "carnet" }, pillar: "speak" }
       ] },
     { id: "p1-l4", phase: 1, title: "Compter & les prix",
       goal: "Dire et comprendre les nombres et un prix.",
       steps: [
-        { text: "Apprends le thème « Nombres ».", target: { tab: "vocab", theme: "Nombres" } },
-        { text: "Entraîne-toi avec le quiz des nombres.", target: { tab: "training", anchor: "quiz-num" } },
-        { text: "Apprends le thème « Argent & marché ».", target: { tab: "vocab", theme: "Argent & marché" } },
-        { text: "Repère les phrases « Se débrouiller » (Berapa harganya ?).", target: { tab: "phrases" } }
+        { text: "Apprends le thème « Nombres ».", target: { tab: "vocab", theme: "Nombres" }, pillar: "read" },
+        { text: "Entraîne-toi avec le quiz des nombres.", target: { tab: "training", anchor: "quiz-num" }, pillar: "study" },
+        { text: "Apprends le thème « Argent & marché ».", target: { tab: "vocab", theme: "Argent & marché" }, pillar: "read" },
+        { text: "Repère les phrases « Se débrouiller » (Berapa harganya ?).", target: { tab: "phrases" }, pillar: "read" }
       ] },
     { id: "p1-l5", phase: 1, title: "Commander à manger",
       goal: "Commander simplement, sans piment.",
       steps: [
-        { text: "Apprends le thème « Nourriture & boisson ».", target: { tab: "vocab", theme: "Nourriture & boisson" } },
-        { text: "Fais le drill « Saya mau ___ ».", target: { tab: "training", anchor: "drill-mount" } },
-        { text: "Joue le dialogue « Commander au warung » à voix haute.", target: { tab: "phrases", anchor: "dialogues-mount" } }
+        { text: "Apprends le thème « Nourriture & boisson ».", target: { tab: "vocab", theme: "Nourriture & boisson" }, pillar: "read" },
+        { text: "Fais le drill « Saya mau ___ ».", target: { tab: "training", anchor: "drill-mount" }, pillar: "study" },
+        { text: "Joue le dialogue « Commander au warung » à voix haute.", target: { tab: "phrases", anchor: "dialogues-mount" }, pillar: "speak" }
       ] },
     { id: "p1-l6", phase: 1, title: "Dire non & poser des questions",
       goal: "Nier correctement et poser 5 questions de base.",
       steps: [
-        { text: "Lis « Dire non » (tidak vs bukan).", target: { tab: "grammaire" } },
-        { text: "Lis « Poser des questions » (apa, siapa, di mana…).", target: { tab: "grammaire" } },
-        { text: "Fais le drill « Di mana ___ ? ».", target: { tab: "training", anchor: "drill-mount" } }
+        { text: "Lis « Dire non » (tidak vs bukan).", target: { tab: "grammaire" }, pillar: "study" },
+        { text: "Lis « Poser des questions » (apa, siapa, di mana…).", target: { tab: "grammaire" }, pillar: "study" },
+        { text: "Fais le drill « Di mana ___ ? ».", target: { tab: "training", anchor: "drill-mount" }, pillar: "study" }
       ] },
     { id: "p1-l7", phase: 1, title: "Présent, passé, futur",
       goal: "Situer une action dans le temps avec sudah / sedang / akan.",
       steps: [
-        { text: "Lis « Le temps sans conjugaison ».", target: { tab: "grammaire" } },
-        { text: "Apprends le thème « Temps ».", target: { tab: "vocab", theme: "Temps" } },
-        { text: "Fais le drill « Saya sudah ___ ».", target: { tab: "training", anchor: "drill-mount" } },
-        { text: "Tire le sujet « Raconte ta journée d'hier » et raconte-la.", target: { tab: "carnet" } }
+        { text: "Lis « Le temps sans conjugaison ».", target: { tab: "grammaire" }, pillar: "study" },
+        { text: "Apprends le thème « Temps ».", target: { tab: "vocab", theme: "Temps" }, pillar: "read" },
+        { text: "Fais le drill « Saya sudah ___ ».", target: { tab: "training", anchor: "drill-mount" }, pillar: "study" },
+        { text: "Tire le sujet « Raconte ta journée d'hier » et raconte-la.", target: { tab: "carnet" }, pillar: "speak" }
       ] }
   ];
 

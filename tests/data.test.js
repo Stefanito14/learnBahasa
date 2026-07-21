@@ -34,3 +34,13 @@ test("lessons: structure du fil guidé", () => {
   const ids = DATA.lessons.map((l) => l.id);
   assert.strictEqual(new Set(ids).size, ids.length, "ids uniques");
 });
+
+test("lessons: chaque etape a un pilier valide", () => {
+  const PILLARS = ["study","read","listen","speak","journal"];
+  assert.ok(Array.isArray(DATA.lessons) && DATA.lessons.length >= 7);
+  for (const l of DATA.lessons) {
+    for (const s of l.steps) {
+      assert.ok(PILLARS.includes(s.pillar), l.id + " : etape sans pilier valide -> " + s.text);
+    }
+  }
+});
