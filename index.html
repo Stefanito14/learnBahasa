@@ -253,6 +253,46 @@
   .reset:hover{border-color:var(--merah);color:var(--merah)}
 
   @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto}}
+
+  /* --- Challenge 75 --- */
+  .ch-cockpit{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin:14px 0}
+  .ch-stats{display:flex;gap:18px;align-items:baseline;flex-wrap:wrap;margin-bottom:14px}
+  .ch-streak{font-size:26px;font-weight:800;color:var(--ink)}
+  .ch-streak span{font-size:14px;font-weight:600;color:var(--muted)}
+  .ch-xp{font-size:15px;font-weight:700;color:var(--ocean)}
+  .ch-xp span,.ch-total span{font-size:12px;font-weight:600;color:var(--muted)}
+  .ch-total{font-size:13px;color:var(--muted);margin-left:auto}
+  .ch-rings{display:flex;gap:10px;flex-wrap:wrap}
+  .ch-ring{display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:none;cursor:pointer;padding:4px;font-family:inherit}
+  .ch-ring[disabled]{cursor:default}
+  .ch-ring-dot{width:44px;height:44px;border-radius:50%;border:4px solid var(--line-strong);transition:.2s}
+  .ch-ring.on .ch-ring-dot{border-color:var(--ocean);background:var(--ocean)}
+  .ch-ring-lbl{font-size:11px;font-weight:700;color:var(--muted)}
+  .ch-ring.on .ch-ring-lbl{color:var(--ink)}
+  .ch-manual-hint{font-size:12px;color:var(--muted);margin-top:12px}
+  .ch-manual-hint a{color:var(--ocean);font-weight:600;text-decoration:none}
+  .ch-grid{margin:14px 0}
+  .ch-grid-head{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px}
+  .ch-cells{display:grid;grid-template-columns:repeat(15,1fr);gap:4px;max-width:420px}
+  .ch-cell{aspect-ratio:1;border-radius:4px;background:#eef1ee;border:1px solid var(--line)}
+  .ch-cell.partial{background:var(--turmeric)}
+  .ch-cell.full{background:var(--ocean)}
+  .ch-cell.milestone{outline:2px solid var(--turmeric);outline-offset:1px}
+  .ch-badges{margin:14px 0}
+  .ch-badges-head{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px}
+  .ch-badges-row{display:flex;gap:12px;flex-wrap:wrap}
+  .ch-badge{display:flex;flex-direction:column;align-items:center;gap:4px;opacity:.35;filter:grayscale(1);width:66px;text-align:center}
+  .ch-badge.on{opacity:1;filter:none}
+  .ch-badge-emo{font-size:26px}
+  .ch-badge-nm{font-size:11px;font-weight:700;color:var(--muted)}
+  .ch-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;box-shadow:var(--shadow);opacity:0;transition:.3s;z-index:60}
+  .ch-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  /* mini-encart accueil */
+  .ch-mini{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 12px;cursor:pointer;font-family:inherit;margin-bottom:10px}
+  .ch-mini-streak{font-weight:800;color:var(--ink);font-size:14px}
+  .ch-mini-dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--line-strong)}
+  .ch-mini-dot.on{border-color:var(--ocean);background:var(--ocean)}
+  .ch-mini-xp{font-size:12px;font-weight:700;color:var(--ocean)}
 </style>
 </head>
 <body>
@@ -262,6 +302,7 @@
     <button class="brand" id="brand" title="Accueil" aria-label="Aller à l'accueil">Bahasa<span class="dot">.</span></button>
     <nav class="nav" id="nav">
       <button data-tab="parcours">Parcours</button>
+      <button data-tab="challenge">Challenge</button>
       <div class="nav-group">
         <button class="nav-parent" type="button" aria-haspopup="true" aria-expanded="false">Apprendre</button>
         <div class="submenu">
@@ -430,6 +471,14 @@
     <div class="cal-grid" id="cal-mount"></div>
     </details>
   </section>
+</section>
+
+<section class="panel" id="tab-challenge">
+  <div class="block-head"><span class="num">75</span><h2>Challenge 75</h2></div>
+  <p class="intro">5 piliers par jour. Trois se cochent tout seuls quand tu bosses dans l'app (⚡), deux sont à cocher à la main. Ne casse pas la série 🔥</p>
+  <div id="ch-cockpit" class="ch-cockpit"></div>
+  <div id="ch-grid" class="ch-grid"></div>
+  <div id="ch-badges" class="ch-badges"></div>
 </section>
 
 <section class="panel" id="tab-grammaire">
@@ -807,6 +856,7 @@
 <script src="audio-index.js"></script>
 <script src="srs-core.js"></script>
 <script src="parcours-core.js"></script>
+<script src="challenge-core.js"></script>
 <script>
 (function(){
 "use strict";
@@ -1042,6 +1092,94 @@ var lessonsReady = Store.get("lessons").then(function(v){
   if(v){ try{ lessonsState = JSON.parse(v) || {}; }catch(e){ lessonsState = {}; } }
   if(typeof renderLessons === "function") renderLessons();
   refreshNextLesson();
+});
+
+/* ---------- CHALLENGE 75 ---------- */
+var CH = window.ChallengeCore;
+var challenge = { startDate: null, days: {} };
+var CH_LABELS = { study:"Étudier", read:"Lire", listen:"Écouter", speak:"Parler", journal:"Journal" };
+var CH_AUTO   = { study:true, read:true, listen:true, speak:false, journal:false };
+var BADGE_DEFS = [
+  { key: 7,  emoji: "🏝️", name: "Bali" },
+  { key: 21, emoji: "🌋", name: "Krakatau" },
+  { key: 50, emoji: "🐉", name: "Komodo" },
+  { key: 75, emoji: "🏆", name: "Merdeka" },
+  { key: "xp", emoji: "⭐", name: "1000 XP" }
+];
+
+function saveChallenge(){ Store.set("challenge", JSON.stringify(challenge)); }
+
+function showBadgeToast(key){
+  var def = BADGE_DEFS.filter(function(b){ return b.key === key; })[0];
+  if(!def) return;
+  var t = document.createElement("div");
+  t.className = "ch-toast";
+  t.innerHTML = def.emoji + ' Badge débloqué : <b>' + def.name + '</b> !';
+  document.body.appendChild(t);
+  setTimeout(function(){ t.classList.add("show"); }, 20);
+  setTimeout(function(){
+    t.classList.remove("show");
+    setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, 300);
+  }, 3200);
+}
+
+function markPillar(pillar, value){
+  if(!CH || CH.PILLARS.indexOf(pillar) < 0) return;
+  var today = todayISO();
+  var before = CH.badgesUnlocked(challenge);
+  challenge = CH.setPillar(challenge, today, pillar, value === undefined ? true : value);
+  saveChallenge();
+  renderChallenge();
+  refreshChallengeMini();
+  CH.badgesUnlocked(challenge).filter(function(b){ return before.indexOf(b) < 0; }).forEach(showBadgeToast);
+}
+
+function ringHTML(pillar, on){
+  var auto = CH_AUTO[pillar];
+  return '<button class="ch-ring'+(on?' on':'')+(auto?' auto':'')+'" data-pillar="'+pillar+'"'+(auto?' disabled':'')+'>'
+    + '<span class="ch-ring-dot"></span>'
+    + '<span class="ch-ring-lbl">'+CH_LABELS[pillar]+(auto?' ⚡':'')+'</span>'
+    + '</button>';
+}
+
+function renderChallenge(){
+  if(!CH) return;
+  var today = todayISO();
+  var rings = CH.ringsForToday(challenge, today);
+  var day = CH.dayPillars(challenge, today);
+
+  var cp = document.getElementById("ch-cockpit");
+  if(cp){
+    cp.innerHTML =
+      '<div class="ch-stats">'
+      + '<div class="ch-streak">🔥 '+CH.streak(challenge, today)+'<span> j</span></div>'
+      + '<div class="ch-xp">'+CH.xpForDay(day)+' / 70 XP<span> aujourd\'hui</span></div>'
+      + '<div class="ch-total">'+CH.totalXp(challenge)+' XP<span> total</span></div>'
+      + '</div>'
+      + '<div class="ch-rings">'+CH.PILLARS.map(function(p){ return ringHTML(p, rings[p]); }).join('')+'</div>'
+      + '<div class="ch-manual-hint">Parler / Journal : à cocher à la main. <a href="#" id="ch-journal-link">→ Écrire dans le Carnet</a></div>';
+    $$(".ch-ring:not(.auto)", cp).forEach(function(b){
+      b.addEventListener("click", function(){
+        var p = b.getAttribute("data-pillar");
+        markPillar(p, !CH.dayPillars(challenge, todayISO())[p]);
+      });
+    });
+    var jl = document.getElementById("ch-journal-link");
+    if(jl) jl.addEventListener("click", function(e){ e.preventDefault(); activateTab("carnet"); });
+  }
+  renderChallengeGrid();
+  renderChallengeBadges();
+}
+
+/* Étoffés en Task 4 ; définis ici en no-op pour éviter les erreurs. */
+function renderChallengeGrid(){}
+function renderChallengeBadges(){}
+function refreshChallengeMini(){}
+
+var challengeReady = Store.get("challenge").then(function(v){
+  if(v){ try{ challenge = JSON.parse(v) || { startDate:null, days:{} }; }catch(e){ challenge = { startDate:null, days:{} }; } }
+  renderChallenge();
+  refreshChallengeMini();
 });
 
 /* ---------- VOCAB LISTS ---------- */
