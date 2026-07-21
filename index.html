@@ -12,26 +12,25 @@
 <meta name="apple-mobile-web-app-title" content="Bahasa">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;450;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#F4EFE3;--card:#FBF8F1;--card2:#fff;--ink:#16332D;--ocean:#16564C;--jade:#2E8B79;
-    --turmeric:#DD9A1A;--merah:#C03E29;--muted:#6C786F;--line:rgba(22,51,45,.12);
-    --line-strong:rgba(22,51,45,.22);--shadow:0 1px 0 rgba(22,51,45,.04),0 18px 40px -24px rgba(22,51,45,.35);--r:16px;
+    --paper:#F4FBF7;--card:#FFFFFF;--card2:#FFFFFF;--ink:#0C2A24;--ocean:#0FB88F;--jade:#0A7C63;
+    --turmeric:#FFC53D;--merah:#FF4D79;--muted:#5C726B;--line:rgba(12,42,36,.12);
+    --line-strong:rgba(12,42,36,.20);--shadow:none;--r:14px;--r-sm:8px;--r-pill:999px;--sun:#FFC53D;--hibiscus:#FF4D79;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;
-    background-image:radial-gradient(circle at 12% 4%,rgba(46,139,121,.06),transparent 40%),radial-gradient(circle at 92% 0,rgba(221,154,26,.07),transparent 38%);}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;}
   .wrap{max-width:1000px;margin:0 auto;padding:0 22px}
   .mono{font-family:"Space Mono",monospace}
-  h1,h2,h3,h4{font-family:"Fraunces",serif;font-weight:600;line-height:1.05;letter-spacing:-.01em;margin:0}
+  h1,h2,h3,h4{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;line-height:1.03;letter-spacing:-.02em;margin:0}
   a{color:var(--ocean)}
   .eyebrow{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ocean);font-weight:700}
 
   .topbar{position:sticky;top:0;z-index:50;background:rgba(244,239,227,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
   .topbar-inner{display:flex;align-items:center;gap:14px;max-width:1000px;margin:0 auto;padding:11px 22px;position:relative}
-  .brand{font-family:"Fraunces",serif;font-weight:700;font-size:18px;white-space:nowrap;cursor:pointer;background:none;border:none;padding:0;color:var(--ink)}
+  .brand{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:18px;white-space:nowrap;cursor:pointer;background:none;border:none;padding:0;color:var(--ink)}
   .brand .dot{color:var(--merah)}
   .nav{display:flex;gap:2px;align-items:center}
   .nav button{font-family:"Inter",system-ui,sans-serif;font-size:12px;font-weight:600;white-space:nowrap;background:none;border:none;color:var(--muted);padding:7px 10px;border-radius:9px;cursor:pointer;transition:.15s}
