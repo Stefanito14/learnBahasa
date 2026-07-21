@@ -38,6 +38,7 @@ test("autoForTask: seulement les activites reellement detectees", () => {
 test("defaultTaskFor: read injecte srsDue, speak injecte prompt", () => {
   const r = JC.defaultTaskFor("read", CTX);
   assert.ok(r.label.indexOf("12") >= 0);
+  assert.ok(JC.defaultTaskFor("read", { srsDue: 1, prompt: "x" }).label.indexOf("1 due)") >= 0);
   assert.deepStrictEqual(r.target, { tab:"vocab" });
   assert.strictEqual(r.auto, true);
   const s = JC.defaultTaskFor("speak", CTX);

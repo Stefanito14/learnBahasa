@@ -34,7 +34,7 @@
     var prompt = ctx.prompt || "Parle 2 minutes à voix haute.";
     var label, target;
     if (pillar === "study") { label = "Relis un point de grammaire."; target = { tab: "grammaire" }; }
-    else if (pillar === "read") { label = "Révise tes cartes (" + due + " dues)."; target = { tab: "vocab" }; }
+    else if (pillar === "read") { label = "Révise tes cartes (" + due + (due > 1 ? " dues" : " due") + ")."; target = { tab: "vocab" }; }
     else if (pillar === "listen") { label = "Quiz d'écoute (5 questions)."; target = { tab: "training", anchor: "quiz-listen" }; }
     else if (pillar === "speak") { label = "Dis à voix haute : « " + prompt + " »"; target = { tab: "carnet" }; }
     else { label = "Écris 2 phrases (journal)."; target = { tab: "carnet" }; }

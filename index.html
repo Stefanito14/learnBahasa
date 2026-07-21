@@ -1092,6 +1092,8 @@ var srsReady = Store.get("srs").then(function(v){
       if(changed) Store.set("srs", JSON.stringify(srs));
     }
     refreshSrsUI();
+    if(typeof renderChallenge === "function") renderChallenge();
+    if(typeof refreshChallengeMini === "function") refreshChallengeMini();
   });
 });
 
@@ -1134,7 +1136,6 @@ var lessonsReady = Store.get("lessons").then(function(v){
 /* ---------- CHALLENGE 75 ---------- */
 var CH = window.ChallengeCore;
 var challenge = { startDate: null, days: {} };
-var CH_LABELS = { study:"Étudier", read:"Lire", listen:"Écouter", speak:"Parler", journal:"Journal" };
 var BADGE_DEFS = [
   { key: 7,  emoji: "🏝️", name: "Bali" },
   { key: 21, emoji: "🌋", name: "Krakatau" },
