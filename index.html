@@ -262,15 +262,31 @@
   .ch-xp{font-size:15px;font-weight:700;color:var(--ocean)}
   .ch-xp span,.ch-total span{font-size:12px;font-weight:600;color:var(--muted)}
   .ch-total{font-size:13px;color:var(--muted);margin-left:auto}
-  .ch-rings{display:flex;gap:10px;flex-wrap:wrap}
-  .ch-ring{display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:none;cursor:pointer;padding:4px;font-family:inherit}
-  .ch-ring[disabled]{cursor:default}
-  .ch-ring-dot{width:44px;height:44px;border-radius:50%;border:4px solid var(--line-strong);transition:.2s}
-  .ch-ring.on .ch-ring-dot{border-color:var(--ocean);background:var(--ocean)}
-  .ch-ring-lbl{font-size:11px;font-weight:700;color:var(--muted)}
-  .ch-ring.on .ch-ring-lbl{color:var(--ink)}
-  .ch-manual-hint{font-size:12px;color:var(--muted);margin-top:12px}
-  .ch-manual-hint a{color:var(--ocean);font-weight:600;text-decoration:none}
+  .ch-day-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px}
+  .ch-day-title{font-size:clamp(20px,3vw,26px)}
+  .ch-day-meta{margin-left:auto;display:flex;gap:14px;align-items:baseline}
+  .ch-day-meta .streak{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:22px}
+  .ch-day-meta .xp{font-weight:700;color:var(--jade);font-size:14px}
+  .ch-day-count{font-weight:700;color:var(--muted);font-size:13px}
+  .ch-tasks{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+  .ch-task{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+  .ch-task.done{border-color:rgba(15,184,143,.45);background:rgba(15,184,143,.07)}
+  .ch-task .tk-state{flex:0 0 auto;width:26px;height:26px;border-radius:50%;border:2px solid var(--line-strong);display:flex;align-items:center;justify-content:center;color:var(--hibiscus)}
+  .ch-task.done .tk-state{border-color:var(--ocean);background:#fff}
+  .ch-task .tk-body{flex:1 1 auto;min-width:0}
+  .ch-task .tk-pillar{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .ch-task.done .tk-pillar{color:var(--jade)}
+  .ch-task .tk-label{font-size:14.5px}
+  .ch-task.done .tk-label{color:var(--muted)}
+  .ch-task .tk-actions{flex:0 0 auto;display:flex;gap:8px}
+  .ch-task .tk-go{font-size:12px;font-weight:700;border:1px solid var(--line-strong);background:#fff;color:var(--ink);padding:7px 12px;border-radius:var(--r-pill);cursor:pointer;transition:.15s}
+  .ch-task .tk-go:hover{border-color:var(--ocean);color:var(--jade)}
+  .ch-task .tk-done-btn{font-size:12px;font-weight:700;border:none;background:var(--ocean);color:#fff;padding:8px 13px;border-radius:var(--r-pill);cursor:pointer}
+  .ch-task.done .tk-done-btn{background:none;border:1px solid var(--line);color:var(--muted)}
+  .ch-task .tk-auto{font-size:11px;font-weight:700;color:var(--muted)}
+  .ch-more{margin:18px 0}
+  .ch-more summary{cursor:pointer;font-weight:700;color:var(--jade);padding:10px 0}
+  @media (max-width:640px){ .ch-task{flex-wrap:wrap} .ch-task .tk-actions{width:100%;justify-content:flex-end} }
   .ch-grid{margin:14px 0}
   .ch-grid-head{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px}
   .ch-cells{display:grid;grid-template-columns:repeat(15,1fr);gap:4px;max-width:420px}
@@ -499,10 +515,12 @@
 
 <section class="panel" id="tab-challenge">
   <div class="block-head"><span class="num">75</span><h2>Challenge 75</h2></div>
-  <p class="intro">5 piliers par jour. Trois se cochent tout seuls quand tu bosses dans l'app (⚡), deux sont à cocher à la main. Ne casse pas la série 🔥</p>
   <div id="ch-cockpit" class="ch-cockpit"></div>
-  <div id="ch-grid" class="ch-grid"></div>
-  <div id="ch-badges" class="ch-badges"></div>
+  <details class="ch-more">
+    <summary>Voir ma progression</summary>
+    <div id="ch-grid" class="ch-grid"></div>
+    <div id="ch-badges" class="ch-badges"></div>
+  </details>
 </section>
 
 <section class="panel" id="tab-grammaire">
@@ -881,6 +899,7 @@
 <script src="srs-core.js"></script>
 <script src="parcours-core.js"></script>
 <script src="challenge-core.js"></script>
+<script src="journee-core.js"></script>
 <script>
 (function(){
 "use strict";
@@ -1153,45 +1172,71 @@ function markPillar(pillar, value){
   if(!CH || CH.PILLARS.indexOf(pillar) < 0) return;
   var today = todayISO();
   var before = CH.badgesUnlocked(challenge);
+  var wasFull = CH.dayComplete(CH.dayPillars(challenge, today));
   challenge = CH.setPillar(challenge, today, pillar, value === undefined ? true : value);
   saveChallenge();
   renderChallenge();
   refreshChallengeMini();
+  if(!wasFull && CH.dayComplete(CH.dayPillars(challenge, today))){
+    var t = document.createElement("div");
+    t.className = "ch-toast";
+    t.innerHTML = '<svg class="ic-botanic bloom-in" aria-hidden="true"><use href="#ic-bloom"/></svg> Journée pleine · <b>+70 XP</b> 🎉';
+    document.body.appendChild(t);
+    setTimeout(function(){ t.classList.add("show"); }, 20);
+    setTimeout(function(){ t.classList.remove("show"); setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, 300); }, 3200);
+  }
   CH.badgesUnlocked(challenge).filter(function(b){ return before.indexOf(b) < 0; }).forEach(showBadgeToast);
 }
 
-function ringHTML(pillar, on){
-  var auto = CH_AUTO[pillar];
-  return '<button class="ch-ring'+(on?' on':'')+(auto?' auto':'')+'" data-pillar="'+pillar+'"'+(auto?' disabled':'')+'>'
-    + '<span class="ch-ring-dot"></span>'
-    + '<span class="ch-ring-lbl">'+CH_LABELS[pillar]+(auto?' ⚡':'')+'</span>'
-    + '</button>';
+function lessonById(id){ for(var i=0;i<LESSONS.length;i++){ if(LESSONS[i].id===id) return LESSONS[i]; } return null; }
+function promptForDay(iso){
+  var s=0; for(var i=0;i<iso.length;i++) s+=iso.charCodeAt(i);
+  return EXPRESSION_PROMPTS[s % EXPRESSION_PROMPTS.length];
 }
-
+function taskRowHTML(t, done){
+  var stateIcon = done ? '<svg class="ic-botanic bloom-in" aria-hidden="true"><use href="#ic-bloom"/></svg>' : '';
+  var actions = '';
+  if(t.target && t.target.tab) actions += '<button class="tk-go" data-i="__I__">→ Aller</button>';
+  if(t.auto) actions += '<span class="tk-auto">⚡ auto</span>';
+  else actions += '<button class="tk-done-btn" data-p="'+t.pillar+'">'+(done?'Annuler':'✓ Fait')+'</button>';
+  return '<li class="ch-task'+(done?' done':'')+'">'
+    + '<span class="tk-state">'+stateIcon+'</span>'
+    + '<span class="tk-body"><span class="tk-pillar">'+window.JourneeCore.PILLAR_LABELS[t.pillar]+'</span><br><span class="tk-label">'+t.label+'</span></span>'
+    + '<span class="tk-actions">'+actions+'</span></li>';
+}
 function renderChallenge(){
-  if(!CH) return;
-  var today = todayISO();
-  var rings = CH.ringsForToday(challenge, today);
-  var day = CH.dayPillars(challenge, today);
-
+  if(!CH || !window.JourneeCore) return;
   var cp = document.getElementById("ch-cockpit");
   if(cp){
+    var today = todayISO();
+    var day = CH.dayPillars(challenge, today);
+    var doneCount = CH.dayCount(day);
+    var lessonId = window.ParcoursCore.nextLessonId(LESSON_IDS, lessonsState);
+    var lesson = lessonById(lessonId);
+    var srsDue = window.SrsCore.dueIds(srs, FLAT.map(function(x){ return x.id; }), today).length;
+    var plan = window.JourneeCore.buildDayPlan(lesson, { srsDue: srsDue, prompt: promptForDay(today) });
+    var title = lesson ? ("Leçon — " + lesson.title) : "Consolidation";
+    var rows = "";
+    for(var i=0;i<plan.length;i++){
+      rows += taskRowHTML(plan[i], !!day[plan[i].pillar]).replace("__I__", String(i));
+    }
     cp.innerHTML =
-      '<div class="ch-stats">'
-      + '<div class="ch-streak">🔥 '+CH.streak(challenge, today)+'<span> j</span></div>'
-      + '<div class="ch-xp">'+CH.xpForDay(day)+' / 70 XP<span> aujourd\'hui</span></div>'
-      + '<div class="ch-total">'+CH.totalXp(challenge)+' XP<span> total</span></div>'
+      '<div class="ch-day-head">'
+      + '<div><div class="tk-pillar">Ta journée</div><h3 class="ch-day-title">'+title+'</h3></div>'
+      + '<div class="ch-day-meta"><span class="streak">🔥 '+CH.streak(challenge, today)+'</span>'
+      + '<span class="xp">'+CH.xpForDay(day)+'/70 XP</span>'
+      + '<span class="ch-day-count">'+doneCount+'/5</span></div>'
       + '</div>'
-      + '<div class="ch-rings">'+CH.PILLARS.map(function(p){ return ringHTML(p, rings[p]); }).join('')+'</div>'
-      + '<div class="ch-manual-hint">Parler / Journal : à cocher à la main. <a href="#" id="ch-journal-link">→ Écrire dans le Carnet</a></div>';
-    $$(".ch-ring:not(.auto)", cp).forEach(function(b){
+      + '<ul class="ch-tasks">'+rows+'</ul>';
+    $$(".tk-go", cp).forEach(function(b){
+      b.addEventListener("click", function(){ var t = plan[+b.getAttribute("data-i")]; if(t) goTo(t.target); });
+    });
+    $$(".tk-done-btn", cp).forEach(function(b){
       b.addEventListener("click", function(){
-        var p = b.getAttribute("data-pillar");
+        var p = b.getAttribute("data-p");
         markPillar(p, !CH.dayPillars(challenge, todayISO())[p]);
       });
     });
-    var jl = document.getElementById("ch-journal-link");
-    if(jl) jl.addEventListener("click", function(e){ e.preventDefault(); activateTab("carnet"); });
   }
   renderChallengeGrid();
   renderChallengeBadges();
@@ -1736,25 +1781,26 @@ function numID(n){
 })();
 
 /* ---------- PROMPTS D'EXPRESSION ---------- */
+var EXPRESSION_PROMPTS = [
+  "Présente-toi : nom, d'où tu viens, ton métier (3 phrases).",
+  "Décris ton plat préféré et pourquoi tu l'aimes.",
+  "Raconte ta journée d'hier au passé (sudah / kemarin).",
+  "Explique comment aller de chez toi au marché.",
+  "Commande un repas complet sans piment, avec une boisson.",
+  "Décris ta famille en 4 phrases.",
+  "Marchande le prix d'un souvenir (joue les deux rôles).",
+  "Parle de la musique que tu aimes et pourquoi.",
+  "Décris le temps qu'il fait aujourd'hui.",
+  "Explique pourquoi tu apprends l'indonésien.",
+  "Demande ton chemin vers la gare à un passant.",
+  "Raconte ce que tu vas faire demain (akan).",
+  "Décris ta chambre d'hôtel idéale.",
+  "Parle de ton dernier voyage en 4 phrases.",
+  "Présente ton travail et ce que tu fais au quotidien."
+];
 (function(){
   var btn=$("#prompt-draw"); if(!btn)return;
-  var prompts=[
-    "Présente-toi : nom, d'où tu viens, ton métier (3 phrases).",
-    "Décris ton plat préféré et pourquoi tu l'aimes.",
-    "Raconte ta journée d'hier au passé (sudah / kemarin).",
-    "Explique comment aller de chez toi au marché.",
-    "Commande un repas complet sans piment, avec une boisson.",
-    "Décris ta famille en 4 phrases.",
-    "Marchande le prix d'un souvenir (joue les deux rôles).",
-    "Parle de la musique que tu aimes et pourquoi.",
-    "Décris le temps qu'il fait aujourd'hui.",
-    "Explique pourquoi tu apprends l'indonésien.",
-    "Demande ton chemin vers la gare à un passant.",
-    "Raconte ce que tu vas faire demain (akan).",
-    "Décris ta chambre d'hôtel idéale.",
-    "Parle de ton dernier voyage en 4 phrases.",
-    "Présente ton travail et ce que tu fais au quotidien."
-  ];
+  var prompts=EXPRESSION_PROMPTS;
   var last=-1;
   btn.addEventListener("click",function(){
     var i; do{ i=Math.floor(Math.random()*prompts.length); }while(i===last&&prompts.length>1); last=i;
