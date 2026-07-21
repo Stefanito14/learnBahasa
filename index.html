@@ -256,12 +256,6 @@
 
   /* --- Challenge 75 --- */
   .ch-cockpit{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin:14px 0}
-  .ch-stats{display:flex;gap:18px;align-items:baseline;flex-wrap:wrap;margin-bottom:14px}
-  .ch-streak{font-size:26px;font-weight:800;color:var(--ink)}
-  .ch-streak span{font-size:14px;font-weight:600;color:var(--muted)}
-  .ch-xp{font-size:15px;font-weight:700;color:var(--ocean)}
-  .ch-xp span,.ch-total span{font-size:12px;font-weight:600;color:var(--muted)}
-  .ch-total{font-size:13px;color:var(--muted);margin-left:auto}
   .ch-day-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px}
   .ch-day-title{font-size:clamp(20px,3vw,26px)}
   .ch-day-meta{margin-left:auto;display:flex;gap:14px;align-items:baseline}
@@ -274,7 +268,7 @@
   .ch-task .tk-state{flex:0 0 auto;width:26px;height:26px;border-radius:50%;border:2px solid var(--line-strong);display:flex;align-items:center;justify-content:center;color:var(--hibiscus)}
   .ch-task.done .tk-state{border-color:var(--ocean);background:#fff}
   .ch-task .tk-body{flex:1 1 auto;min-width:0}
-  .ch-task .tk-pillar{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .tk-pillar{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
   .ch-task.done .tk-pillar{color:var(--jade)}
   .ch-task .tk-label{font-size:14.5px}
   .ch-task.done .tk-label{color:var(--muted)}
@@ -312,7 +306,6 @@
   .ch-day-card .dc-streak{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:18px}
   .ch-day-card .dc-count{font-weight:700;font-size:13px;color:var(--jade)}
   .ch-day-card .dc-cta{font-weight:800;font-size:13px;color:#fff;background:var(--merah);padding:8px 14px;border-radius:var(--r-pill)}
-  @media (prefers-reduced-motion: reduce){ .ch-day-card:hover{transform:none} }
   /* --- Signature botanique + motion --- */
   @keyframes bloom{0%{transform:scale(.4) rotate(-12deg);opacity:0}60%{transform:scale(1.12) rotate(4deg);opacity:1}100%{transform:scale(1) rotate(0);opacity:1}}
   .bloom-in{animation:bloom .6s cubic-bezier(.2,.8,.3,1.2) both}
@@ -325,7 +318,7 @@
     *{scroll-behavior:auto!important}
     .panel{animation:none}
     .bloom-in{animation:none}
-    .btn:hover,.tile:hover{transform:none}
+    .btn:hover,.tile:hover,.ch-day-card:hover{transform:none}
   }
 </style>
 </head>
@@ -1013,12 +1006,6 @@ $$("#nav button[data-tab]").forEach(function(b){
   t.addEventListener("click", function(){ var b=$('#nav button[data-tab="vocab"]'); if(b) b.click(); });
 })();
 
-/* ---------- BANNER PROCHAINE LEÇON (accueil) ---------- */
-(function(){
-  var b=$("#next-lesson-home"); if(!b) return;
-  b.addEventListener("click",function(){ var t=$('#nav button[data-tab="parcours"]'); if(t) t.click(); });
-})();
-
 /* ---------- SÉLECTEUR DE VOIX ---------- */
 function updateVoiceToggle(){ var b=$("#voice-toggle"); if(b) b.textContent = (voicePref === "f" ? "♀" : "♂"); }
 (function(){
@@ -1140,13 +1127,14 @@ var lessonsReady = Store.get("lessons").then(function(v){
   if(v){ try{ lessonsState = JSON.parse(v) || {}; }catch(e){ lessonsState = {}; } }
   if(typeof renderLessons === "function") renderLessons();
   refreshNextLesson();
+  if(typeof renderChallenge === "function") renderChallenge();
+  if(typeof refreshChallengeMini === "function") refreshChallengeMini();
 });
 
 /* ---------- CHALLENGE 75 ---------- */
 var CH = window.ChallengeCore;
 var challenge = { startDate: null, days: {} };
 var CH_LABELS = { study:"Étudier", read:"Lire", listen:"Écouter", speak:"Parler", journal:"Journal" };
-var CH_AUTO   = { study:true, read:true, listen:true, speak:false, journal:false };
 var BADGE_DEFS = [
   { key: 7,  emoji: "🏝️", name: "Bali" },
   { key: 21, emoji: "🌋", name: "Krakatau" },
