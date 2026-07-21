@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bahasa Indonesia · Ma plateforme</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#16564C">
+<meta name="theme-color" content="#0FB88F">
 <link rel="apple-touch-icon" href="icon-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -29,13 +29,13 @@
   a{color:var(--ocean)}
   .eyebrow{font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ocean);font-weight:700}
 
-  .topbar{position:sticky;top:0;z-index:50;background:rgba(244,239,227,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(244,251,247,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
   .topbar-inner{display:flex;align-items:center;gap:14px;max-width:1000px;margin:0 auto;padding:11px 22px;position:relative}
   .brand{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:18px;white-space:nowrap;cursor:pointer;background:none;border:none;padding:0;color:var(--ink)}
   .brand .dot{color:var(--merah)}
   .nav{display:flex;gap:2px;align-items:center}
   .nav button{font-family:"Inter",system-ui,sans-serif;font-size:12px;font-weight:600;white-space:nowrap;background:none;border:none;color:var(--muted);padding:7px 10px;border-radius:9px;cursor:pointer;transition:.15s}
-  .nav button:hover{color:var(--ink);background:rgba(22,51,45,.05)}
+  .nav button:hover{color:var(--ink);background:rgba(12,42,36,.05)}
   .nav button.on{color:#fff;background:var(--ocean)}
   .nav button:focus-visible{outline:2px solid var(--turmeric);outline-offset:2px}
   .nav-group{position:relative;display:flex}
@@ -113,15 +113,15 @@
   .phase h3{font-size:clamp(22px,3.2vw,29px)}
   .phase h3 .id{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-style:italic;font-weight:400;color:var(--jade);font-size:.7em;margin-left:6px}
   .phase .months{font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:12px;color:var(--muted)}
-  .goal-chip{display:inline-block;background:rgba(46,139,121,.12);color:var(--ocean);border:1px solid rgba(46,139,121,.25);font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px}
-  .next-lesson{display:flex;align-items:center;gap:12px;background:#15564C;color:#fff;border-radius:14px;padding:15px 18px;margin-bottom:18px;cursor:pointer}
-  .next-lesson .nl-label{font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9fd3c8}
+  .goal-chip{display:inline-block;background:rgba(15,184,143,.12);color:var(--ocean);border:1px solid rgba(15,184,143,.30);font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px}
+  .next-lesson{display:flex;align-items:center;gap:12px;background:#0A7C63;color:#fff;border-radius:14px;padding:15px 18px;margin-bottom:18px;cursor:pointer}
+  .next-lesson .nl-label{font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#C9F2E6}
   .next-lesson .next-lesson-title{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:19px;font-weight:600}
   .lesson{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:12px}
   .lesson.next{border-color:var(--ocean);box-shadow:0 0 0 2px rgba(15,184,143,.35)}
   .lesson.done{opacity:.7}
   .lesson-head{display:flex;gap:12px;align-items:flex-start}
-  .lesson-badge{flex:0 0 auto;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;background:rgba(46,139,121,.12);color:var(--ocean)}
+  .lesson-badge{flex:0 0 auto;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;background:rgba(15,184,143,.12);color:var(--ocean)}
   .lesson.done .lesson-badge{background:var(--jade);color:#fff}
   .lesson h4{font-size:18px;margin:0}
   .lesson-goal{font-size:14px;color:var(--muted);margin:4px 0 0}
@@ -144,9 +144,9 @@
   .task input{appearance:none;-webkit-appearance:none;width:21px;height:21px;border:2px solid var(--line-strong);border-radius:6px;flex:0 0 auto;margin-top:1px;cursor:pointer;transition:.18s;position:relative;background:#fff}
   .task input:checked{background:var(--jade);border-color:var(--jade)}
   .task input:checked::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
-  .task input:focus-visible{outline:3px solid rgba(221,154,26,.5);outline-offset:2px}
-  .task span{font-size:14.5px;color:#33453d}
-  .task input:checked + span{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(46,139,121,.6)}
+  .task input:focus-visible{outline:3px solid rgba(255,197,61,.65);outline-offset:2px}
+  .task span{font-size:14.5px;color:var(--ink)}
+  .task input:checked + span{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(15,184,143,.6)}
   .cando .task input:checked{background:var(--turmeric);border-color:var(--turmeric)}
 
   .say{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;border:1px solid var(--line-strong);background:#fff;color:var(--ocean);cursor:pointer;flex:0 0 auto;transition:.15s;font-size:13px;line-height:1;vertical-align:middle}
@@ -158,7 +158,7 @@
   .gcard h3 .sub{font-family:"Bricolage Grotesque";font-style:italic;font-weight:400;color:var(--jade);font-size:.65em;margin-left:6px}
   .gcard p{font-size:14.5px;color:#3a4a43;margin:8px 0}
   .dlg-line{margin:8px 0}
-  .dlg-line.dlg-active{background:rgba(221,154,26,.14);border-radius:8px;padding:4px 8px;margin-left:-8px;margin-right:-8px}
+  .dlg-line.dlg-active{background:rgba(255,197,61,.18);border-radius:8px;padding:4px 8px;margin-left:-8px;margin-right:-8px}
   .dlg-hidden .dlg-id{visibility:hidden}
   .dlg-ctrl{display:flex;gap:8px;margin:4px 0 10px}
   .dlg-ctrl .btn{padding:7px 12px;font-size:12px}
@@ -166,8 +166,8 @@
   .ex .pair{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:7px 11px;font-size:14px}
   .ex .pair b{color:var(--ocean)}
   .ex .pair em{color:var(--muted);font-style:normal;font-size:13px}
-  .tip{background:rgba(221,154,26,.1);border:1px solid rgba(221,154,26,.3);border-radius:12px;padding:13px 16px;font-size:14px;color:#4a3d1a;margin:14px 0}
-  .warn{background:rgba(192,62,41,.08);border:1px solid rgba(192,62,41,.28);border-radius:12px;padding:13px 16px;font-size:14px;color:#6b271a;margin:14px 0}
+  .tip{background:rgba(255,197,61,.14);border:1px solid rgba(255,197,61,.45);border-radius:12px;padding:13px 16px;font-size:14px;color:#6B5416;margin:14px 0}
+  .warn{background:rgba(255,77,121,.08);border:1px solid rgba(255,77,121,.35);border-radius:12px;padding:13px 16px;font-size:14px;color:#8A1E42;margin:14px 0}
 
   table.tb{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:6px 0 12px}
   table.tb th{font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:13px 16px;border-bottom:1px solid var(--line-strong);font-weight:700}
@@ -175,7 +175,7 @@
   table.tb tr:last-child td{border-bottom:none}
   table.tb .id-word{font-weight:600;color:var(--ocean)}
   table.tb .hint{font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:12px;color:var(--muted)}
-  .grp td{background:rgba(46,139,121,.07);font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ocean);font-weight:700}
+  .grp td{background:rgba(15,184,143,.08);font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ocean);font-weight:700}
 
   .chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
   .chip{font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:12.5px;font-weight:700;border:1px solid var(--line-strong);background:#fff;color:var(--ink);padding:7px 13px;border-radius:999px;cursor:pointer;transition:.15s}
@@ -193,7 +193,7 @@
   .week h4{font-size:17px;margin:6px 0 8px;font-family:"Bricolage Grotesque"}
   .week .row{font-size:13px;color:#3a4a43;margin:3px 0}
   .week .row b{font-family:"Hanken Grotesk";font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ocean)}
-  .week .mission{margin-top:9px;font-size:13px;background:rgba(46,139,121,.08);border-radius:8px;padding:8px 10px;color:#2a4640}
+  .week .mission{margin-top:9px;font-size:13px;background:rgba(15,184,143,.10);border-radius:8px;padding:8px 10px;color:var(--ink)}
 
   .flash-stage{display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:8px}
   .flashcard{width:100%;max-width:430px;aspect-ratio:16/10;perspective:1200px;cursor:pointer}
@@ -202,9 +202,9 @@
   .fc-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;border:1px solid var(--line);background:var(--card2);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
   .fc-face .lbl{font-family:"Hanken Grotesk";font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);position:absolute;top:14px;left:16px}
   .fc-front .word{font-family:"Bricolage Grotesque";font-size:clamp(26px,5vw,38px);font-weight:600}
-  .fc-back{transform:rotateY(180deg);background:#15564C}
+  .fc-back{transform:rotateY(180deg);background:#0A7C63}
   .fc-back .word{font-family:"Bricolage Grotesque";font-size:clamp(26px,5vw,38px);font-weight:600;color:#fff}
-  .fc-back .hint{font-family:"Hanken Grotesk";font-size:13px;color:#bfe3da;margin-top:8px}
+  .fc-back .hint{font-family:"Hanken Grotesk";font-size:13px;color:#C9F2E6;margin-top:8px}
   .flash-ctrl{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
   .flash-meta{font-family:"Hanken Grotesk";font-size:12.5px;color:var(--muted)}
 
@@ -219,8 +219,8 @@
   @media(max-width:520px){.opts{grid-template-columns:1fr}}
   .opt{font-size:15px;text-align:left;background:#fff;border:1px solid var(--line-strong);border-radius:11px;padding:12px 14px;cursor:pointer;transition:.12s;font-family:inherit;color:var(--ink)}
   .opt:hover{border-color:var(--ocean)}
-  .opt.good{background:rgba(46,139,121,.16);border-color:var(--jade);color:var(--ocean);font-weight:600}
-  .opt.bad{background:rgba(192,62,41,.12);border-color:var(--merah);color:var(--merah)}
+  .opt.good{background:rgba(15,184,143,.16);border-color:var(--jade);color:var(--ocean);font-weight:600}
+  .opt.bad{background:rgba(255,77,121,.12);border-color:var(--merah);color:var(--merah)}
   .quiz-foot{display:flex;justify-content:space-between;align-items:center;margin-top:16px;font-family:"Hanken Grotesk";font-size:13px;color:var(--muted)}
 
   .drill{background:#fff;border:1px solid var(--line);border-radius:13px;padding:16px 18px;margin-bottom:12px}
@@ -242,9 +242,9 @@
   .logitem .d{font-family:"Hanken Grotesk";font-size:12px;color:var(--muted)}
   .logitem .rm{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px}
   .logitem .rm:hover{color:var(--merah)}
-  .prompt-box{background:#15564C;color:#fff;border-radius:16px;padding:26px;text-align:center;margin-bottom:16px}
+  .prompt-box{background:#0A7C63;color:#fff;border-radius:16px;padding:26px;text-align:center;margin-bottom:16px}
   .prompt-box .pt{font-family:"Bricolage Grotesque";font-style:italic;font-size:22px;line-height:1.3}
-  .prompt-box .pk{font-family:"Hanken Grotesk";font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9fd3c8;margin-bottom:10px}
+  .prompt-box .pk{font-family:"Hanken Grotesk";font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#C9F2E6;margin-bottom:10px}
 
   footer{padding:44px 0 70px;border-top:1px solid var(--line);text-align:center;margin-top:30px}
   footer .ttd{font-family:"Bricolage Grotesque";font-style:italic;font-size:22px;color:var(--jade);margin-bottom:8px}
@@ -1394,7 +1394,7 @@ var challengeReady = Store.get("challenge").then(function(v){
     html+='<div class="dlg-ctrl"><button class="btn dlg-play">▶️ Écouter le dialogue</button><button class="btn ghost dlg-hide">👁️ Masquer le texte</button></div>';
     s.lines.forEach(function(l){
       var ri=roleOrder.indexOf(l[0]);
-      html+='<p class="dlg-line"><b style="font-family:Hanken Grotesk;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#6C786F">'+l[0]+'</b><br><span class="id-word dlg-id" style="color:#16564C;font-weight:600">'+l[1]+'</span> <button class="say" data-say="'+l[1].replace(/"/g,"")+'" data-role="'+ri+'">🔊</button><br><em style="color:#6C786F;font-size:13.5px">'+l[2]+'</em></p>';
+      html+='<p class="dlg-line"><b style="font-family:Hanken Grotesk;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#5C726B">'+l[0]+'</b><br><span class="id-word dlg-id" style="color:#0A7C63;font-weight:600">'+l[1]+'</span> <button class="say" data-say="'+l[1].replace(/"/g,"")+'" data-role="'+ri+'">🔊</button><br><em style="color:#5C726B;font-size:13.5px">'+l[2]+'</em></p>';
     });
     c.innerHTML=html;
 
@@ -1582,7 +1582,7 @@ function numID(n){
     var opts=[correct];
     while(opts.length<4){ var m2=Math.max(1,n+(rnd(7)-3)+rnd(40)-20); if(m2<0)m2=rnd(100); var w=numID(m2); if(opts.indexOf(w)<0&&w)opts.push(w); }
     shuffle(opts);
-    $("#qn-q").innerHTML='Comment dit-on <span style="color:#C03E29">'+n.toLocaleString("fr-FR")+'</span> ?';
+    $("#qn-q").innerHTML='Comment dit-on <span style="color:#C2154E">'+n.toLocaleString("fr-FR")+'</span> ?';
     var o=$("#qn-opts"); o.innerHTML="";
     opts.forEach(function(op){
       var b=document.createElement("button"); b.className="opt"; b.textContent=op;
@@ -1611,7 +1611,7 @@ function numID(n){
     var opts=[it]; var k=1;
     while(opts.length<4&&k<pool.length){ if(pool[k].id!==correct&&!opts.some(function(x){return x.id===pool[k].id;}))opts.push(pool[k]); k++; }
     shuffle(opts);
-    $("#qv-q").innerHTML='« <span style="color:#C03E29">'+it.fr+'</span> » se dit…';
+    $("#qv-q").innerHTML='« <span style="color:#C2154E">'+it.fr+'</span> » se dit…';
     var o=$("#qv-opts"); o.innerHTML="";
     opts.forEach(function(op){
       var b=document.createElement("button"); b.className="opt"; b.textContent=op.id;
@@ -1633,7 +1633,7 @@ function numID(n){
 (function(){
   var box=$("#quiz-listen"); if(!box) return;
   var pool = FLAT.filter(function(x){ return AUDIO_INDEX_SET.has(window.AudioCore.fnv1a(x.id)); });
-  if(!pool.length){ box.innerHTML='<p style="color:#6C786F;font-size:14px">Audio pas encore généré — lance la génération pour activer ce quiz.</p>'; return; }
+  if(!pool.length){ box.innerHTML='<p style="color:#5C726B;font-size:14px">Audio pas encore généré — lance la génération pour activer ce quiz.</p>'; return; }
   var score=0,total=0,answered=false,current=null;
   function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}}
   function gen(){
@@ -1716,10 +1716,10 @@ function numID(n){
     $("#st-streak").textContent=streak();
     $("#st-week").textContent=weekMin();
     var m=$("#log-mount"); m.innerHTML="";
-    if(!log.length){ m.innerHTML='<p style="color:#6C786F;font-size:14px">Aucune session pour l\'instant. Ajoute ta première ligne ☝️</p>'; return; }
+    if(!log.length){ m.innerHTML='<p style="color:#5C726B;font-size:14px">Aucune session pour l\'instant. Ajoute ta première ligne ☝️</p>'; return; }
     log.slice().sort(function(a,b){return b.date<a.date?-1:1;}).forEach(function(e){
       var div=document.createElement("div"); div.className="logitem";
-      div.innerHTML='<div><span class="d">'+e.date+'</span> · <b>'+e.act+'</b> · '+e.min+' min'+(e.note?' — <span style="color:#6C786F">'+e.note+'</span>':'')+'</div>';
+      div.innerHTML='<div><span class="d">'+e.date+'</span> · <b>'+e.act+'</b> · '+e.min+' min'+(e.note?' — <span style="color:#5C726B">'+e.note+'</span>':'')+'</div>';
       var rm=document.createElement("button"); rm.className="rm"; rm.textContent="×"; rm.title="Supprimer";
       rm.addEventListener("click",function(){ var i=log.indexOf(e); if(i>=0){log.splice(i,1); save(); render();} });
       div.appendChild(rm); m.appendChild(div);
