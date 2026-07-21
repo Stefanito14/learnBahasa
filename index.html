@@ -304,11 +304,15 @@
   .ch-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;border:1px solid rgba(255,255,255,.14);box-shadow:var(--shadow);opacity:0;transition:.3s;z-index:60}
   .ch-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   /* mini-encart accueil */
-  .ch-mini{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 12px;cursor:pointer;font-family:inherit;margin-bottom:10px}
-  .ch-mini-streak{font-weight:800;color:var(--ink);font-size:14px}
-  .ch-mini-dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--line-strong)}
-  .ch-mini-dot.on{border-color:var(--ocean);background:var(--ocean)}
-  .ch-mini-xp{font-size:12px;font-weight:700;color:var(--ocean)}
+  .ch-day-card{display:flex;align-items:center;gap:16px;width:100%;max-width:560px;text-align:left;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ocean);border-radius:var(--r);padding:14px 18px;cursor:pointer;font-family:inherit;margin:18px 0 0;transition:transform .15s ease,border-color .15s ease}
+  .ch-day-card:hover{transform:translateY(-2px);border-color:var(--line-strong);border-left-color:var(--ocean)}
+  .ch-day-card .dc-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .ch-day-card .dc-title{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:18px;color:var(--ink)}
+  .ch-day-card .dc-meta{margin-left:auto;display:flex;gap:12px;align-items:baseline;flex:0 0 auto}
+  .ch-day-card .dc-streak{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:18px}
+  .ch-day-card .dc-count{font-weight:700;font-size:13px;color:var(--jade)}
+  .ch-day-card .dc-cta{font-weight:800;font-size:13px;color:#fff;background:var(--merah);padding:8px 14px;border-radius:var(--r-pill)}
+  @media (prefers-reduced-motion: reduce){ .ch-day-card:hover{transform:none} }
   /* --- Signature botanique + motion --- */
   @keyframes bloom{0%{transform:scale(.4) rotate(-12deg);opacity:0}60%{transform:scale(1.12) rotate(4deg);opacity:1}100%{transform:scale(1) rotate(0);opacity:1}}
   .bloom-in{animation:bloom .6s cubic-bezier(.2,.8,.3,1.2) both}
@@ -370,7 +374,7 @@
 
 <!-- ACCUEIL -->
 <section class="panel on" id="tab-home">
-  <button id="ch-mini" class="ch-mini" aria-label="Ouvrir le Challenge 75"></button>
+  <button id="ch-mini" class="ch-day-card" aria-label="Ouvrir le Challenge 75"></button>
   <header class="hero">
     <div class="eyebrow">Bahasa Indonesia · Ma plateforme d'apprentissage</div>
     <div class="salam">Selamat datang —</div>
@@ -384,7 +388,6 @@
         <div><div class="ring-num"><span id="pct">0</span>%</div><div class="ring-lbl">de ton parcours validé · <span id="done-count">0</span>/<span id="total-count">0</span></div></div>
       </div></div>
     </div>
-    <div class="next-lesson" id="next-lesson-home" style="margin-top:22px"><span><span class="nl-label">Ta prochaine leçon</span><br><span class="next-lesson-title">…</span></span></div>
   </header>
 
   <section class="block">
@@ -1279,13 +1282,17 @@ function refreshChallengeMini(){
   var mount = document.getElementById("ch-mini");
   if(!mount || !CH) return;
   var today = todayISO();
-  var rings = CH.ringsForToday(challenge, today);
-  var dots = CH.PILLARS.map(function(p){
-    return '<span class="ch-mini-dot'+(rings[p]?' on':'')+'" title="'+CH_LABELS[p]+'"></span>';
-  }).join('');
-  mount.innerHTML = '<span class="ch-mini-streak">🔥 '+CH.streak(challenge, today)+'</span>'
-    + dots
-    + '<span class="ch-mini-xp">'+CH.xpForDay(CH.dayPillars(challenge, today))+'/70</span>';
+  var day = CH.dayPillars(challenge, today);
+  var doneCount = CH.dayCount(day);
+  var full = CH.dayComplete(day);
+  var lessonId = window.ParcoursCore.nextLessonId(LESSON_IDS, lessonsState);
+  var lesson = (typeof lessonById === "function") ? lessonById(lessonId) : null;
+  var title = full ? "✅ Journée faite — à demain !" : (lesson ? lesson.title : "Consolidation");
+  var cta = full ? "Voir" : (doneCount > 0 ? "Continuer →" : "Commencer →");
+  mount.innerHTML = '<span><span class="dc-label">Ta journée</span><br><span class="dc-title">'+title+'</span></span>'
+    + '<span class="dc-meta"><span class="dc-streak">🔥 '+CH.streak(challenge, today)+'</span>'
+    + '<span class="dc-count">'+doneCount+'/5</span>'
+    + '<span class="dc-cta">'+cta+'</span></span>';
   if(!mount.dataset.bound){
     mount.addEventListener("click", function(){ activateTab("challenge"); });
     mount.dataset.bound = "1";
